@@ -1,0 +1,84 @@
+{
+  "metadata_schema_version": 2,
+  "execution_version": {
+    "status": "captured",
+    "capture_phase": "task_creation",
+    "captured_at": "2026-10-28T12:10:44.003475+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "cfdfdcd9df494ee490d44731fa05082f5fabfc0a",
+    "git_dirty": true,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "exporter_version": {
+    "status": "captured",
+    "capture_phase": "export",
+    "captured_at": "2026-10-28T12:10:44.040745+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "cfdfdcd9df494ee490d44731fa05082f5fabfc0a",
+    "git_dirty": true,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "exported_at": "2026-10-28T12:10:44.040745+00:00",
+  "mode": "mock",
+  "model_driver": "mock",
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": null,
+    "money": null,
+    "mock_driver_calls": 0
+  },
+  "model_config": {
+    "provider": "mock"
+  },
+  "real_api_requests": 0,
+  "validation_scope": "仅验证离线流程，不证明真实模型决策效果",
+  "run_id": "67afec4f-138b-473d-a7e4-43d4a03552ff",
+  "task_id": "830e99d7-4a44-4bd1-ab65-c3b4716731ce",
+  "input_hash": "9004810882b48421af4a22497fc11d93e079f612b92e439cc9ce8d8541282201",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_steps": 12,
+    "max_tools": 10,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180,
+    "max_attempts": 2
+  },
+  "demo": {
+    "now_at": "2030-01-01T10:00:00+08:00",
+    "faults": []
+  },
+  "started_at": "2030-01-01T10:00:00+08:00",
+  "wall_seconds": 0.036644,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+  "implementation_hash_kind": "execution_snapshot",
+  "replayed": false,
+  "prompt_hash": null,
+  "prompt_note": "离线策略没有调用真实模型或模型提示词"
+}

@@ -87,13 +87,13 @@ def main():
         store.close()
     write_json(root / "examples" / "evaluation-results.json", {"scope": "offline_mock_only", "cases": rows,
                "passed": sum(r["passed"] for r in rows), "total": len(rows)})
-    lines = ["# 离线案例索引", "", "这些是 Mock 驱动下的实际程序运行，真实模型决策尚未验证。", "",
+    lines = ["# 离线案例索引", "", "本页只统计 Mock 实际运行，不能代替真实模型决策验证。独立的真实记录见 [真实案例](real/README.md)。", "",
              "| 案例 | 预期 / 实际 | 通过 | 输出 | Trace |", "| --- | --- | --- | --- | --- |"]
     for row in rows:
         relative = row["evidence"].removeprefix("examples/")
         lines.append(f"| {row['case']} | {row['expected']} / {row['actual']} | {row['passed']} | [JSON]({relative}/output.json) | [记录]({relative}/trace.md) |")
     (root / "examples" / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    report = ["# 离线评估与实际证据", "", "**验证范围：离线流程已验证，真实模型决策待验证。**", "",
+    report = ["# 离线评估与实际证据", "", "**本页仅统计离线 Mock 流程，真实 API 结果在独立评估中报告。**", "",
               "案例使用固定业务时钟、本地合成数据和确定性 Mock；所有输出与 Trace 来自实际程序执行。",
               "预期业务失败返回 needs_input / incomplete / invalid_input 是正确结果，不等于这些任务已完成。", ""]
     test_file = root / "examples" / "test-results.json"
@@ -117,15 +117,15 @@ def main():
                "- 重复请求回读同一方案；输入冲突不覆盖原结果。事务回滚通过自动化测试另行注入。",
                "- 保存持续失败保留脚本与已发生费用；已扣费再失败的案例保留旧费用，再估算可行替代方案。",
                "- 截止时间和步数上限均有实际案例；其他边界由自动化测试覆盖。",
-               "- 所有真实 API 请求为零；Mock 动作说明不是真实模型推理过程或决策证据。",
+               "- 本页离线案例没有发起真实 API 请求；Mock 动作说明不是真实模型推理过程或决策证据。",
                "- 没有测量真实创作质量、实际转化效果、供应商性能、分布式并发或跨进程恢复。", "",
                "## 复现", "", "在仓库根目录安装后运行 `python scripts/verify.py`，生成新的一批结果。",
-               "单例命令、固定时钟和退出码说明见 [README](../README.md)。真实模型接入留到下一阶段。", ""]
+               "单例命令、固定时钟和退出码说明见 [README](../README.md)。真实 API 结果使用独立目录和评估入口。", ""]
     if (root / "examples" / "installation-check.json").exists():
         report += ["## 安装检查", "", "另在全新虚拟环境安装构建的 wheel，并从仓库外运行 CLI。",
                    "[安装检查结果](../examples/installation-check.json)、[wheel 环境测试输出](../examples/wheel-test-results.txt)。", ""]
     if (root / "docs" / "06-real-api-evaluation.md").exists():
-        report += ["## 后续真实模型验证", "", "本页上方仅统计离线结果。真实 API 接入和独立记录见 [真实评估](06-real-api-evaluation.md)。", ""]
+        report += ["## 独立真实模型验证", "", "真实 API 接入和实际记录见 [真实评估](06-real-api-evaluation.md)。本页重新生成不会改变这些记录。", ""]
     (root / "docs" / "03-evaluation.md").write_text("\n".join(report), encoding="utf-8")
     print(json.dumps({"passed": sum(r["passed"] for r in rows), "total": len(rows), "database": str(database)}, ensure_ascii=False))
     return 0 if all(r["passed"] for r in rows) else 1

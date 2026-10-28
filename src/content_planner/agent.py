@@ -7,6 +7,7 @@ from uuid import uuid4
 from pydantic import ValidationError
 
 from .models import MockModelClient
+from .provenance import capture_runtime_version, execution_version
 from .policy import Catalog, Clock, current_artifact, digest, effective_now
 from .schemas import Action, DemoConfig, Limits, TaskInput, units
 from .tools import BUSINESS_TOOLS, BusinessError, Tools
@@ -21,8 +22,9 @@ def simple_result(status, code, message, raw=None, mode="mock"):
 def final_result(state):
     solution = state["solution"]
     return {"request_id": state["input"]["request_id"], "task_id": state["task_id"], "run_id": state["run_id"],
+            "execution_version": execution_version(state),
             "mode": state.get("mode", "mock"), "model_driver": state.get("model_config", {}).get("provider", "mock"),
-            "validation_scope": "真实模型调用与本地合成业务工具" if state.get("mode") == "real" else "离线流程已验证，真实模型决策待验证",
+            "validation_scope": "真实模式与本地合成业务工具；请求是否实际发生以 provider_usage 为准" if state.get("mode") == "real" else "本次运行仅验证离线 Mock 流程，不代表真实模型决策验证",
             "status": state["status"], "reason_code": state["reason_code"], "explanation": state["explanation"],
             "replayed": False, "plan": state["plan"], "plan_versions": state["plan_versions"],
             "steps": [e for e in state["events"] if e["kind"] == "action_result"],
@@ -72,6 +74,7 @@ class Agent:
                 return simple_result("incomplete", "already_running", "任务仍在运行或需要显式恢复", inp, self.mode), existing
             result = copy.deepcopy(existing["result"])
             result["replayed"] = True
+            result["execution_version"] = execution_version(existing)
             if self.mode == "real":
                 prior_usage = result["provider_usage"]
                 result["provider_usage"] = {"real_api_requests": 0, "tokens": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
@@ -79,6 +82,7 @@ class Agent:
             return result, existing
         started = time.monotonic()
         state = {"task_id": str(uuid4()), "run_id": str(uuid4()), "input": inp, "raw_input": raw,
+                 "execution_version": capture_runtime_version(),
                  "mode": self.mode, "model_config": self.model.config() if self.mode == "real" else {"provider": "mock"},
                  "input_hash": digest(inp), "status": "running", "reason_code": "", "explanation": "",
                  "started_at": self.clock.now().isoformat(), "simulated_seconds": 0, "wall_seconds": 0,

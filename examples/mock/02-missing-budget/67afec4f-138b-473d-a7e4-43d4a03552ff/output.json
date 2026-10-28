@@ -1,0 +1,78 @@
+{
+  "request_id": "02-missing-budget",
+  "task_id": "830e99d7-4a44-4bd1-ab65-c3b4716731ce",
+  "run_id": "67afec4f-138b-473d-a7e4-43d4a03552ff",
+  "execution_version": {
+    "status": "captured",
+    "capture_phase": "task_creation",
+    "captured_at": "2026-10-28T12:10:44.003475+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "cfdfdcd9df494ee490d44731fa05082f5fabfc0a",
+    "git_dirty": true,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "mode": "mock",
+  "model_driver": "mock",
+  "validation_scope": "本次运行仅验证离线 Mock 流程，不代表真实模型决策验证",
+  "status": "needs_input",
+  "reason_code": "missing_information",
+  "explanation": "缺少预算或截止时间，未执行业务工具",
+  "replayed": false,
+  "plan": null,
+  "plan_versions": [],
+  "steps": [],
+  "costs": {
+    "simulated_spent_units": "0.000",
+    "latest_estimate": null
+  },
+  "timing": {
+    "deadline_at": "2030-01-01T10:30:00+08:00",
+    "simulated_seconds": 0,
+    "wall_seconds": 0.036644
+  },
+  "solution": {
+    "saved": false,
+    "solution_id": null,
+    "saved_at": null,
+    "readback_verified": false
+  },
+  "missing_fields": [
+    "budget_units"
+  ],
+  "questions": [
+    "请补充 budget_units"
+  ],
+  "retained_artifacts": [],
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": null,
+    "money": null,
+    "mock_driver_calls": 0
+  },
+  "limits": {
+    "configured": {
+      "max_steps": 12,
+      "max_tools": 10,
+      "max_model_calls": 16,
+      "max_runtime_seconds": 180,
+      "max_attempts": 2
+    },
+    "used": {
+      "steps": 0,
+      "tools": 0,
+      "model_calls": 0
+    }
+  }
+}

@@ -37,7 +37,7 @@ python -m content_planner run --mode mock --input examples/inputs/04-budget-repl
 python -m content_planner run --mode mock --input examples/inputs/06-tool-failure.json --demo-config examples/inputs/06-tool-failure.demo.json --db .runtime/demo.db
 ```
 
-stdout 为 JSON，证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误或真实模式尚未接入。预期业务失败案例返回非零码属于正确行为。
+stdout 为 JSON，证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
 
 ## 最短评审路径
 
@@ -50,6 +50,8 @@ stdout 为 JSON，证据目录提示写入 stderr。退出码：`0` 完成；`2`
 | AI 辅助范围和验证边界 | [AI 使用](docs/04-ai-usage.md) |
 | 已解决问题、限制和下一步 | [复盘](docs/05-retrospective.md) |
 | 原始技术规划与阶段调整 | [开发方案](docs/00-development-plan.md) |
+| 审查问题的修复与验证边界 | [修复回执](docs/08-review-resolution.md) |
+| 正式提交信息和本人待确认项 | [提交清单](docs/07-submission.md) |
 
 重新执行测试并生成一批新的实际证据：
 
@@ -106,6 +108,8 @@ python -m content_planner run --mode real --input /path/to/real-request.json --d
 `.env` 仅保留本地，受 Git 忽略；仓库只提交空密钥模板。密钥不会进入任务、Trace 或请求日志。
 
 真实评估每个用例后检查累计用量；达到阈值时跳过后续收费案例，仍可验证无需 API 的缺参数和历史回放。阈值不是供应商账单硬限额，最后一个用例可能使累计量略超阈值。实际金额与免费额度扣减没有查询，以供应商账单为准。
+
+正式回归建议在提交实现代码后运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`。新任务固定保存执行版本，导出器版本另记；旧任务缺快照时明确标记未知，不将当前源码摘要附着到旧轨迹。历史元信息与新格式的区别见 [版本说明](examples/provenance-notes.json)。
 
 ## 技术与业务边界
 

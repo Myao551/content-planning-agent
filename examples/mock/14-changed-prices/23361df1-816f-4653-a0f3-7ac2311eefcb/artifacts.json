@@ -1,0 +1,33 @@
+{
+  "6e4d50ac-4fc5-4da8-8b7d-c7798e437b6c": {
+    "title": "便携咖啡杯营销内容方案（离线合成）",
+    "segments": [
+      {
+        "text": "容量 350 毫升",
+        "source_ids": [
+          "M001"
+        ]
+      },
+      {
+        "text": "提供黑色和白色款式",
+        "source_ids": [
+          "M001"
+        ]
+      },
+      {
+        "text": "附带杯盖",
+        "source_ids": [
+          "M002"
+        ]
+      }
+    ],
+    "generation_note": "Mock 逐条引用合成事实，不代表真实模型创作或翻译能力",
+    "id": "6e4d50ac-4fc5-4da8-8b7d-c7798e437b6c",
+    "fingerprint": "e327c5112f970526544c758ad01ee5772175badcfb3e13ef58bdc56f9e9c174c",
+    "mode": "mock",
+    "material_ids": [
+      "M001",
+      "M002"
+    ]
+  }
+}

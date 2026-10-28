@@ -1,8 +1,8 @@
 {
   "command": "python -m pytest -q",
   "exit_code": 0,
-  "passed_tests": 64,
+  "passed_tests": 72,
   "python": "3.12.14",
-  "recorded_at": "2026-10-28T11:53:46.718749+00:00",
-  "wall_seconds": 1.717868
+  "recorded_at": "2026-10-28T12:10:43.899732+00:00",
+  "wall_seconds": 4.770098
 }

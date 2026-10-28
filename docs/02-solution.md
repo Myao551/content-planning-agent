@@ -62,4 +62,10 @@ SQLite 五张表存任务、步骤尝试、工具回执、模拟费用和最终�
 
 证据元信息记录 Python/Pydantic/包版本、实现源码摘要、资料摘要、限制、故障注入和时钟。离线模式提示词摘要为 null、真实请求数为 0；真实模式记录模型、提示词摘要、响应标识和供应商 token usage。历史回放本次请求数为 0，原运行用量单独保留，不重复计入新增用量。
 
+元信息 v2 将版本分为 `execution_version` 与 `exporter_version`。前者在新任务创建时读取源码文件快照、Python/依赖版本、Git commit 和脏状态，保存到 SQLite，后续导出与回放均保留原值；后者在每次导出时采集，另记 `exported_at`。顶层 `implementation_hash` 兼容字段只指向执行摘要，不再指向当前导出器。
+
+`git_dirty` 检查 src、data、scripts、tests、pyproject.toml 和 requirements.txt；`git_worktree_dirty` 另记全工作区状态。因此生成新的证据文件不会冒充实现发生变化。源码摘要覆盖包顶层 Python 文件，数据使用独立 catalog_hash。安装后的 wheel 只记录包源码摘要，不借用调用者当前目录的 Git commit。
+
+历史任务没有快照时标记 `unknown_legacy`、执行摘要为 null，不反推为当前版本。v1 历史文件保持原样，其 implementation_hash 仅是当时导出时读取的源码摘要，解释见 [版本说明](../examples/provenance-notes.json)。冻结后可运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`；代码未提交会在读取凭据和调用 API 前被拒绝。
+
 安装版本见 [依赖锁定](../requirements.txt)；可复现运行见 [README](../README.md)。

@@ -1,0 +1,16 @@
+{
+  "metadata_schema_v1": {
+    "detection": "metadata_schema_version absent",
+    "implementation_hash_semantics": "source files read at export time; not an immutable execution snapshot",
+    "execution_version": "unknown_legacy",
+    "policy": "Preserve historical files and trace contents. Do not assign the current Git commit or execution hash retrospectively."
+  },
+  "metadata_schema_v2": {
+    "execution_version": "Captured once at task creation and persisted with the task",
+    "exporter_version": "Captured independently at each export",
+    "implementation_hash": "Alias for execution_version.implementation_hash; null for unknown legacy or not-started requests",
+    "replay": "The source execution snapshot is preserved, even after code or exporter changes",
+    "git_dirty_scope": ["src", "data", "scripts", "tests", "pyproject.toml", "requirements.txt"],
+    "git_worktree_dirty": "Includes evidence and documentation changes; not equivalent to implementation changes"
+  }
+}

@@ -3,11 +3,11 @@
   "outside_repository_cwd": true,
   "python": "3.12.14",
   "tests_exit_code": 0,
-  "passed_tests": 64,
+  "passed_tests": 72,
   "cli_exit_code": 0,
   "cli_status": "completed",
   "tier": "reuse",
   "projected_total_units": "8.000",
   "real_api_requests": 0,
-  "note": "Current wheel includes dotenv and generic OpenAI adapter; protocol tests use fake transports, no real requests"
+  "note": "Current wheel includes immutable execution provenance and independent exporter version; tests use fake transports only"
 }
