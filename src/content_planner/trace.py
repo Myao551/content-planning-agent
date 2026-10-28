@@ -39,7 +39,7 @@ def export_evidence(state, result, directory):
         metadata["validation_scope"] = "真实模式的预检查或历史结果回放；本次未向模型发送请求"
     write_json(directory / "run-metadata.json", metadata)
     (directory / "trace.jsonl").write_text("".join(json.dumps(e, ensure_ascii=False) + "\n" for e in state["events"]), encoding="utf-8")
-    lines = ["# " + ("真实百炼模型执行记录" if real else "离线 Mock 实际执行记录"), "",
+    lines = ["# " + ("真实模型 API 执行记录" if real else "离线 Mock 实际执行记录"), "",
              "> " + ("模型经原生工具调用作决策；业务工具使用本地合成数据。" if real else "固定策略测试驱动，不是真实模型 ReAct 证据。"), "",
              f"运行：`{state['run_id']}`；终态：`{result['status']}`；回放：`{result.get('replayed', False)}`。", ""]
     if not state["events"]:

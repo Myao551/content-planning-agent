@@ -14,7 +14,7 @@ from .tools import BUSINESS_TOOLS, BusinessError, Tools
 
 def simple_result(status, code, message, raw=None, mode="mock"):
     return {"run_id": str(uuid4()), "task_id": None, "status": status, "reason_code": code, "explanation": message, "input": raw,
-            "mode": mode, "model_driver": "aliyun_bailian" if mode == "real" else "mock", "solution": {"saved": False},
+            "mode": mode, "model_driver": "openai_compatible" if mode == "real" else "mock", "solution": {"saved": False},
             "provider_usage": {"real_api_requests": 0, "tokens": None, "money": None}}
 
 

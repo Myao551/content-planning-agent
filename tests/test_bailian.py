@@ -28,9 +28,9 @@ def test_vertical_csv_credentials(tmp_path):
     assert FAKE_KEY not in repr(credentials)
 
 
-def test_reject_non_aliyun_endpoint(tmp_path):
+def test_reject_insecure_remote_endpoint(tmp_path):
     path = tmp_path / "credentials.csv"
-    path.write_text(f"apiKey,{FAKE_KEY}\nopenAiCompatible,https://example.com/compatible-mode/v1\n")
+    path.write_text(f"apiKey,{FAKE_KEY}\nopenAiCompatible,http://example.com/v1\n")
     with pytest.raises(ModelAPIError):
         Credentials.load(path)
 
@@ -119,6 +119,10 @@ def test_real_adapter_protocol_roundtrip_and_replay(storage, request_input):
     assert len(transport.requests) == 8
     conflict, _ = Agent(storage).run(request_input)
     assert conflict["reason_code"] == "request_conflict"
+    changed_endpoint=BailianModelClient(Credentials(FAKE_KEY, "https://second-provider.example/v1"), transport=transport)
+    conflict, _ = Agent(storage,model=changed_endpoint).run(request_input)
+    assert conflict["reason_code"] == "request_conflict"
+    assert not changed_endpoint.requests
 
 
 def test_multiple_native_calls_are_not_arbitrarily_selected():

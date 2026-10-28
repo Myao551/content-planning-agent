@@ -6,7 +6,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from content_planner.agent import Agent
-from content_planner.bailian import BailianModelClient, Credentials
+from content_planner.config import configured_client
 from content_planner.policy import Catalog
 from content_planner.schemas import DemoConfig, Limits, milliunits
 from content_planner.storage import Storage
@@ -15,13 +15,17 @@ from content_planner.trace import export_evidence, write_json
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--api-key-file", type=Path, required=True)
-    parser.add_argument("--model", default="qwen3.8-flash")
+    parser.add_argument("--api-key-file", type=Path)
+    parser.add_argument("--env-file", type=Path)
+    parser.add_argument("--base-url")
+    parser.add_argument("--model")
     parser.add_argument("--cases", nargs="+", choices=["normal", "replan", "failure", "missing", "repeat", "infeasible"],
                         default=["normal", "replan", "failure", "missing", "repeat", "infeasible"])
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    credentials = Credentials.load(args.api_key_file)
+    def make_client():
+        return configured_client(api_key_file=args.api_key_file, env_file=args.env_file, base_url=args.base_url, model=args.model)
+    prototype = make_client()
     batch = str(uuid4())
     output = root / "examples" / "real" / batch
     output.mkdir(parents=True)
@@ -47,7 +51,7 @@ def main():
             if name == "infeasible":
                 raw["budget_units"] = "0.000"
             demo = DemoConfig.model_validate({"faults": [{"tool": "generate_script", "times": 1}] if name == "failure" else []})
-            client = BailianModelClient(credentials, args.model)
+            client = make_client()
             result, state = Agent(store, Catalog(), model=client, limits=Limits(), demo=demo).run(raw)
             directory = export_evidence(state, result, output / name)
             usage = result["provider_usage"]
@@ -78,7 +82,7 @@ def main():
             print(json.dumps(row, ensure_ascii=False), flush=True)
     finally:
         store.close()
-    report = {"batch_id": batch, "model": args.model, "provider": "aliyun_bailian", "cases": rows,
+    report = {"batch_id": batch, "model": prototype.model_name, "provider": "openai_compatible", "cases": rows,
               "api_requests": total_calls, "total_tokens": total_tokens, "actual_money": None,
               "billing_note": "API 返回 token 使用量；未查询账单，不能断言完全免费或实际金额",
               "scope": "真实模型决策和严格事实脚本；业务服务、商品与计费均为本地合成", "all_passed": all(r.get("passed", False) for r in rows)}

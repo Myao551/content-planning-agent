@@ -3,6 +3,8 @@
 文档日期：2026-10-28
 当前阶段：离线实现及阿里千问真实路径的小样本验证已完成，未测范围见真实 API 评估。
 
+> 配置入口更新：当前真实入口为通用 OpenAI 兼容 Chat Completions，支持 `.env` 自动读取和任意 HTTPS 服务商地址，模型名不再限制千问前缀。具体配置以 README 和 `.env.example` 为准，百炼是已实测案例。
+
 > 后续实施更新：用户提供阿里百炼凭据后，已增加千问 HTTP Chat Completions / Function Calling 适配器，并运行真实案例。当前状态以 README 和 `06-real-api-evaluation.md` 为准；本文下方的 OpenAI Responses / SDK 路线保留为最初方案，实际选择已调整，不代表同时实现了 OpenAI 接入。
 项目定位：跨境电商营销视频内容活动规划助手。
 交付入口：Python CLI。

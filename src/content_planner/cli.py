@@ -7,7 +7,7 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from .agent import Agent, final_result, simple_result
-from .bailian import BailianModelClient, Credentials
+from .config import configured_client
 from .policy import Catalog, Clock
 from .schemas import DemoConfig, Limits
 from .storage import Storage
@@ -15,7 +15,7 @@ from .trace import export_evidence
 
 
 def parser():
-    root = argparse.ArgumentParser(description="内容活动规划；真实百炼模型与显式离线 Mock")
+    root = argparse.ArgumentParser(description="内容活动规划；OpenAI 兼容 API 与显式离线 Mock")
     commands = root.add_subparsers(dest="command", required=True)
     run = commands.add_parser("run")
     run.add_argument("--mode", choices=["mock", "real"], required=True)
@@ -23,8 +23,9 @@ def parser():
     run.add_argument("--data-dir", type=Path)
     run.add_argument("--demo-config", type=Path)
     run.add_argument("--api-key-file", type=Path)
+    run.add_argument("--env-file", type=Path)
     run.add_argument("--base-url")
-    run.add_argument("--model", default="qwen3.8-flash")
+    run.add_argument("--model")
     run.add_argument("--max-steps", type=int, default=12)
     run.add_argument("--max-tools", type=int, default=10)
     run.add_argument("--max-model-calls", type=int, default=16)
@@ -55,7 +56,7 @@ def main(argv=None):
             # Parse input before creating runtime files; bad JSON is an input error.
             model = None
             if args.mode == "real":
-                model = BailianModelClient(Credentials.load(args.api_key_file, args.base_url), args.model)
+                model = configured_client(api_key_file=args.api_key_file, env_file=args.env_file, base_url=args.base_url, model=args.model)
             try:
                 raw = json.loads(args.input.read_text(encoding="utf-8"))
             except (OSError, ValueError) as exc:

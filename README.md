@@ -2,7 +2,7 @@
 
 跨境电商营销视频内容活动规划助手。接收主题、预算和截止时间，执行素材检索、脚本生成、成本估算和方案保存；观察工具结果后继续、调整方案、有限重试或明确停止。
 
-**当前状态：已接通阿里百炼 `qwen3.8-flash`，正常规划、预算重规划和工具失败处理的真实模型路径已运行通过。** 同时保留无需密钥的确定性 Mock 入口。业务素材、费用与保存工具是本地合成实现，未接真实视频服务。结果、限制和用量见 [真实 API 评估](docs/06-real-api-evaluation.md)。
+**当前状态：支持通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置，已实测阿里百炼 `qwen3.8-flash` 的三条任务路径。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/06-real-api-evaluation.md)。
 
 ## 安装与快速运行
 
@@ -59,26 +59,58 @@ python scripts/verify.py
 
 该命令更新测试结果、案例索引和评估文档；每批运行使用新的本地数据库，证据按运行 ID 保存。普通 `pytest` 使用临时目录，不修改已提交案例。
 
-## 真实百炼模型运行
+## 填入自己的 API 配置并验证
 
-支持阿里导出的纵向字段/值 CSV，自动读取其中的 `apiKey` 与 `openAiCompatible`。密钥只在内存中使用，不进入任务、Trace 或请求日志。CSV 和 `.env` 均应保留在本地。
+安装依赖后，在仓库根目录复制模板：
 
 ```bash
-# 使用未来的真实截止时间、新 request_id；真实模式不接受固定演示时钟
-python -m content_planner run --mode real --model qwen3.8-flash --api-key-file /path/to/local-export.csv --input /path/to/real-request.json --db .runtime/real.db --output-dir .runtime/real-output
-
-# 有请求次数和累计 token 停止阈值的真实评估；会产生实际 API 用量
-python scripts/evaluate_real.py --api-key-file /path/to/local-export.csv --model qwen3.8-flash
+cp .env.example .env
 ```
 
-也可使用进程环境变量 `DASHSCOPE_API_KEY` 和 `DASHSCOPE_BASE_URL`，程序不会自动加载 `.env`。目前验证的是千问非思考模式，其他供应商参数未适配。HTTP 失败不自动重试、换模型或回退 Mock。状态相同但运行模式/模型配置不同的请求标识会被拒绝复用。
+编辑 `.env`，填写自己的配置，不限百炼域名或千问模型：
+
+```dotenv
+OPENAI_API_KEY=你的密钥
+OPENAI_BASE_URL=https://你的服务商地址/v1
+OPENAI_MODEL=你的模型名称
+OPENAI_EXTRA_BODY={}
+```
+
+接口和模型需要支持 **Chat Completions、原生 function/tool calling 和 JSON 对象输出**。仅兼容普通文字聊天不够；此入口不是 Responses API。支持任意服务商 HTTPS 地址，以及 localhost / 回环 HTTP 本地服务。本地服务无需鉴权时可填写非空占位密钥。
+
+从项目根目录执行，不再需要 CSV：
+
+```bash
+# 最小连接检查，只发一个很小的真实请求
+python scripts/probe_api.py
+# 完整 Agent 单例，自动产生新请求 ID 和未来截止时间
+python scripts/evaluate_real.py --cases normal
+# 全部真实评估，会产生 API 用量，有累计用量停止阈值
+python scripts/evaluate_real.py
+```
+
+自定义输入：
+
+```bash
+python -m content_planner run --mode real --input /path/to/real-request.json --db .runtime/real.db --output-dir .runtime/real-output
+```
+
+输入使用未来真实截止时间和新 `request_id`。真实模式不允许固定演示时钟。
+
+配置优先级：默认只读取当前工作目录的 `.env`，不搜索父目录；可用 `--env-file /path/to/config.env` 指定。进程环境覆盖 `.env` 同名值，`--model` / `--base-url` 再覆盖相应设置。读取不会修改进程环境。
+
+`OPENAI_EXTRA_BODY` 用于显式传厂商扩展，默认不发送百炼特有参数。例如千问可填 `OPENAI_EXTRA_BODY='{"enable_thinking":false}'`。不同平台对通用参数的支持仍需验证，没有承诺所有标为“OpenAI 兼容”的模型都已实测。
+
+旧 CSV 入口仍可用：`--api-key-file /path/to/local-export.csv` 优先提供密钥和地址。没有通用设置时兼容旧 `DASHSCOPE_*` 配置。HTTP 失败不会自动换模型或回退 Mock；运行模式/模型配置不同的请求 ID 会被拒绝复用。
+
+`.env` 仅保留本地，受 Git 忽略；仓库只提交空密钥模板。密钥不会进入任务、Trace 或请求日志。
 
 真实评估每个用例后检查累计用量；达到阈值时跳过后续收费案例，仍可验证无需 API 的缺参数和历史回放。阈值不是供应商账单硬限额，最后一个用例可能使累计量略超阈值。实际金额与免费额度扣减没有查询，以供应商账单为准。
 
 ## 技术与业务边界
 
 - Python 原生单 Agent 循环、Pydantic 2、argparse、SQLite，依赖版本在 `requirements.txt` 固定。
-- Mock 根据当前状态和工具返回选择动作，只用于离线验证；真实适配器通过百炼 HTTP 原生 Function Calling 选择工具并回传调用结果，无需模型 SDK。
+- Mock 只用于离线验证；通用 HTTP 适配器通过 OpenAI 兼容工具调用工作，不绑定模型名前缀，厂商扩展由配置显式提供，无需模型 SDK。
 - 计划可以在标准、复用、简化三个档位间调整；素材前置条件、费用和时间由程序校验。
 - 预算总额 = 已发生模拟费用 + 剩余工具费用 + 最终方案资源预留。资源预留尚未支付；真实 API 用量单独统计，不与模拟单位相加。
 - `completed` 仅指方案和脚本已通过约束检查并保存、回读成功，不代表视频已制作或广告已投放。

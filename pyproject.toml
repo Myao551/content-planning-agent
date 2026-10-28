@@ -5,9 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "content-planning-agent"
 version = "0.1.0"
-description = "Offline content campaign planning workflow with explicit mock decisions"
+description = "Content campaign planning with OpenAI-compatible APIs and an explicit offline driver"
 requires-python = ">=3.12"
-dependencies = ["pydantic>=2,<3"]
+dependencies = ["pydantic>=2,<3", "python-dotenv>=1.2,<2"]
 
 [project.scripts]
 content-planner = "content_planner.cli:main"

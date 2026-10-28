@@ -30,7 +30,11 @@ def test_cli_round_trip(tmp_path, request_input):
 def test_real_missing_credentials_never_falls_back(tmp_path, monkeypatch):
     monkeypatch.delenv("DASHSCOPE_API_KEY", raising=False)
     monkeypatch.delenv("DASHSCOPE_BASE_URL", raising=False)
-    run = invoke("run", "--mode", "real", "--input", tmp_path / "nonexistent.json", "--db", tmp_path / "real.db")
+    for name in ['OPENAI_API_KEY', 'OPENAI_BASE_URL', 'OPENAI_MODEL']:
+        monkeypatch.delenv(name, raising=False)
+    config=tmp_path/'.env'
+    config.write_text('OPENAI_API_KEY=\nOPENAI_BASE_URL=\nOPENAI_MODEL=unit-test-model\n')
+    run = invoke("run", "--mode", "real", "--env-file", config, "--input", tmp_path / "nonexistent.json", "--db", tmp_path / "real.db")
     assert run.returncode == 5
     result = json.loads(run.stdout)
     assert result["mode"] == "real"

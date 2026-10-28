@@ -14,11 +14,13 @@ flowchart LR
     E --> F[结束核验与证据导出]
 ```
 
-驱动通过 `ModelClient.next_action(context)` 与 `generate_script(request)` 接入。输入上下文是副本，驱动不能直接修改可信状态；实际模拟费用、产物标识与回执由程序生成。除 Mock 外，已实现阿里百炼千问适配器。
+驱动通过 `ModelClient.next_action(context)` 与 `generate_script(request)` 接入。输入上下文是副本，驱动不能直接修改可信状态；实际模拟费用、产物标识与回执由程序生成。真实入口现为通用 OpenAI 兼容 Chat Completions 适配器，保留旧百炼类名的兼容入口；已有真实效果记录来自千问。
 
-真实适配器使用标准库 HTTPS 请求原生 Function Calling，关闭思考模式，每轮只接受一个工具调用；保留 native tool_call_id / assistant tool_calls，并以对应 role=tool 回传结果。公开动作说明和引用事件号由模型填写，不采集内部思维过程。真实脚本也通过 API 生成，但采用逐字事实引用约束。
+真实适配器使用标准库 HTTP 请求原生 Function Calling，每轮只接受一个工具调用；保留 native tool_call_id / assistant tool_calls，并以对应 role=tool 回传结果。厂商参数来自配置，已验证的千问案例显式关闭思考模式，默认通用请求不携带该厂商选项。公开动作说明和引用事件号由模型填写，不采集内部思维过程。真实脚本也通过 API 生成，但采用逐字事实引用约束。
 
-请求超时取 30 秒和任务剩余实际时间的较小值，不做隐藏 HTTP 重试。密钥从本地 CSV 或进程环境读取；只允许官方 HTTPS 接口，不跟随重定向，不把请求头、密钥、业务空间地址或错误响应正文写入证据。实际 API token 用量与模拟账本分开。
+请求超时取 30 秒和任务剩余实际时间的较小值，不做隐藏 HTTP 重试。自动读取当前目录 `.env` 的 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`OPENAI_MODEL`；环境覆盖文件，命令参数再覆盖。可显式指定配置文件或沿用 CSV。允许任意 HTTPS 服务商和回环 HTTP 本地服务，不跟随重定向，不把密钥、接口地址或错误响应正文写入证据。实际 token 用量与模拟账本分开。
+
+厂商扩展仅通过 `OPENAI_EXTRA_BODY` 显式配置，默认没有 `enable_thinking`；不再要求千问模型名前缀。接口需要支持原生工具调用与 JSON 对象输出，Responses-only 或仅兼容文本聊天的端点不在此适配器范围。
 
 ## 调用与动态分支
 

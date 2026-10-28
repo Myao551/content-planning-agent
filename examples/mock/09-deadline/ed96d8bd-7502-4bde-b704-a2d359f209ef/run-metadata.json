@@ -1,0 +1,39 @@
+{
+  "mode": "mock",
+  "model_driver": "mock",
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": null,
+    "money": null,
+    "mock_driver_calls": 12
+  },
+  "model_config": {
+    "provider": "mock"
+  },
+  "real_api_requests": 0,
+  "validation_scope": "仅验证离线流程，不证明真实模型决策效果",
+  "run_id": "ed96d8bd-7502-4bde-b704-a2d359f209ef",
+  "task_id": "d7193fd4-90a5-4e66-8055-cebcd1ca7b1f",
+  "input_hash": "44acc4f4f7a338f62254bd2a1ade4a6203208ff4ad837e189f0757c0c9623876",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_steps": 12,
+    "max_tools": 10,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180,
+    "max_attempts": 2
+  },
+  "demo": {
+    "now_at": "2030-01-01T10:00:00+08:00",
+    "faults": []
+  },
+  "started_at": "2030-01-01T10:00:00+08:00",
+  "wall_seconds": 0.026758,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "replayed": false,
+  "implementation_hash": "8ae4d7f135cd3c6e1e214bfa9d77b89012db0626f3154dae4128f5cd192155c4",
+  "prompt_hash": null,
+  "prompt_note": "离线策略没有调用真实模型或模型提示词"
+}
