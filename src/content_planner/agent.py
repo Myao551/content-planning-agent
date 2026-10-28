@@ -42,7 +42,7 @@ def final_result(state):
 
 
 class Agent:
-    def __init__(self, storage, catalog=None, clock=None, model=None, limits=None, demo=None):
+    def __init__(self, storage, catalog=None, clock=None, model=None, limits=None, demo=None, on_event=None):
         self.storage = storage
         self.catalog = catalog or Catalog()
         self.clock = clock or Clock()
@@ -52,6 +52,15 @@ class Agent:
         self.demo = demo or DemoConfig()
         self.tools = Tools(self.catalog, self.clock, self.model, self.limits)
         self.fault_counts = {}
+        self.on_event = on_event
+
+    def notify(self, event):
+        # Display observers cannot mutate trusted state or prevent persistence.
+        if self.on_event:
+            try:
+                self.on_event(copy.deepcopy(event))
+            except Exception:
+                pass
 
     def event(self, state, kind, **payload):
         event = {"seq": len(state["events"]) + 1, "kind": kind, "run_id": state["run_id"],
@@ -113,6 +122,7 @@ class Agent:
             state["counts"]["steps"] += 1
             state["counts"]["model_calls"] += 1
             try:
+                self.notify({"kind": "model_wait", "step": state["counts"]["steps"], "mode": self.mode})
                 self.set_timeout(started)
                 action = Action.model_validate(self.model.next_action(copy.deepcopy(state)))
                 self.sync_usage(state)
@@ -125,6 +135,7 @@ class Agent:
                 break
             self.event(state, "decision", action=action.model_dump(), summary=action.summary)
             self.storage.commit(state)
+            self.notify(state["events"][-1])
             if time.monotonic() - started >= self.limits.max_runtime_seconds:
                 self.stop(state, "runtime_limit", "驱动返回时已达到实际运行上限，未执行动作")
                 break
@@ -136,6 +147,7 @@ class Agent:
             self.set_timeout(started)
             state = self.perform(state, action)
             self.sync_usage(state)
+            self.notify(state["events"][-1])
             if time.monotonic() - started >= self.limits.max_runtime_seconds:
                 self.stop(state, "runtime_limit", "动作返回时达到实际运行上限，保留已有结果")
         if state["status"] == "completed":
@@ -150,6 +162,7 @@ class Agent:
         self.event(state, "terminal", status=state["status"], reason_code=state["reason_code"], summary=state["explanation"])
         state["result"] = final_result(state)
         self.storage.commit(state)
+        self.notify(state["events"][-1])
         return state["result"], state
 
     def stop(self, state, code, message):

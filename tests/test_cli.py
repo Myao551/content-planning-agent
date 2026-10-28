@@ -54,3 +54,29 @@ def test_unknown_request(tmp_path):
     run = invoke("inspect", "--request-id", "missing", "--db", tmp_path / "missing.db")
     assert run.returncode == 4
     assert not (tmp_path / "missing.db").exists()
+
+
+def test_readable_output_and_explicit_json(tmp_path, request_input):
+    source = tmp_path / "input.json"
+    source.write_text(json.dumps(request_input))
+    demo = tmp_path / "demo.json"
+    demo.write_text('{"now_at":"2030-01-01T10:00:00+08:00"}')
+    args = ("run", "--mode", "mock", "--input", source, "--demo-config", demo, "--db", tmp_path / "tasks.db")
+    text = invoke(*args, "--format", "text")
+    assert text.returncode == 0 and "结果：已完成" in text.stdout
+    assert "脚本：" in text.stdout and "来源：M001" in text.stdout
+    assert "正在请求Mock" in text.stderr
+    encoded = invoke(*args, "--format", "json")
+    assert json.loads(encoded.stdout)["replayed"] is True
+    assert "正在请求" not in encoded.stderr
+
+
+def test_chat_cli_multiturn_and_resume(tmp_path):
+    command = [sys.executable, "-m", "content_planner", "chat", "--mode", "mock", "--session", "cli-test",
+               "--db", str(tmp_path / "chat.db"), "--output-dir", str(tmp_path / "output")]
+    run = subprocess.run(command, input="咖啡杯营销\n预算10\n一小时后截止\n/exit\n", capture_output=True, text=True, cwd=tmp_path)
+    assert run.returncode == 0 and "结果：已完成" in run.stdout
+    assert "会话已保存" in run.stdout and "请补充：预算、截止时间" in run.stdout
+    resumed = subprocess.run(command, input="/status\n/exit\n", capture_output=True, text=True, cwd=tmp_path)
+    assert resumed.returncode == 0 and "回读核验通过" in resumed.stdout
+    assert "正在请求Mock" not in resumed.stdout

@@ -28,6 +28,8 @@ class Storage:
             CREATE TABLE IF NOT EXISTS solutions (
                 solution_id TEXT PRIMARY KEY, task_id TEXT NOT NULL UNIQUE REFERENCES tasks(task_id),
                 payload TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS chat_sessions (
+                session_id TEXT PRIMARY KEY, payload TEXT NOT NULL);
         """)
 
     def close(self):
@@ -65,3 +67,12 @@ class Storage:
     def solution(self, task_id):
         row = self.connection.execute("SELECT payload FROM solutions WHERE task_id=?", (task_id,)).fetchone()
         return json.loads(row[0]) if row else None
+
+    def chat_session(self, session_id):
+        row = self.connection.execute("SELECT payload FROM chat_sessions WHERE session_id=?", (session_id,)).fetchone()
+        return json.loads(row[0]) if row else None
+
+    def save_chat_session(self, session):
+        with self.connection:
+            self.connection.execute("INSERT INTO chat_sessions VALUES (?,?) ON CONFLICT(session_id) DO UPDATE SET payload=excluded.payload",
+                                    (session["session_id"], encode(session)))

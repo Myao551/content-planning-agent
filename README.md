@@ -2,11 +2,128 @@
 
 跨境电商营销视频内容活动规划助手。接收主题、预算和截止时间，执行素材检索、脚本生成、成本估算和方案保存；观察工具结果后继续、调整方案、有限重试或明确停止。
 
-**当前状态：支持通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置，已实测阿里百炼 `qwen3.8-flash` 的三条任务路径。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/06-real-api-evaluation.md)。
+**当前状态：支持持续对话 CLI、易读终端输出、通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置；已有阿里百炼 `qwen3.8-flash` 的真实任务记录。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/06-real-api-evaluation.md)。
+
+## 直接开始持续对话（推荐）
+
+在项目根目录执行。当前本地环境已有 `.venv` 和 `.env`；首次克隆的使用者先完成下方安装与配置。
+
+```bash
+source .venv/bin/activate
+python -m content_planner chat --mode real
+# 安装时也注册了等价的短命令：content-planner chat --mode real
+```
+
+启动后可以持续输入，不需要自己编写 JSON，也不需要每句话重启程序：
+
+```text
+你 > 帮我给通勤人群策划咖啡杯新品营销活动
+助手会请求补充预算和截止时间。
+你 > 预算10，一小时后截止
+助手执行工具，逐步显示检索、估算、调整方案、生成及保存结果。
+你 > 为什么选择这个方案？
+助手结合最近结果解释。
+你 > 预算改成6，其他要求不变
+助手保留主题和截止时间，创建新任务重新规划。
+你 > /status
+你 > /exit
+```
+
+上面是输入方式说明，不是伪造的真实模型实测输出。真实模式读取当前目录 `.env`，自然语言理解、解释和规划均可能产生 API 用量；启动本身不调用模型。模型可能因超时、结构化输出错误或执行上限而未完成，终端会明确显示。
+
+想先检查交互体验且不消耗 API：
+
+```bash
+python -m content_planner chat --mode mock
+```
+
+Mock 支持上述例子的主题、预算和“一小时后”等简单规则；不是通用聊天模型。精确控制时，两种模式都可使用下面的本地命令，`/set` 不调用模型：
+
+```text
+/set theme 给通勤人群策划便携咖啡杯营销活动
+/set product P001
+/set budget 10
+/set deadline +1h
+/run
+```
+
+### 会话、结果与常用命令
+
+终端展示中文状态、方案调整过程、模拟预算与预留、脚本及素材来源、保存核验和 API 用量。完整任务结果仍以 JSON 保存，业务 Trace 不受显示方式影响。
+
+| 命令 | 用途 |
+| --- | --- |
+| `/help` | 查看完整命令 |
+| `/products` | 查看本地合成商品和事实；当前有 P001 咖啡杯、P002 收纳盒 |
+| `/draft` | 查看已记住的主题、预算、截止时间等需求 |
+| `/set budget 6`、`/set deadline +1h` | 精确修改需求，随后 `/run` 执行 |
+| `/run` | 执行当前需求；相同输入回读最近任务，不重复生成或扣费 |
+| `/status`、`/json` | 查看最近任务的易读结果或完整 JSON，不调用 API |
+| `/history`、`/export` | 查看最近对话；导出完整会话及最近任务证据 |
+| `/new` | 清空当前需求，开始新任务；旧任务和对话保留 |
+| `/exit` | 保存并退出，也可用 Ctrl+D；Ctrl+C 会停止当前输入或执行 |
+
+启动时会显示会话 ID 和继续会话的命令。例如真实会话默认保存在 `.runtime/chat-real.db`：
+
+```bash
+# 将 <会话ID> 替换为启动时显示的实际值
+python -m content_planner chat --mode real --session <会话ID>
+```
+
+会话恢复包括对话、当前需求、最近任务和累计 API 用量；不自动恢复被中断的业务任务。`/run` 相同输入只回读原终态，若需新的尝试，用 `/new` 重新填写需求。更换模式或模型配置应使用新会话。自定义 `--db` / `--env-file` 时，恢复时继续传入相同参数。
+
+**预算按任务独立计算。** 修改需求会创建新任务并重新执行，旧任务的产物和费用记录保留，原任务费用不会转移或扣进新任务预算；会话累计 API 包括对话理解和所有任务请求。模拟业务预算与真实 API 账单分开，未查询实际收费。`/run` 不调用对话理解；重复自然语言会产生一次理解请求，即使业务结果随后回放。
+
+任务执行后自动导出至 `.runtime/chat-output/<run_id>/`；`/export` 另写 `.runtime/chat-output/<会话ID>/session.json` 和最近任务证据。会话数据库与这些本地产物默认不提交。
+
+当前提供的是内容规划业务对话，支持持续澄清、修改和解释；没有代码终端工具、通用文件编辑或已验证的任意聊天能力。输入为逐行文本，当前不做 token 流式输出；执行过程中逐步显示公开动作和工具回执，可用 `--quiet` 隐藏进度。
+
+## 单次运行与 JSON 输出
+
+`run` / `inspect` / `export` 继续保留，适合批量验证。实际终端默认显示易读摘要，重定向或管道默认输出 JSON；可用 `--format text` / `--format json` 明确指定。JSON 模式不混入进度文字，证据路径写入 stderr。
+
+不用准备输入文件的离线例子：
+
+```bash
+python -m content_planner run --mode mock   --input examples/inputs/01-normal.json   --demo-config examples/inputs/demo-config.json   --db .runtime/demo.db --format text
+```
+
+真实单次任务需要自定义 JSON，使用新的请求 ID 和带时区的未来截止时间：
+
+```json
+{
+  "request_id": "my-first-campaign-001",
+  "theme": "给通勤人群策划便携咖啡杯新品营销活动",
+  "product_id": "P001",
+  "budget_units": "10.000",
+  "deadline_at": "2030-01-01T18:00:00+08:00",
+  "audience": "通勤人群"
+}
+```
+
+将上面内容保存为 `.runtime/my-request.json`，把截止时间改成你需要的未来时间，然后执行：
+
+```bash
+python -m content_planner run --mode real --input .runtime/my-request.json   --db .runtime/real.db --output-dir .runtime/real-output --format text
+# 若由脚本消费结果：改用 --format json，或将 stdout 重定向到文件
+```
+
+重复使用相同请求 ID 和输入会回读已有任务；更改已执行的 JSON 时需要新 ID，否则返回 `request_conflict`。真实任务默认上限 180 秒，单次 HTTP 请求最长 30 秒，没有隐藏重试或自动回退 Mock。
+
+### 常见情况
+
+| 现象 | 处理 |
+| --- | --- |
+| `No module named content_planner` | 激活 `.venv`，并完成下方可编辑安装 |
+| `configuration_error` | 从仓库根目录运行，检查 `.env` 三个必填项；环境变量会覆盖文件 |
+| 提示补充信息 | 在同一会话继续提供预算、截止时间、商品等；用 `/draft` 核对 |
+| `deadline_exceeded` | 用 `/set deadline +1h` 设置未来时间，再 `/run` |
+| `incomplete` | 查看原因和证据，已有产物不代表方案已保存；有保存回执才显示完成 |
+| 重复显示旧结果 | 相同输入按幂等规则回读；新尝试可 `/new` 后重新填写 |
 
 ## 安装与快速运行
 
-要求 Python 3.12+，本次验证环境为 Python 3.12.14。先在仓库根目录安装依赖；首次安装需要访问包源，安装后业务运行与测试不访问网络。
+要求 Python 3.12+，本次验证环境为 Python 3.12.14。首次安装需要访问包源；安装后的 Mock 运行与自动化测试不联网，真实模式需要访问配置的模型接口。
 
 ```bash
 python3.12 -m venv .venv
@@ -37,7 +154,7 @@ python -m content_planner run --mode mock --input examples/inputs/04-budget-repl
 python -m content_planner run --mode mock --input examples/inputs/06-tool-failure.json --demo-config examples/inputs/06-tool-failure.demo.json --db .runtime/demo.db
 ```
 
-stdout 为 JSON，证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
+输出格式按终端自动选择，也可显式指定；证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
 
 ## 最短评审路径
 
@@ -63,7 +180,7 @@ python scripts/verify.py
 
 ## 填入自己的 API 配置并验证
 
-安装依赖后，在仓库根目录复制模板：
+首次配置时，在仓库根目录复制模板；已有 `.env` 时跳过复制，以保留原配置：
 
 ```bash
 cp .env.example .env
