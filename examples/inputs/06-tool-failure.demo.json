@@ -1,0 +1,10 @@
+{
+  "now_at": "2030-01-01T10:00:00+08:00",
+  "faults": [
+    {
+      "tool": "generate_script",
+      "times": 1,
+      "after_charge": false
+    }
+  ]
+}

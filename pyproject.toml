@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-planning-agent"
+version = "0.1.0"
+description = "Offline content campaign planning workflow with explicit mock decisions"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2,<3"]
+
+[project.scripts]
+content-planner = "content_planner.cli:main"
+
+[tool.setuptools]
+packages = ["content_planner", "content_planner.data"]
+include-package-data = true
+
+[tool.setuptools.package-dir]
+content_planner = "src/content_planner"
+"content_planner.data" = "data"
+
+[tool.setuptools.package-data]
+"content_planner.data" = ["*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

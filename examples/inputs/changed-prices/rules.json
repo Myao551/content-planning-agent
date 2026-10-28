@@ -1,0 +1,12 @@
+{
+  "version": "synthetic-v1",
+  "tier_order": [
+    "standard",
+    "reuse",
+    "minimal"
+  ],
+  "require_product_facts": true,
+  "reuse_requires_reusable_material": true,
+  "deadline_scope": "delivery_of_saved_campaign_plan",
+  "all_data_is_synthetic": true
+}

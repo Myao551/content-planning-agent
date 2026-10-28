@@ -1,0 +1,50 @@
+import json
+import subprocess
+import sys
+
+def invoke(*args, cwd=None):
+    return subprocess.run([sys.executable, "-m", "content_planner", *map(str, args)], capture_output=True, text=True, cwd=cwd)
+
+
+def test_cli_round_trip(tmp_path, request_input):
+    source, db, demo = tmp_path / "input.json", tmp_path / "tasks.db", tmp_path / "demo.json"
+    source.write_text(json.dumps(request_input))
+    demo.write_text('{"now_at":"2030-01-01T10:00:00+08:00"}')
+    # Installed data must be available from outside the repository.
+    run = invoke("run", "--mode", "mock", "--input", source, "--db", db,
+                 "--demo-config", demo, "--output-dir", tmp_path / "examples", cwd=tmp_path)
+    assert run.returncode == 0, run.stderr + run.stdout
+    result = json.loads(run.stdout)
+    inspect = invoke("inspect", "--request-id", request_input["request_id"], "--db", db)
+    assert json.loads(inspect.stdout) == result
+    exported = invoke("export", "--request-id", request_input["request_id"], "--db", db, "--output-dir", tmp_path / "export")
+    assert exported.returncode == 0
+    directory = tmp_path / "export" / result["run_id"]
+    assert {p.name for p in directory.iterdir()} == {
+        "input.json", "output.json", "trace.jsonl", "trace.md", "artifacts.json", "run-metadata.json"}
+    events = [json.loads(line) for line in (directory / "trace.jsonl").read_text().splitlines()]
+    assert [e["seq"] for e in events] == list(range(1, len(events) + 1))
+    assert events[-1]["status"] == "completed"
+
+
+def test_real_explicitly_unavailable_without_reading_key(tmp_path):
+    run = invoke("run", "--mode", "real", "--input", tmp_path / "nonexistent.json", "--db", tmp_path / "real.db")
+    assert run.returncode == 5
+    result = json.loads(run.stdout)
+    assert result["mode"] == "real" and result["model_driver"] is None
+    assert result["reason_code"] == "real_not_implemented"
+    assert not (tmp_path / "real.db").exists()
+
+
+def test_broken_json(tmp_path):
+    path = tmp_path / "broken.json"
+    path.write_text("{broken")
+    run = invoke("run", "--mode", "mock", "--input", path)
+    assert run.returncode == 4
+    assert json.loads(run.stdout)["reason_code"] == "invalid_input"
+
+
+def test_unknown_request(tmp_path):
+    run = invoke("inspect", "--request-id", "missing", "--db", tmp_path / "missing.db")
+    assert run.returncode == 4
+    assert not (tmp_path / "missing.db").exists()

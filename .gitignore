@@ -1,0 +1,44 @@
+# Local credentials; example configuration remains versioned.
+.env
+.env.*
+!.env.example
+!.env.*.example
+/*apiKey*.csv
+
+# Python environments, caches and build output.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Runtime databases and temporary output; keep examples/ traces versioned.
+.runtime/
+tmp/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.log
+
+# Local editor/OS files.
+.DS_Store
+.idea/
+.vscode/
+
+# Original assessment and company reference materials stay local.
+/具体题目.md
+/笔试要求整理.md
+/小影科技公司介绍2026版.pdf
+/小影科技2027校招-AI Agent笔试题 · 卷面.html
+/小影科技2027校招-AI Agent笔试题 · 卷面_files/

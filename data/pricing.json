@@ -1,0 +1,1 @@
+{"version":"synthetic-v1","tiers":{"standard":{"script_milliunits":4000,"resource_milliunits":8000},"reuse":{"script_milliunits":2000,"resource_milliunits":6000},"minimal":{"script_milliunits":1000,"resource_milliunits":2000}},"search_milliunits":0,"estimate_milliunits":0,"save_milliunits":0}

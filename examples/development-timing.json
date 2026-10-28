@@ -1,0 +1,8 @@
+{
+  "agent_execution_started_at": "2026-10-28T17:27:23+08:00",
+  "validation_checkpoint_at": "2026-10-28T17:47:01+08:00",
+  "elapsed_to_checkpoint_seconds": 1178,
+  "measurement_scope": "本轮 AI 辅助开发与验证的实际墙钟窗口，包含工具与审批等待；提交和推送发生在此检查点之后。",
+  "candidate_personal_time": null,
+  "candidate_personal_time_note": "未经候选人本人确认，不将 AI 执行窗口当作个人投入时间。"
+}

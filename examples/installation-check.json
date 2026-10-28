@@ -1,0 +1,11 @@
+{
+  "installation": "built wheel in a fresh virtual environment",
+  "outside_repository_cwd": true,
+  "python": "3.12.14",
+  "tests_exit_code": 0,
+  "cli_exit_code": 0,
+  "cli_status": "completed",
+  "tier": "reuse",
+  "projected_total_units": "8.000",
+  "real_api_requests": 0
+}

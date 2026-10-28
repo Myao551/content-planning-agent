@@ -1,0 +1,36 @@
+{
+  "mode": "mock",
+  "model_driver": "mock",
+  "real_api_requests": 0,
+  "validation_scope": "仅验证离线流程，不证明真实模型决策效果",
+  "run_id": "6287a28f-7355-422a-97db-fb34017c48e6",
+  "task_id": "715f3291-574a-4df1-9f52-18b3b103c7e2",
+  "input_hash": "a869009868b294606b2776f53e6dfd3917c51e52b801f5eb896210749361dd22",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_steps": 12,
+    "max_tools": 10,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180,
+    "max_attempts": 2
+  },
+  "demo": {
+    "now_at": "2030-01-01T10:00:00+08:00",
+    "faults": [
+      {
+        "tool": "generate_script",
+        "times": 1,
+        "after_charge": false
+      }
+    ]
+  },
+  "started_at": "2030-01-01T10:00:00+08:00",
+  "wall_seconds": 0.019966,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "replayed": false,
+  "implementation_hash": "f96230fe94c7e0b7fa160c41391d1892ca8e7a407766cdad2b775f4a0bd19982",
+  "prompt_hash": null,
+  "prompt_note": "离线策略没有调用真实模型或模型提示词"
+}

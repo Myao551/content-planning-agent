@@ -1,0 +1,337 @@
+{
+  "scope": "offline_mock_only",
+  "cases": [
+    {
+      "case": "01-normal",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "f2c22b81-fe8c-4df9-9ef6-e6915bfb5ad6",
+        "saved_at": "2030-01-01T10:03:31+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/01-normal/e33f1f06-dd4a-4105-b79a-edab4bf4547c",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "02-missing-budget",
+      "expected": "needs_input",
+      "actual": "needs_input",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "missing_information",
+      "evidence": "examples/mock/02-missing-budget/19e3669a-37ed-4142-a1ea-496d1dac9995",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "03-missing-deadline",
+      "expected": "needs_input",
+      "actual": "needs_input",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "missing_information",
+      "evidence": "examples/mock/03-missing-deadline/18389245-93d3-4b72-8611-3245bba2e6b5",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "04-budget-replan",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true,
+        "replanned_to_reuse": true,
+        "computed_total_8": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "a3d2523b-31b3-4fc3-b613-8cbd2c1df540",
+        "saved_at": "2030-01-01T10:02:01+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/04-budget-replan/8f43846d-8927-4b11-977a-744f8ff9ba89",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "05-infeasible",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "budget_exceeded",
+      "evidence": "examples/mock/05-infeasible/6079885f-ec6b-4f61-a328-417c64d4133f",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "06-tool-failure",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "31b3e4fa-c1b7-45a9-92dd-228ebc528272",
+        "saved_at": "2030-01-01T10:03:31+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/06-tool-failure/6287a28f-7355-422a-97db-fb34017c48e6",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "07-repeat",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true,
+        "replayed_same_solution": true
+      },
+      "solution": {
+        "readback_verified": true,
+        "saved": true,
+        "saved_at": "2030-01-01T10:03:31+08:00",
+        "solution_id": "f2c22b81-fe8c-4df9-9ef6-e6915bfb5ad6"
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/07-repeat/e33f1f06-dd4a-4105-b79a-edab4bf4547c",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "08-save-failure",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true,
+        "partial_success_preserved": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "injected_tool_failure",
+      "evidence": "examples/mock/08-save-failure/ad150b05-4330-4cd0-966f-15aa5a510233",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "09-deadline",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "3fe197ca-6471-4415-a0a3-551f9d1d0506",
+        "saved_at": "2030-01-01T10:01:31+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/09-deadline/9694964b-06c3-44d6-9bcd-08527d68c706",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "10-missing-material",
+      "expected": "needs_input",
+      "actual": "needs_input",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "missing_information",
+      "evidence": "examples/mock/10-missing-material/6903a308-cf10-4095-bace-8a01483af585",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "11-request-conflict",
+      "expected": "invalid_input",
+      "actual": "invalid_input",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true
+      },
+      "solution": {
+        "saved": false
+      },
+      "reason_code": "request_conflict",
+      "evidence": "examples/mock/11-request-conflict/0d24a242-70f3-4e83-adc8-12f054b17361",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "12-step-limit",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "ledger_matches_output": true,
+        "limits_respected": true
+      },
+      "solution": {
+        "saved": false,
+        "solution_id": null,
+        "saved_at": null,
+        "readback_verified": false
+      },
+      "reason_code": "step_limit",
+      "evidence": "examples/mock/12-step-limit/58a53dab-c11f-4b7c-85be-225c7348ce7f",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "13-charged-failure",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true,
+        "spent_preserved": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "0ee0fa53-9187-4f6c-88b0-7f33bb1f555a",
+        "saved_at": "2030-01-01T10:05:01+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/13-charged-failure/53b5bab9-c65c-42db-8179-99b1a548b6de",
+      "mode": "mock",
+      "real_api_requests": 0
+    },
+    {
+      "case": "14-changed-prices",
+      "expected": "completed",
+      "actual": "completed",
+      "passed": true,
+      "checks": {
+        "expected_status": true,
+        "no_real_api": true,
+        "saved_and_verified": true,
+        "within_budget": true,
+        "within_deadline": true,
+        "ledger_matches_output": true,
+        "limits_respected": true,
+        "changed_choice": true
+      },
+      "solution": {
+        "saved": true,
+        "solution_id": "9af8ea5d-02e3-4198-8ce1-d077ee77b896",
+        "saved_at": "2030-01-01T10:01:31+08:00",
+        "readback_verified": true
+      },
+      "reason_code": "",
+      "evidence": "examples/mock/14-changed-prices/ce53abe8-750d-4331-90aa-3d580fa0abf4",
+      "mode": "mock",
+      "real_api_requests": 0
+    }
+  ],
+  "passed": 14,
+  "total": 14
+}

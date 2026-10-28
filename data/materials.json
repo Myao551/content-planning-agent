@@ -1,0 +1,5 @@
+[
+  {"id":"M001","product_id":"P001","kind":"reusable","title":"咖啡杯外观素材","keywords":["咖啡杯","通勤","外观","coffee"],"facts":["容量 350 毫升","提供黑色和白色款式"]},
+  {"id":"M002","product_id":"P001","kind":"reference","title":"咖啡杯商品说明","keywords":["咖啡杯","商品","cup"],"facts":["附带杯盖"]},
+  {"id":"M003","product_id":"P002","kind":"reference","title":"收纳盒说明","keywords":["收纳","桌面","storage"],"facts":["包含三个分隔空间","可放置桌面文具"]}
+]
