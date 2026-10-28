@@ -126,6 +126,8 @@ def main():
                    "[安装检查结果](../examples/installation-check.json)、[wheel 环境测试输出](../examples/wheel-test-results.txt)。", ""]
     if (root / "docs" / "06-real-api-evaluation.md").exists():
         report += ["## 独立真实模型验证", "", "真实 API 接入和实际记录见 [真实评估](06-real-api-evaluation.md)。本页重新生成不会改变这些记录。", ""]
+    elif (root / "examples" / "real" / "README.md").exists():
+        report += ["## 独立真实模型验证", "", "真实模型路径、用量和执行版本见 [真实验收记录](../examples/real/README.md)。本页重新生成不会改变这些记录。", ""]
     (root / "docs" / "03-evaluation.md").write_text("\n".join(report), encoding="utf-8")
     print(json.dumps({"passed": sum(r["passed"] for r in rows), "total": len(rows), "database": str(database)}, ensure_ascii=False))
     return 0 if all(r["passed"] for r in rows) else 1

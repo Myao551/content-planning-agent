@@ -1,21 +1,21 @@
 {
-  "command": "python -m pytest -q",
+  "command": "python -B -m pytest -q -p no:cacheprovider",
   "exit_code": 0,
-  "passed_tests": 72,
+  "passed_tests": 82,
   "python": "3.12.14",
-  "recorded_at": "2026-10-28T12:15:58.935847+00:00",
-  "wall_seconds": 5.258122,
+  "recorded_at": "2026-10-28T13:25:08.421182+00:00",
+  "wall_seconds": 6.261961,
   "verification_version": {
     "status": "captured",
-    "capture_phase": "test_start",
-    "captured_at": "2026-10-28T12:15:53.636111+00:00",
-    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "capture_phase": "cleanup_verification",
+    "captured_at": "2026-10-28T13:25:02.118185+00:00",
+    "implementation_hash": "b1520c344b4bfccb540728290abf7c7980f27b939256dc646514ae8e0452a83f",
     "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
     "python": "3.12.14",
     "pydantic": "2.14.1",
     "package_version": "0.1.0",
-    "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
-    "git_dirty": false,
+    "git_commit": "824b2f2414b0e475adad0a285494ed67156a56ab",
+    "git_dirty": true,
     "git_worktree_dirty": true,
     "git_dirty_scope": [
       "src",
@@ -25,5 +25,6 @@
       "pyproject.toml",
       "requirements.txt"
     ]
-  }
+  },
+  "scope": "文件清理后的自动化复核；使用本地合成数据和假传输，不调用真实 API"
 }

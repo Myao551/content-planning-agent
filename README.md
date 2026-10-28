@@ -2,7 +2,7 @@
 
 跨境电商营销视频内容活动规划助手。接收主题、预算和截止时间，执行素材检索、脚本生成、成本估算和方案保存；观察工具结果后继续、调整方案、有限重试或明确停止。
 
-**当前状态：支持持续对话 CLI、易读终端输出、通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置；已有阿里百炼 `qwen3.8-flash` 的真实任务记录。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/06-real-api-evaluation.md)。
+**当前状态：支持持续对话 CLI、易读终端输出、通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置；已有阿里百炼 `qwen3.8-flash` 的真实任务记录。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/03-evaluation.md)。
 
 ## 直接开始持续对话（推荐）
 
@@ -76,7 +76,7 @@ python -m content_planner chat --mode real --session <会话ID>
 
 任务执行后自动导出至 `.runtime/chat-output/<run_id>/`；`/export` 另写 `.runtime/chat-output/<会话ID>/session.json` 和最近任务证据。会话数据库与这些本地产物默认不提交。
 
-本次持续对话真实验证与 82 项测试结果见 [交互验证记录](examples/chat/README.md)，包括预算修改、重复回放及会话恢复。终端完成摘要采用结构化字段；模型完整说明保留在 JSON 中。
+终端完成摘要采用结构化字段；模型完整说明保留在 JSON 中。交互、会话恢复及业务校验的可执行测试见 `tests/`，实际结果见 [评估](docs/03-evaluation.md)。
 
 当前提供的是内容规划业务对话，支持持续澄清、修改和解释；没有代码终端工具、通用文件编辑或已验证的任意聊天能力。输入为逐行文本，当前不做 token 流式输出；执行过程中逐步显示公开动作和工具回执，可用 `--quiet` 隐藏进度。
 
@@ -165,13 +165,9 @@ python -m content_planner run --mode mock --input examples/inputs/06-tool-failur
 | 用户、范围、成功标准 | [需求](docs/01-requirements.md) |
 | 调用链、约束、状态和技术取舍 | [方案](docs/02-solution.md) |
 | 测试结果及每例实际输出/Trace | [评估](docs/03-evaluation.md)、[案例索引](examples/README.md) |
-| 真实模型路径、用量与观察到的问题 | [真实 API 评估](docs/06-real-api-evaluation.md)、[真实记录](examples/real/README.md) |
+| 真实模型路径、用量与观察到的问题 | [真实 API 评估](docs/03-evaluation.md)、[真实记录](examples/real/README.md) |
 | AI 辅助范围和验证边界 | [AI 使用](docs/04-ai-usage.md) |
 | 已解决问题、限制和下一步 | [复盘](docs/05-retrospective.md) |
-| 原始技术规划与阶段调整 | [开发方案](docs/00-development-plan.md) |
-| 审查问题的修复与验证边界 | [修复回执](docs/08-review-resolution.md) |
-| 持续对话、易读输出和实际试用 | [交互扩展](docs/09-cli-conversation.md)、[验证记录](examples/chat/README.md) |
-| 正式提交信息和本人待确认项 | [提交清单](docs/07-submission.md) |
 
 重新执行测试并生成一批新的实际证据：
 
@@ -179,7 +175,7 @@ python -m content_planner run --mode mock --input examples/inputs/06-tool-failur
 python scripts/verify.py
 ```
 
-该命令更新测试结果、案例索引和评估文档；每批运行使用新的本地数据库，证据按运行 ID 保存。普通 `pytest` 使用临时目录，不修改已提交案例。
+该命令会重新生成完整的 14 个离线检查及测试报告，并更新案例索引和离线评估；会产生新的本地数据库和运行目录。当前仓库仅保留题目必验收的一套 7 个离线案例及独立真实记录。普通 `pytest` 使用临时目录，不修改已提交案例。
 
 ## 填入自己的 API 配置并验证
 
@@ -229,7 +225,7 @@ python -m content_planner run --mode real --input /path/to/real-request.json --d
 
 真实评估每个用例后检查累计用量；达到阈值时跳过后续收费案例，仍可验证无需 API 的缺参数和历史回放。阈值不是供应商账单硬限额，最后一个用例可能使累计量略超阈值。实际金额与免费额度扣减没有查询，以供应商账单为准。
 
-正式回归建议在提交实现代码后运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`。新任务固定保存执行版本，导出器版本另记；旧任务缺快照时明确标记未知，不将当前源码摘要附着到旧轨迹。历史元信息与新格式的区别见 [版本说明](examples/provenance-notes.json)。
+正式回归建议在提交实现代码后运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`。新任务固定保存执行版本，导出器版本另记；旧任务缺快照时明确标记未知，不将当前源码摘要附着到旧轨迹。历史元信息与新格式的区别见 [方案中的证据说明](docs/02-solution.md)。
 
 ## 技术与业务边界
 
@@ -247,4 +243,4 @@ python -m content_planner run --mode real --input /path/to/real-request.json --d
 
 目标仓库：[Myao551/content-planning-agent](https://github.com/Myao551/content-planning-agent)。材料组织参考 [项目交付示例](https://github.com/lwz1357/agent-campus-submission-example)。题目原文、公司参考 PDF、密钥、虚拟环境和运行数据库保留在本地；合成数据及实际验证材料纳入版本管理。
 
-已保留不同真实执行路径；正式笔试提交仍需候选人据实补充个人贡献、个人用时与解释，并提交正式题号、仓库 URL 和最终 commit SHA。小样例通过不代表未测场景都可靠。
+已保留不同真实执行路径；正式笔试提交仍需候选人据实补充个人贡献、个人用时与解释，并提交官方题号、仓库 URL 和最终 commit SHA（执行 `git rev-parse HEAD` 获取）。这些个人信息尚待本人提供，不能按题目排列顺序推定题号。小样例通过不代表未测场景都可靠。

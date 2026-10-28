@@ -1,64 +1,47 @@
-# 离线评估与实际证据
+# 效果评估与验收证据
 
-**本页仅统计离线 Mock 流程，真实 API 结果在独立评估中报告。**
-
-本页下方 72 项测试和 14 个案例是此前审查修复批次。后续交互扩展新增测试后共 82 项通过，持续对话真实验证、原始用量及版本边界见 [交互验证记录](../examples/chat/README.md)，不将新测试数量附着到旧结果文件。
-
-案例使用固定业务时钟、本地合成数据和确定性 Mock；所有输出与 Trace 来自实际程序执行。
-预期业务失败返回 needs_input / incomplete / invalid_input 是正确结果，不等于这些任务已完成。
+本仓库保留一套题目要求的验收材料：7 个离线案例、2 条不同真实模型执行路径及 1 个零新增请求回放。预期的 needs_input / incomplete 也是正确的业务结果，不将所有案例都描述为任务完成。
 
 ## 自动化测试
 
-实际执行 `python -m pytest -q`，退出码 0，72 项通过。
-[原始测试输出](../examples/test-results.txt)、[测试元信息](../examples/test-results.json)。
+测试结果与退出码见 [实际 pytest 输出](../examples/test-results.txt) 和 [元信息](../examples/test-results.json)。覆盖输入、费用、时间、依赖、事务失败与回读、有限重试、请求冲突、规则变化、部分成功保留、执行上限、HTTP 协议及持续对话。
 
-覆盖输入、费用、时限、错误动作、上限、事务回滚、重复请求、脚本复用、无依据事实、规则变化、已有支出保留和 CLI。
+## 离线必验收案例
 
-## 案例结果
+固定业务时钟与合成资料，驱动为确定性 Mock，真实 API 请求为零。保留此前实际运行的一套结果，没有因清理重新编造输出。
 
-本批 14 个离线案例，14 个满足各自预期与程序断言。
-这不是任务全部完成的比例，也不代表真实模型成功率。
+| 验收场景 | 预期 | 实际 | 输出 | Trace |
+| --- | --- | --- | --- | --- |
+| 01-normal | completed | completed | [JSON](../examples/mock/01-normal/ea521bd1-2cf9-433d-b616-f82b54c54aba/output.json) | [Trace](../examples/mock/01-normal/ea521bd1-2cf9-433d-b616-f82b54c54aba/trace.md) |
+| 02-missing-budget | needs_input | needs_input | [JSON](../examples/mock/02-missing-budget/67afec4f-138b-473d-a7e4-43d4a03552ff/output.json) | [Trace](../examples/mock/02-missing-budget/67afec4f-138b-473d-a7e4-43d4a03552ff/trace.md) |
+| 03-missing-deadline | needs_input | needs_input | [JSON](../examples/mock/03-missing-deadline/809f0ad4-958d-4a92-8b12-b5a18d677b7c/output.json) | [Trace](../examples/mock/03-missing-deadline/809f0ad4-958d-4a92-8b12-b5a18d677b7c/trace.md) |
+| 04-budget-replan | completed | completed | [JSON](../examples/mock/04-budget-replan/0f625d5c-7676-44d3-941c-80b40783232b/output.json) | [Trace](../examples/mock/04-budget-replan/0f625d5c-7676-44d3-941c-80b40783232b/trace.md) |
+| 05-infeasible | incomplete | incomplete | [JSON](../examples/mock/05-infeasible/c4cdcc0a-7ef5-41d2-9a2a-6cda76c83fbd/output.json) | [Trace](../examples/mock/05-infeasible/c4cdcc0a-7ef5-41d2-9a2a-6cda76c83fbd/trace.md) |
+| 06-tool-failure | completed | completed | [JSON](../examples/mock/06-tool-failure/374a9f07-16fe-46e5-9fd0-6c6bad92de66/output.json) | [Trace](../examples/mock/06-tool-failure/374a9f07-16fe-46e5-9fd0-6c6bad92de66/trace.md) |
+| 07-repeat | completed | completed | [JSON](../examples/mock/07-repeat/ea521bd1-2cf9-433d-b616-f82b54c54aba/output.json) | [Trace](../examples/mock/07-repeat/ea521bd1-2cf9-433d-b616-f82b54c54aba/trace.md) |
 
-| 案例 | 预期 | 实际 | 检查通过 | 实际输出 | 实际 Trace |
+[逐项断言](../examples/evaluation-results.json)。正常与预算重规划执行完整工具链；缺预算/截止时间时请求补充；工具注入一次失败后有限重试；无可行方案时说明缺口；重复请求复用同一方案，不重复扣费。额外边界通过可执行测试覆盖，不再保留每次开发测试生成的重复目录。
+
+## 真实模型决策
+
+| 场景 | 实际 | API 请求 | token | 输出 | Trace |
 | --- | --- | --- | --- | --- | --- |
-| 01-normal | completed | completed | True | [JSON](../examples/mock/01-normal/ea521bd1-2cf9-433d-b616-f82b54c54aba/output.json) | [记录](../examples/mock/01-normal/ea521bd1-2cf9-433d-b616-f82b54c54aba/trace.md) |
-| 02-missing-budget | needs_input | needs_input | True | [JSON](../examples/mock/02-missing-budget/67afec4f-138b-473d-a7e4-43d4a03552ff/output.json) | [记录](../examples/mock/02-missing-budget/67afec4f-138b-473d-a7e4-43d4a03552ff/trace.md) |
-| 03-missing-deadline | needs_input | needs_input | True | [JSON](../examples/mock/03-missing-deadline/809f0ad4-958d-4a92-8b12-b5a18d677b7c/output.json) | [记录](../examples/mock/03-missing-deadline/809f0ad4-958d-4a92-8b12-b5a18d677b7c/trace.md) |
-| 04-budget-replan | completed | completed | True | [JSON](../examples/mock/04-budget-replan/0f625d5c-7676-44d3-941c-80b40783232b/output.json) | [记录](../examples/mock/04-budget-replan/0f625d5c-7676-44d3-941c-80b40783232b/trace.md) |
-| 05-infeasible | incomplete | incomplete | True | [JSON](../examples/mock/05-infeasible/c4cdcc0a-7ef5-41d2-9a2a-6cda76c83fbd/output.json) | [记录](../examples/mock/05-infeasible/c4cdcc0a-7ef5-41d2-9a2a-6cda76c83fbd/trace.md) |
-| 06-tool-failure | completed | completed | True | [JSON](../examples/mock/06-tool-failure/374a9f07-16fe-46e5-9fd0-6c6bad92de66/output.json) | [记录](../examples/mock/06-tool-failure/374a9f07-16fe-46e5-9fd0-6c6bad92de66/trace.md) |
-| 07-repeat | completed | completed | True | [JSON](../examples/mock/07-repeat/ea521bd1-2cf9-433d-b616-f82b54c54aba/output.json) | [记录](../examples/mock/07-repeat/ea521bd1-2cf9-433d-b616-f82b54c54aba/trace.md) |
-| 08-save-failure | incomplete | incomplete | True | [JSON](../examples/mock/08-save-failure/12ee3364-d66e-4cfc-b1c9-c914d0f5857f/output.json) | [记录](../examples/mock/08-save-failure/12ee3364-d66e-4cfc-b1c9-c914d0f5857f/trace.md) |
-| 09-deadline | completed | completed | True | [JSON](../examples/mock/09-deadline/33244561-17ea-477d-ac3d-54ec6fa7e3a1/output.json) | [记录](../examples/mock/09-deadline/33244561-17ea-477d-ac3d-54ec6fa7e3a1/trace.md) |
-| 10-missing-material | needs_input | needs_input | True | [JSON](../examples/mock/10-missing-material/dec701ab-5f36-4b48-928a-8b6addb3bd61/output.json) | [记录](../examples/mock/10-missing-material/dec701ab-5f36-4b48-928a-8b6addb3bd61/trace.md) |
-| 11-request-conflict | invalid_input | invalid_input | True | [JSON](../examples/mock/11-request-conflict/5d7aef65-079e-4bef-a248-0e2393c98176/output.json) | [记录](../examples/mock/11-request-conflict/5d7aef65-079e-4bef-a248-0e2393c98176/trace.md) |
-| 12-step-limit | incomplete | incomplete | True | [JSON](../examples/mock/12-step-limit/88eb49eb-c96e-4c2b-8fe8-dab641c73f17/output.json) | [记录](../examples/mock/12-step-limit/88eb49eb-c96e-4c2b-8fe8-dab641c73f17/trace.md) |
-| 13-charged-failure | completed | completed | True | [JSON](../examples/mock/13-charged-failure/cbc58a0e-cbfa-4e6c-b7e6-2dbe2a824e8e/output.json) | [记录](../examples/mock/13-charged-failure/cbc58a0e-cbfa-4e6c-b7e6-2dbe2a824e8e/trace.md) |
-| 14-changed-prices | completed | completed | True | [JSON](../examples/mock/14-changed-prices/23361df1-816f-4653-a0f3-7ac2311eefcb/output.json) | [记录](../examples/mock/14-changed-prices/23361df1-816f-4653-a0f3-7ac2311eefcb/trace.md) |
+| normal | completed | 8 | 39853 | [JSON](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/normal/625f7e35-c963-4adf-8592-96164f4493bd/output.json) | [Trace](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/normal/625f7e35-c963-4adf-8592-96164f4493bd/trace.md) |
+| replan | completed | 10 | 56641 | [JSON](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/replan/c817acbb-aacd-4707-88ba-171dc949ccd8/output.json) | [Trace](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/replan/c817acbb-aacd-4707-88ba-171dc949ccd8/trace.md) |
+| repeat | completed | 0 | 0 | [JSON](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/repeat/625f7e35-c963-4adf-8592-96164f4493bd/output.json) | [Trace](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/repeat/625f7e35-c963-4adf-8592-96164f4493bd/trace.md) |
 
-[逐项断言及结果](../examples/evaluation-results.json)；运行元信息与输入在每个案例目录中。
+[原始真实批次报告](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/report.json)、[真实索引与版本边界](../examples/real/README.md)。共 18 次请求、96494 token；实际 API 金额未知，不与模拟单位相加。normal 选择标准方案 12；replan 观察费用超出预算 10，改选总额 8 的复用方案并重新估算、生成、复核和保存；repeat 沿用原执行版本且零新增请求。
 
-## 结果解释与限制
+这批真实结果指向冻结提交 036a6db，而当前实现还包含之后的持续对话与显示层扩展。清理不修改原执行版本，当前代码的自动化验证版本另见 test-results.json。本次文件整理没有重新调用真实 API。
 
-- 正常与预算调整分别运行四工具核心链路；预算 10 的示例实际观察标准 12 后改为复用 8。
-- 替换费用表使复用方案不再可行，离线策略改为简化方案，避免把参考金额硬编码为结果。
-- 缺预算与缺截止时间分别返回待补信息；工具失败案例保留已完成检索，并有限重试。
-- 重复请求回读同一方案；输入冲突不覆盖原结果。事务回滚通过自动化测试另行注入。
-- 保存持续失败保留脚本与已发生费用；已扣费再失败的案例保留旧费用，再估算可行替代方案。
-- 截止时间和步数上限均有实际案例；其他边界由自动化测试覆盖。
-- 本页离线案例没有发起真实 API 请求；Mock 动作说明不是真实模型推理过程或决策证据。
-- 没有测量真实创作质量、实际转化效果、供应商性能、分布式并发或跨进程恢复。
+## 失败、观察与限制
+
+- Mock 只能证明流程和不变量；真实材料仅证明已测的模型、配置及有限路径。保留的真实批次不包含工具故障或预算无解的真实模型执行。
+- 真实业务仍使用合成资料；脚本严格引用事实，没有验证开放式创意、翻译、视频制作、投放或商业转化。
+- 持续对话曾在开发试用中出现模型把截止月份复述错的情况；完成摘要已改为显示程序校验过的结构化字段，原完整说明仍可在任务 JSON 中核对。详细开发试用目录本次不保留。
+- 资源预留未支付；未查询真实账单。支持会话恢复，不支持崩溃任务自动续跑或生产级并发。
+- 达到执行上限明确返回未完成，已有产物不能替代成功保存回执。
 
 ## 复现
 
-在仓库根目录安装后运行 `python scripts/verify.py`，生成新的一批结果。
-单例命令、固定时钟和退出码说明见 [README](../README.md)。真实 API 结果使用独立目录和评估入口。
-
-## 安装检查
-
-另在全新虚拟环境安装构建的 wheel，并从仓库外运行 CLI。
-[安装检查结果](../examples/installation-check.json)、[wheel 环境测试输出](../examples/wheel-test-results.txt)。
-
-## 独立真实模型验证
-
-真实 API 接入和实际记录见 [真实评估](06-real-api-evaluation.md)。本页重新生成不会改变这些记录。
+安装与单例命令见 [README](../README.md)。`python -m pytest -q` 只用临时目录；`python scripts/verify.py` 会重新执行测试并生成完整 14 个离线检查及新结果，产生新的本地数据库，不会请求真实模型。真实评估须显式运行 `python scripts/evaluate_real.py` 并承担对应 API 用量。

@@ -27,7 +27,7 @@ flowchart LR
 
 正常路径：检索 → 更新计划 → 估算 → 生成脚本 → 复核估算 → 保存 → 申请完成。标准方案超限后，离线策略依据估算的可行性尝试复用或简化方案。没有可复用素材时跳过复用档位。工具失败后最多尝试两次，再停止。
 
-以上描述 Mock 的确定性策略，不能证明模型会重规划。真实适配器由模型选择动作，受到同一套程序约束；已观察的不同路径见 [真实评估](06-real-api-evaluation.md)。
+以上描述 Mock 的确定性策略，不能证明模型会重规划。真实适配器由模型选择动作，受到同一套程序约束；已观察的不同路径见 [真实评估](03-evaluation.md)。
 
 计划骨架固定为素材 → 脚本 → 复核 → 保存；工具可以执行预估、重新估算和重试。计划包含档位与素材，版本变化使旧估算失效；估算还绑定账本、累计耗时、成功产物和数据版本。
 
@@ -75,6 +75,6 @@ SQLite 五张业务表存任务、步骤尝试、工具回执、模拟费用和�
 
 `git_dirty` 检查 src、data、scripts、tests、pyproject.toml 和 requirements.txt；`git_worktree_dirty` 另记全工作区状态。因此生成新的证据文件不会冒充实现发生变化。源码摘要覆盖包顶层 Python 文件，数据使用独立 catalog_hash。安装后的 wheel 只记录包源码摘要，不借用调用者当前目录的 Git commit。
 
-历史任务没有快照时标记 `unknown_legacy`、执行摘要为 null，不反推为当前版本。v1 历史文件保持原样，其 implementation_hash 仅是当时导出时读取的源码摘要，解释见 [版本说明](../examples/provenance-notes.json)。冻结后可运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`；代码未提交会在读取凭据和调用 API 前被拒绝。
+历史任务没有快照时标记 `unknown_legacy`、执行摘要为 null，不反推为当前版本。早期 v1 的 implementation_hash 只是导出时源码摘要，不能视为执行快照；本次整理移除了早期重复批次，保留的元信息仍按原运行版本解释。冻结后可运行 `python scripts/evaluate_real.py --require-clean --cases normal replan repeat`；代码未提交会在读取凭据和调用 API 前被拒绝。
 
 安装版本见 [依赖锁定](../requirements.txt)；可复现运行见 [README](../README.md)。

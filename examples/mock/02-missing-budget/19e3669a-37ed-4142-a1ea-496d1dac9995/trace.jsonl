@@ -1,1 +1,0 @@
-{"seq": 1, "kind": "terminal", "run_id": "19e3669a-37ed-4142-a1ea-496d1dac9995", "timestamp": "2030-01-01T10:00:00+08:00", "plan_id": null, "status": "needs_input", "reason_code": "missing_information", "summary": "缺少预算或截止时间，未执行业务工具"}
