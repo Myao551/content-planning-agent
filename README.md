@@ -2,6 +2,8 @@
 
 跨境电商营销视频内容活动规划助手。接收主题、预算和截止时间，执行素材检索、脚本生成、成本估算和方案保存；观察工具结果后继续、调整方案、有限重试或明确停止。
 
+对应官方 **第 2 题：内容任务规划 Agent**。个人投入约 **3 小时**（本人回顾估算）；[个人贡献与 AI 使用](docs/04-ai-usage.md)、[个人复盘](docs/05-retrospective.md)。
+
 **当前状态：支持持续对话 CLI、易读终端输出、通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置；已有阿里百炼 `qwen3.8-flash` 的真实任务记录。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/03-evaluation.md)。
 
 ## 安装与快速运行
@@ -243,4 +245,4 @@ python -m content_planner run --mode real --input /path/to/real-request.json --d
 
 目标仓库：[Myao551/content-planning-agent](https://github.com/Myao551/content-planning-agent)。材料组织参考 [项目交付示例](https://github.com/lwz1357/agent-campus-submission-example)。题目原文、公司参考 PDF、密钥、虚拟环境和运行数据库保留在本地；合成数据及实际验证材料纳入版本管理。
 
-已保留不同真实执行路径；正式笔试提交仍需候选人据实补充个人贡献、个人用时与解释，并提交官方题号、仓库 URL 和最终 commit SHA（执行 `git rev-parse HEAD` 获取）。这些个人信息尚待本人提供，不能按题目排列顺序推定题号。小样例通过不代表未测场景都可靠。
+正式提交信息：官方题号 **2**，题名“内容任务规划 Agent”；仓库 URL 如上。个人贡献、约 3 小时的投入估算和复盘已写入对应文档。最终 commit SHA 请在提交前执行 `git rev-parse HEAD` 获取，并填写考试系统；后续发生提交时需更新 SHA。本仓库未代为向考试系统提交，小样例通过不代表未测场景都可靠。
