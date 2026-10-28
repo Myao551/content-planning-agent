@@ -17,12 +17,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "f2c22b81-fe8c-4df9-9ef6-e6915bfb5ad6",
+        "solution_id": "d73b3967-57fa-4b44-8073-03082fde1b10",
         "saved_at": "2030-01-01T10:03:31+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/01-normal/e33f1f06-dd4a-4105-b79a-edab4bf4547c",
+      "evidence": "examples/mock/01-normal/8fd9f9b4-591f-46c1-91ef-e4608412fe4e",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -44,7 +44,7 @@
         "readback_verified": false
       },
       "reason_code": "missing_information",
-      "evidence": "examples/mock/02-missing-budget/19e3669a-37ed-4142-a1ea-496d1dac9995",
+      "evidence": "examples/mock/02-missing-budget/e60b727d-0eab-4044-b775-5bf628c3811a",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -66,7 +66,7 @@
         "readback_verified": false
       },
       "reason_code": "missing_information",
-      "evidence": "examples/mock/03-missing-deadline/18389245-93d3-4b72-8611-3245bba2e6b5",
+      "evidence": "examples/mock/03-missing-deadline/4efefbe2-acd0-45b3-9e6a-93cf8473790b",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -88,12 +88,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "a3d2523b-31b3-4fc3-b613-8cbd2c1df540",
+        "solution_id": "a1829017-1e7d-4876-b512-f347bebd0429",
         "saved_at": "2030-01-01T10:02:01+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/04-budget-replan/8f43846d-8927-4b11-977a-744f8ff9ba89",
+      "evidence": "examples/mock/04-budget-replan/6c878ce5-2eb3-43ca-875e-2bbb15ebe0f3",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -115,7 +115,7 @@
         "readback_verified": false
       },
       "reason_code": "budget_exceeded",
-      "evidence": "examples/mock/05-infeasible/6079885f-ec6b-4f61-a328-417c64d4133f",
+      "evidence": "examples/mock/05-infeasible/539fa0a3-b73e-47e4-847f-b98796a71fd7",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -135,12 +135,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "31b3e4fa-c1b7-45a9-92dd-228ebc528272",
+        "solution_id": "0313807f-897a-4d6a-9aa6-8e17434abf3b",
         "saved_at": "2030-01-01T10:03:31+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/06-tool-failure/6287a28f-7355-422a-97db-fb34017c48e6",
+      "evidence": "examples/mock/06-tool-failure/30824501-f187-474c-8af4-da2dc84f7ef6",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -163,10 +163,10 @@
         "readback_verified": true,
         "saved": true,
         "saved_at": "2030-01-01T10:03:31+08:00",
-        "solution_id": "f2c22b81-fe8c-4df9-9ef6-e6915bfb5ad6"
+        "solution_id": "d73b3967-57fa-4b44-8073-03082fde1b10"
       },
       "reason_code": "",
-      "evidence": "examples/mock/07-repeat/e33f1f06-dd4a-4105-b79a-edab4bf4547c",
+      "evidence": "examples/mock/07-repeat/8fd9f9b4-591f-46c1-91ef-e4608412fe4e",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -189,7 +189,7 @@
         "readback_verified": false
       },
       "reason_code": "injected_tool_failure",
-      "evidence": "examples/mock/08-save-failure/ad150b05-4330-4cd0-966f-15aa5a510233",
+      "evidence": "examples/mock/08-save-failure/54b41758-7e77-4c99-a670-94eb19d4323f",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -209,12 +209,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "3fe197ca-6471-4415-a0a3-551f9d1d0506",
+        "solution_id": "1c6034ab-da4f-4b92-87c3-ee26ba32b318",
         "saved_at": "2030-01-01T10:01:31+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/09-deadline/9694964b-06c3-44d6-9bcd-08527d68c706",
+      "evidence": "examples/mock/09-deadline/4a9daf1e-a220-4ecd-bcc6-4a1ba2213cc2",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -236,7 +236,7 @@
         "readback_verified": false
       },
       "reason_code": "missing_information",
-      "evidence": "examples/mock/10-missing-material/6903a308-cf10-4095-bace-8a01483af585",
+      "evidence": "examples/mock/10-missing-material/c4768c43-df78-45c4-939f-cc07ec9aeeb0",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -253,7 +253,7 @@
         "saved": false
       },
       "reason_code": "request_conflict",
-      "evidence": "examples/mock/11-request-conflict/0d24a242-70f3-4e83-adc8-12f054b17361",
+      "evidence": "examples/mock/11-request-conflict/9e25d534-ccc7-44e3-ade2-a3b2d310d7f3",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -275,7 +275,7 @@
         "readback_verified": false
       },
       "reason_code": "step_limit",
-      "evidence": "examples/mock/12-step-limit/58a53dab-c11f-4b7c-85be-225c7348ce7f",
+      "evidence": "examples/mock/12-step-limit/ff58e34c-e6fa-4ca4-8b51-d3865d468d07",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -296,12 +296,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "0ee0fa53-9187-4f6c-88b0-7f33bb1f555a",
+        "solution_id": "c15fd071-c448-41e4-a912-fd965bfab0e1",
         "saved_at": "2030-01-01T10:05:01+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/13-charged-failure/53b5bab9-c65c-42db-8179-99b1a548b6de",
+      "evidence": "examples/mock/13-charged-failure/56f94475-979d-40a8-b17c-4cc638175749",
       "mode": "mock",
       "real_api_requests": 0
     },
@@ -322,12 +322,12 @@
       },
       "solution": {
         "saved": true,
-        "solution_id": "9af8ea5d-02e3-4198-8ce1-d077ee77b896",
+        "solution_id": "595e9df6-132e-4fb9-9603-0b941b6db25c",
         "saved_at": "2030-01-01T10:01:31+08:00",
         "readback_verified": true
       },
       "reason_code": "",
-      "evidence": "examples/mock/14-changed-prices/ce53abe8-750d-4331-90aa-3d580fa0abf4",
+      "evidence": "examples/mock/14-changed-prices/038e7d34-5c17-4db6-96d1-705236031389",
       "mode": "mock",
       "real_api_requests": 0
     }

@@ -1,0 +1,91 @@
+"""A bounded real API evaluation. Credentials stay in memory and never enter artifacts."""
+import argparse
+import json
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from uuid import uuid4
+
+from content_planner.agent import Agent
+from content_planner.bailian import BailianModelClient, Credentials
+from content_planner.policy import Catalog
+from content_planner.schemas import DemoConfig, Limits, milliunits
+from content_planner.storage import Storage
+from content_planner.trace import export_evidence, write_json
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--api-key-file", type=Path, required=True)
+    parser.add_argument("--model", default="qwen3.8-flash")
+    parser.add_argument("--cases", nargs="+", choices=["normal", "replan", "failure", "missing", "repeat", "infeasible"],
+                        default=["normal", "replan", "failure", "missing", "repeat", "infeasible"])
+    args = parser.parse_args()
+    root = Path(__file__).resolve().parents[1]
+    credentials = Credentials.load(args.api_key_file)
+    batch = str(uuid4())
+    output = root / "examples" / "real" / batch
+    output.mkdir(parents=True)
+    base = {"request_id": "real-normal-" + batch, "theme": "为便携咖啡杯策划新品营销视频内容活动", "product_id": "P001",
+            "budget_units": "20.000", "deadline_at": (datetime.now(timezone(timedelta(hours=8))) + timedelta(hours=1)).isoformat()}
+    rows = []
+    store = Storage(root / ".runtime" / ("real-" + batch + ".db"))
+    total_tokens, total_calls = 0, 0
+    try:
+        for name in args.cases:
+            if name not in {"missing", "repeat"} and (total_calls >= 60 or total_tokens >= 150000):
+                rows.append({"case": name, "skipped": True, "reason": "达到本批请求或 token 预算上限"})
+                continue
+            raw = {**base, "request_id": "real-" + name + "-" + batch}
+            if name == "repeat":
+                if not any(r.get("case") == "normal" for r in rows):
+                    raise ValueError("repeat 必须在同一批 normal 之后运行")
+                raw = dict(base)
+            if name == "replan":
+                raw["budget_units"] = "10.000"
+            if name == "missing":
+                del raw["budget_units"]
+            if name == "infeasible":
+                raw["budget_units"] = "0.000"
+            demo = DemoConfig.model_validate({"faults": [{"tool": "generate_script", "times": 1}] if name == "failure" else []})
+            client = BailianModelClient(credentials, args.model)
+            result, state = Agent(store, Catalog(), model=client, limits=Limits(), demo=demo).run(raw)
+            directory = export_evidence(state, result, output / name)
+            usage = result["provider_usage"]
+            total_calls += usage["real_api_requests"]
+            total_tokens += (usage.get("tokens") or {}).get("total_tokens", 0)
+            expected = "needs_input" if name == "missing" else "incomplete" if name == "infeasible" else "completed"
+            checks = {"expected_status": result["status"] == expected, "real_mode": result["mode"] == "real"}
+            if result["status"] == "completed":
+                checks.update(saved=result["solution"]["saved"] and result["solution"]["readback_verified"],
+                              within_budget=milliunits(result["costs"]["latest_estimate"]["projected_total_units"]) <= milliunits(raw["budget_units"]))
+            if name == "repeat":
+                checks["no_new_api_requests"] = result.get("replayed", False) and usage["real_api_requests"] == 0
+            if name == "replan" and state:
+                checks["observed_over_budget_and_changed"] = len(state["plan_versions"]) >= 2 and any(
+                    e.get("tool") == "estimate_cost" and e.get("ok") and not e["data"]["feasible"] for e in state["events"])
+            if name == "failure" and state:
+                checks["failure_observed"] = any(e.get("error_code") == "injected_tool_failure" for e in state["events"])
+                checks["successful_materials_retained"] = bool(state["retrieval"])
+            if name == "infeasible" and state:
+                checks["budget_rejection_observed"] = not state["solution"] and any(
+                    e.get("tool") == "estimate_cost" and e.get("ok") and e["data"]["budget_gap_units"] != "0.000"
+                    for e in state["events"])
+            row = {"case": name, "expected": expected, "actual": result["status"], "reason_code": result["reason_code"],
+                   "checks": checks, "passed": all(checks.values()), "api_requests": usage["real_api_requests"],
+                   "tokens": (usage.get("tokens") or {}).get("total_tokens"), "wall_seconds": state["wall_seconds"] if state else None,
+                   "evidence": str(directory.relative_to(root)), "tier": result.get("plan", {}).get("tier") if result.get("plan") else None}
+            rows.append(row)
+            print(json.dumps(row, ensure_ascii=False), flush=True)
+    finally:
+        store.close()
+    report = {"batch_id": batch, "model": args.model, "provider": "aliyun_bailian", "cases": rows,
+              "api_requests": total_calls, "total_tokens": total_tokens, "actual_money": None,
+              "billing_note": "API 返回 token 使用量；未查询账单，不能断言完全免费或实际金额",
+              "scope": "真实模型决策和严格事实脚本；业务服务、商品与计费均为本地合成", "all_passed": all(r.get("passed", False) for r in rows)}
+    write_json(output / "report.json", report)
+    print(json.dumps({"report": str((output / "report.json").relative_to(root)), "api_requests": total_calls, "total_tokens": total_tokens}, ensure_ascii=False))
+    return 0 if report["all_passed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

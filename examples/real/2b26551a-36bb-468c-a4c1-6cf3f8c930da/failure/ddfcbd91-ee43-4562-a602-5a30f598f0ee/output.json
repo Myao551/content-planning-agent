@@ -1,0 +1,719 @@
+{
+  "request_id": "real-failure-2b26551a-36bb-468c-a4c1-6cf3f8c930da",
+  "task_id": "3cea60cb-369e-44b7-bdb6-c88451ed1f44",
+  "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+  "mode": "real",
+  "model_driver": "aliyun_bailian",
+  "validation_scope": "真实模型调用与本地合成业务工具",
+  "status": "completed",
+  "reason_code": "",
+  "explanation": "便携咖啡杯（P001）新品营销视频方案已完成并保存：采用standard档位，基于素材M001（外观：容量350毫升、黑白色款）与M002（说明：附带杯盖）生成事实型中文短视频脚本《便携咖啡杯新品营销方案》。复核估算显示预计总费用12.000单位（低于预算20.000），完成时间2026-10-28T10:04:03Z（早于截止时间2026-10-28T18:59:41+08:00），可行性确认。保存回执：solution_id 0b230375-30ec-4318-96c5-a0857588c15b，artifact_id 46be9b9f-ed71-4b9a-8886-eba7c2cf10fe。注：方案保存为模拟资源核算，不代表实际视频制作或广告投放已执行。",
+  "replayed": false,
+  "plan": {
+    "id": "plan-1",
+    "tier": "standard",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "id": "materials",
+        "action": "search_materials",
+        "depends_on": []
+      },
+      {
+        "id": "script",
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ]
+      },
+      {
+        "id": "verification",
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ]
+      },
+      {
+        "id": "save",
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ]
+      }
+    ]
+  },
+  "plan_versions": [
+    {
+      "id": "plan-1",
+      "tier": "standard",
+      "material_ids": [
+        "M001",
+        "M002"
+      ],
+      "steps": [
+        {
+          "id": "materials",
+          "action": "search_materials",
+          "depends_on": []
+        },
+        {
+          "id": "script",
+          "action": "generate_script",
+          "depends_on": [
+            "materials"
+          ]
+        },
+        {
+          "id": "verification",
+          "action": "estimate_cost",
+          "depends_on": [
+            "script"
+          ]
+        },
+        {
+          "id": "save",
+          "action": "save_solution",
+          "depends_on": [
+            "verification"
+          ]
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "seq": 2,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:33.737875+00:00",
+      "plan_id": null,
+      "call_id": "498779e4-a9b3-4bed-a4d6-33466eaa0cb0",
+      "tool": "search_materials",
+      "parameters": {
+        "query": "便携咖啡杯 产品事实 卖点 素材 新品营销 短视频",
+        "product_id": "P001"
+      },
+      "provider_call_id": "call_700a666eca164d83a1af2369",
+      "attempt_key": "8faca4aa8661730cf26915b6dd3922d30de5d2e76940073d91bda513049d84f3",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "product": {
+          "id": "P001",
+          "name": "便携咖啡杯",
+          "keywords": [
+            "咖啡杯",
+            "通勤",
+            "coffee",
+            "cup"
+          ],
+          "facts": [
+            "容量 350 毫升",
+            "附带杯盖",
+            "提供黑色和白色款式"
+          ]
+        },
+        "materials": [
+          {
+            "id": "M001",
+            "product_id": "P001",
+            "kind": "reusable",
+            "title": "咖啡杯外观素材",
+            "keywords": [
+              "咖啡杯",
+              "通勤",
+              "外观",
+              "coffee"
+            ],
+            "facts": [
+              "容量 350 毫升",
+              "提供黑色和白色款式"
+            ],
+            "match_reason": "商品标识匹配",
+            "score": 1
+          },
+          {
+            "id": "M002",
+            "product_id": "P001",
+            "kind": "reference",
+            "title": "咖啡杯商品说明",
+            "keywords": [
+              "咖啡杯",
+              "商品",
+              "cup"
+            ],
+            "facts": [
+              "附带杯盖"
+            ],
+            "match_reason": "商品标识匹配",
+            "score": 1
+          }
+        ],
+        "missing": []
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    },
+    {
+      "seq": 4,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:36.656096+00:00",
+      "plan_id": "plan-1",
+      "call_id": "12993ef5-7c84-4f61-9c12-dfea28b42a2a",
+      "tool": "update_plan",
+      "parameters": {
+        "tier": "standard",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "steps": [
+          {
+            "action": "search_materials",
+            "depends_on": [],
+            "id": "materials"
+          },
+          {
+            "action": "generate_script",
+            "depends_on": [
+              "materials"
+            ],
+            "id": "script"
+          },
+          {
+            "action": "estimate_cost",
+            "depends_on": [
+              "script"
+            ],
+            "id": "verification"
+          },
+          {
+            "action": "save_solution",
+            "depends_on": [
+              "verification"
+            ],
+            "id": "save"
+          }
+        ]
+      },
+      "provider_call_id": "call_e72f121edef24200bf51753b",
+      "attempt_key": "09547b306a7f0935677b304ef6f6338af39619cbff87c82dd6a346fd57ab4580",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "id": "plan-1",
+        "tier": "standard",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "steps": [
+          {
+            "id": "materials",
+            "action": "search_materials",
+            "depends_on": []
+          },
+          {
+            "id": "script",
+            "action": "generate_script",
+            "depends_on": [
+              "materials"
+            ]
+          },
+          {
+            "id": "verification",
+            "action": "estimate_cost",
+            "depends_on": [
+              "script"
+            ]
+          },
+          {
+            "id": "save",
+            "action": "save_solution",
+            "depends_on": [
+              "verification"
+            ]
+          }
+        ]
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    },
+    {
+      "seq": 6,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:38.104125+00:00",
+      "plan_id": "plan-1",
+      "call_id": "78b3747f-7f5d-44ad-8a40-7a18539ec499",
+      "tool": "estimate_cost",
+      "parameters": {
+        "plan_id": "plan-1"
+      },
+      "provider_call_id": "call_7992366ff52e493da42c73a2",
+      "attempt_key": "a7900f6fdd1c1ae1438a3eccb6b6588b6448dc6c90a8ebee9d3ab69690959d00",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "signature": "846536f3d5a2f3cdb57dd96ad68ab24359a2c6e53a0a730757eb4ec5693dd790",
+        "plan_id": "plan-1",
+        "simulated_spent_units": "0.000",
+        "remaining_tool_units": "4.000",
+        "planned_resource_units": "8.000",
+        "projected_total_units": "12.000",
+        "budget_units": "20.000",
+        "budget_gap_units": "0.000",
+        "estimated_finish_at": "2026-10-28T10:04:03.119382+00:00",
+        "deadline_at": "2026-10-28T18:59:41.922739+08:00",
+        "remaining_seconds": 181,
+        "time_gap_seconds": 0,
+        "feasible": true
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    },
+    {
+      "seq": 8,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:40.851374+00:00",
+      "plan_id": "plan-1",
+      "call_id": "561f68b2-9c77-4e9a-878a-fc8678f9177c",
+      "tool": "generate_script",
+      "parameters": {
+        "language": "zh-CN",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "plan_id": "plan-1",
+        "style": "factual"
+      },
+      "provider_call_id": "call_9c740db93a104e07a1e61483",
+      "attempt_key": "6964a943fd9c8b5d6e7d703a487e0dc78f7c713452767345035542477cfbfd79",
+      "ok": false,
+      "retryable": true,
+      "error_code": "injected_tool_failure",
+      "summary": "已注入工具失败（执行前，无费用）",
+      "data": null,
+      "charged_units": "0.000",
+      "status": "failed",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    },
+    {
+      "seq": 10,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:46.013656+00:00",
+      "plan_id": "plan-1",
+      "call_id": "74b1f287-4d6c-4edf-adbe-22d64a958b29",
+      "tool": "generate_script",
+      "parameters": {
+        "language": "zh-CN",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "plan_id": "plan-1",
+        "style": "factual"
+      },
+      "provider_call_id": "call_5cbb40eed0754ea0af532c24",
+      "attempt_key": "6964a943fd9c8b5d6e7d703a487e0dc78f7c713452767345035542477cfbfd79",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "artifact_id": "46be9b9f-ed71-4b9a-8886-eba7c2cf10fe",
+        "cached": false,
+        "script": {
+          "title": "便携咖啡杯新品营销方案",
+          "segments": [
+            {
+              "text": "容量 350 毫升",
+              "source_ids": [
+                "M001"
+              ]
+            },
+            {
+              "text": "提供黑色和白色款式",
+              "source_ids": [
+                "M001"
+              ]
+            },
+            {
+              "text": "附带杯盖",
+              "source_ids": [
+                "M002"
+              ]
+            }
+          ],
+          "generation_note": "由真实模型在严格事实引用约束下生成。所有文本片段均逐字复制自给定素材的 facts 字段，未添加任何未给出的功效、效果或保温描述。标题仅包含商品名称及中性方案名。",
+          "id": "46be9b9f-ed71-4b9a-8886-eba7c2cf10fe",
+          "fingerprint": "bd27932ea8474a2b193e7059ef04125c42f65726f5b11b91d45176569d8ed5cc",
+          "mode": "real",
+          "material_ids": [
+            "M001",
+            "M002"
+          ]
+        }
+      },
+      "charged_units": "4.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 210,
+      "simulated_spent_units": "4.000"
+    },
+    {
+      "seq": 12,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:47.803425+00:00",
+      "plan_id": "plan-1",
+      "call_id": "77b86740-fd25-4738-a438-f5e29e3c66b0",
+      "tool": "estimate_cost",
+      "parameters": {
+        "plan_id": "plan-1"
+      },
+      "provider_call_id": "call_f9d1ee903be44ae48bd7265b",
+      "attempt_key": "a7900f6fdd1c1ae1438a3eccb6b6588b6448dc6c90a8ebee9d3ab69690959d00",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "signature": "253b196194161eaa14fce6fd3567100f53c71411a6bd0f84e11d8d967c94c315",
+        "plan_id": "plan-1",
+        "simulated_spent_units": "4.000",
+        "remaining_tool_units": "0.000",
+        "planned_resource_units": "8.000",
+        "projected_total_units": "12.000",
+        "budget_units": "20.000",
+        "budget_gap_units": "0.000",
+        "estimated_finish_at": "2026-10-28T10:04:03.119382+00:00",
+        "deadline_at": "2026-10-28T18:59:41.922739+08:00",
+        "remaining_seconds": 1,
+        "time_gap_seconds": 0,
+        "feasible": true
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 210,
+      "simulated_spent_units": "4.000"
+    },
+    {
+      "seq": 14,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:50.842793+00:00",
+      "plan_id": "plan-1",
+      "call_id": "f4cf045a-8fb3-442f-a6c9-b58d2b469117",
+      "tool": "save_solution",
+      "parameters": {
+        "plan_id": "plan-1",
+        "artifact_id": "46be9b9f-ed71-4b9a-8886-eba7c2cf10fe"
+      },
+      "provider_call_id": "call_6ad298f10f65483981e2b7e2",
+      "attempt_key": "d21cb31fda53ca778089d4f779f5069d271022eda85215e1b7a8fc5d6e8f681b",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "solution_id": "0b230375-30ec-4318-96c5-a0857588c15b",
+        "saved_at": "2026-10-28T10:04:03.119382+00:00",
+        "saved": true
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 211,
+      "simulated_spent_units": "4.000"
+    },
+    {
+      "seq": 16,
+      "kind": "action_result",
+      "run_id": "ddfcbd91-ee43-4562-a602-5a30f598f0ee",
+      "timestamp": "2026-10-28T10:00:55.850473+00:00",
+      "plan_id": "plan-1",
+      "call_id": "1c7330f3-3738-401e-a32a-df2cae4531ac",
+      "tool": "finish_task",
+      "parameters": {
+        "status": "completed",
+        "explanation": "便携咖啡杯（P001）新品营销视频方案已完成并保存：采用standard档位，基于素材M001（外观：容量350毫升、黑白色款）与M002（说明：附带杯盖）生成事实型中文短视频脚本《便携咖啡杯新品营销方案》。复核估算显示预计总费用12.000单位（低于预算20.000），完成时间2026-10-28T10:04:03Z（早于截止时间2026-10-28T18:59:41+08:00），可行性确认。保存回执：solution_id 0b230375-30ec-4318-96c5-a0857588c15b，artifact_id 46be9b9f-ed71-4b9a-8886-eba7c2cf10fe。注：方案保存为模拟资源核算，不代表实际视频制作或广告投放已执行。",
+        "reason_code": ""
+      },
+      "provider_call_id": "call_fda56ecee7a349b1aa535d11",
+      "attempt_key": "799b5e119c2e47c062e9ada28ed73cce9262132f2e1e64ddbdc31842bb4de726",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "status": "completed"
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "completed",
+      "simulated_seconds": 211,
+      "simulated_spent_units": "4.000"
+    }
+  ],
+  "costs": {
+    "simulated_spent_units": "4.000",
+    "latest_estimate": {
+      "signature": "88ec16bf765f24e375e8eb0589308140c21a37b823ae47dde6a1006641cf89f8",
+      "plan_id": "plan-1",
+      "simulated_spent_units": "4.000",
+      "remaining_tool_units": "0.000",
+      "planned_resource_units": "8.000",
+      "projected_total_units": "12.000",
+      "budget_units": "20.000",
+      "budget_gap_units": "0.000",
+      "estimated_finish_at": "2026-10-28T10:04:03.119382+00:00",
+      "deadline_at": "2026-10-28T18:59:41.922739+08:00",
+      "remaining_seconds": 0,
+      "time_gap_seconds": 0,
+      "feasible": true
+    }
+  },
+  "timing": {
+    "deadline_at": "2026-10-28T18:59:41.922739+08:00",
+    "simulated_seconds": 211,
+    "wall_seconds": 23.733633
+  },
+  "solution": {
+    "saved": true,
+    "solution_id": "0b230375-30ec-4318-96c5-a0857588c15b",
+    "saved_at": "2026-10-28T10:04:03.119382+00:00",
+    "readback_verified": true
+  },
+  "missing_fields": [],
+  "questions": [],
+  "retained_artifacts": [
+    {
+      "title": "便携咖啡杯新品营销方案",
+      "segments": [
+        {
+          "text": "容量 350 毫升",
+          "source_ids": [
+            "M001"
+          ]
+        },
+        {
+          "text": "提供黑色和白色款式",
+          "source_ids": [
+            "M001"
+          ]
+        },
+        {
+          "text": "附带杯盖",
+          "source_ids": [
+            "M002"
+          ]
+        }
+      ],
+      "generation_note": "由真实模型在严格事实引用约束下生成。所有文本片段均逐字复制自给定素材的 facts 字段，未添加任何未给出的功效、效果或保温描述。标题仅包含商品名称及中性方案名。",
+      "id": "46be9b9f-ed71-4b9a-8886-eba7c2cf10fe",
+      "fingerprint": "bd27932ea8474a2b193e7059ef04125c42f65726f5b11b91d45176569d8ed5cc",
+      "mode": "real",
+      "material_ids": [
+        "M001",
+        "M002"
+      ]
+    }
+  ],
+  "provider_usage": {
+    "real_api_requests": 9,
+    "tokens": {
+      "prompt_tokens": 45672,
+      "completion_tokens": 1389,
+      "total_tokens": 47061
+    },
+    "usage_complete": true,
+    "money": null,
+    "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+    "requests": [
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 2414,
+          "total_tokens": 2519,
+          "completion_tokens": 105,
+          "prompt_tokens_details": {
+            "cached_tokens": 2048,
+            "text_tokens": 2414
+          }
+        },
+        "response_id": "chatcmpl-7c202b71-ec09-97c2-8d3b-f1ed02b39aae",
+        "status": "received",
+        "latency_seconds": 1.611915
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 3754,
+          "total_tokens": 3958,
+          "completion_tokens": 204,
+          "prompt_tokens_details": {
+            "cached_tokens": 2048,
+            "text_tokens": 3754
+          }
+        },
+        "response_id": "chatcmpl-4bcaa085-4528-9cc9-8236-651b1fb05b55",
+        "status": "received",
+        "latency_seconds": 2.911622
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 4588,
+          "total_tokens": 4657,
+          "completion_tokens": 69,
+          "prompt_tokens_details": {
+            "cached_tokens": 2048,
+            "text_tokens": 4588
+          }
+        },
+        "response_id": "chatcmpl-8b091697-5119-9f1c-8a36-f6f6934db196",
+        "status": "received",
+        "latency_seconds": 1.439977
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 5526,
+          "total_tokens": 5665,
+          "completion_tokens": 139,
+          "prompt_tokens_details": {
+            "cached_tokens": 3072,
+            "text_tokens": 5526
+          }
+        },
+        "response_id": "chatcmpl-a5fbd87a-bcf0-9985-b32f-71941290ce64",
+        "status": "received",
+        "latency_seconds": 2.737364
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 5856,
+          "total_tokens": 5983,
+          "completion_tokens": 127,
+          "prompt_tokens_details": {
+            "cached_tokens": 4096,
+            "text_tokens": 5856
+          }
+        },
+        "response_id": "chatcmpl-9749f5f6-753b-9b6d-a00b-bfe7c0bf8881",
+        "status": "received",
+        "latency_seconds": 2.427159
+      },
+      {
+        "kind": "script",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 296,
+          "total_tokens": 485,
+          "completion_tokens": 189,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "text_tokens": 296
+          }
+        },
+        "response_id": "chatcmpl-387a1b63-d725-925f-9aba-2892662a5fb9",
+        "status": "received",
+        "latency_seconds": 2.72703
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 6953,
+          "total_tokens": 7033,
+          "completion_tokens": 80,
+          "prompt_tokens_details": {
+            "cached_tokens": 4096,
+            "text_tokens": 6953
+          }
+        },
+        "response_id": "chatcmpl-81a1fffc-7f70-9117-b5d3-c1da2d5b0012",
+        "status": "received",
+        "latency_seconds": 1.776979
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 7539,
+          "total_tokens": 7666,
+          "completion_tokens": 127,
+          "prompt_tokens_details": {
+            "cached_tokens": 5376,
+            "text_tokens": 7539
+          }
+        },
+        "response_id": "chatcmpl-48e8bba2-2a60-9b5a-866f-3432ca92890b",
+        "status": "received",
+        "latency_seconds": 3.032287
+      },
+      {
+        "kind": "decision",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "prompt_tokens": 8746,
+          "total_tokens": 9095,
+          "completion_tokens": 349,
+          "prompt_tokens_details": {
+            "cached_tokens": 6144,
+            "text_tokens": 8746
+          }
+        },
+        "response_id": "chatcmpl-2ea22c40-c6f0-928b-ab7d-c22c53ae91e4",
+        "status": "received",
+        "latency_seconds": 4.998071
+      }
+    ]
+  },
+  "limits": {
+    "configured": {
+      "max_steps": 12,
+      "max_tools": 10,
+      "max_model_calls": 16,
+      "max_runtime_seconds": 180,
+      "max_attempts": 2
+    },
+    "used": {
+      "steps": 8,
+      "tools": 6,
+      "model_calls": 9
+    }
+  }
+}

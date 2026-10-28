@@ -113,8 +113,8 @@ class Tools:
             selected = {i: self.catalog.materials[i] for i in state["plan"]["material_ids"]}
             for segment in generated["segments"]:
                 if any(i not in selected or segment["text"] not in selected[i]["facts"] for i in segment["source_ids"]):
-                    raise BusinessError("unsupported_fact", "离线脚本只允许逐条引用所选素材的事实")
-            artifact = {**generated, "id": str(uuid4()), "fingerprint": script_key(state), "mode": "mock",
+                    raise BusinessError("unsupported_fact", "当前严格事实模式只允许逐条引用所选素材的事实")
+            artifact = {**generated, "id": str(uuid4()), "fingerprint": script_key(state), "mode": state.get("mode", "mock"),
                         "material_ids": list(state["plan"]["material_ids"])}
             state["artifacts"][artifact["id"]] = artifact
             self.charge(state, call_id, self.catalog.pricing["tiers"][state["plan"]["tier"]]["script_milliunits"],

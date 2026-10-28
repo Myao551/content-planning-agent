@@ -1,0 +1,295 @@
+{
+  "request_id": "12-step-limit",
+  "task_id": "a56f6aee-e1c2-4d18-85a7-11130309629a",
+  "run_id": "ff58e34c-e6fa-4ca4-8b51-d3865d468d07",
+  "mode": "mock",
+  "model_driver": "mock",
+  "validation_scope": "离线流程已验证，真实模型决策待验证",
+  "status": "incomplete",
+  "reason_code": "step_limit",
+  "explanation": "Agent 动作轮数达到上限",
+  "replayed": false,
+  "plan": {
+    "id": "plan-1",
+    "tier": "standard",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "id": "materials",
+        "action": "search_materials",
+        "depends_on": []
+      },
+      {
+        "id": "script",
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ]
+      },
+      {
+        "id": "verification",
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ]
+      },
+      {
+        "id": "save",
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ]
+      }
+    ]
+  },
+  "plan_versions": [
+    {
+      "id": "plan-1",
+      "tier": "standard",
+      "material_ids": [
+        "M001",
+        "M002"
+      ],
+      "steps": [
+        {
+          "id": "materials",
+          "action": "search_materials",
+          "depends_on": []
+        },
+        {
+          "id": "script",
+          "action": "generate_script",
+          "depends_on": [
+            "materials"
+          ]
+        },
+        {
+          "id": "verification",
+          "action": "estimate_cost",
+          "depends_on": [
+            "script"
+          ]
+        },
+        {
+          "id": "save",
+          "action": "save_solution",
+          "depends_on": [
+            "verification"
+          ]
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "seq": 2,
+      "kind": "action_result",
+      "run_id": "ff58e34c-e6fa-4ca4-8b51-d3865d468d07",
+      "timestamp": "2030-01-01T10:00:00+08:00",
+      "plan_id": null,
+      "call_id": "ebf6b7e7-dc9d-4fbd-adff-16eb7d20938b",
+      "tool": "search_materials",
+      "parameters": {
+        "query": "为便携咖啡杯策划新品营销视频内容活动",
+        "product_id": "P001"
+      },
+      "provider_call_id": null,
+      "attempt_key": "ed87acf267bbc473af81295d670c4dbbf924322ab90f149930a0e64a9cb81ed1",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "product": {
+          "id": "P001",
+          "name": "便携咖啡杯",
+          "keywords": [
+            "咖啡杯",
+            "通勤",
+            "coffee",
+            "cup"
+          ],
+          "facts": [
+            "容量 350 毫升",
+            "附带杯盖",
+            "提供黑色和白色款式"
+          ]
+        },
+        "materials": [
+          {
+            "id": "M001",
+            "product_id": "P001",
+            "kind": "reusable",
+            "title": "咖啡杯外观素材",
+            "keywords": [
+              "咖啡杯",
+              "通勤",
+              "外观",
+              "coffee"
+            ],
+            "facts": [
+              "容量 350 毫升",
+              "提供黑色和白色款式"
+            ],
+            "match_reason": "商品标识匹配",
+            "score": 1
+          },
+          {
+            "id": "M002",
+            "product_id": "P001",
+            "kind": "reference",
+            "title": "咖啡杯商品说明",
+            "keywords": [
+              "咖啡杯",
+              "商品",
+              "cup"
+            ],
+            "facts": [
+              "附带杯盖"
+            ],
+            "match_reason": "商品标识匹配",
+            "score": 1
+          }
+        ],
+        "missing": []
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    },
+    {
+      "seq": 4,
+      "kind": "action_result",
+      "run_id": "ff58e34c-e6fa-4ca4-8b51-d3865d468d07",
+      "timestamp": "2030-01-01T10:00:00+08:00",
+      "plan_id": "plan-1",
+      "call_id": "499dc717-470b-4b15-89cd-c841ef1341bb",
+      "tool": "update_plan",
+      "parameters": {
+        "tier": "standard",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "steps": [
+          {
+            "id": "materials",
+            "action": "search_materials",
+            "depends_on": []
+          },
+          {
+            "id": "script",
+            "action": "generate_script",
+            "depends_on": [
+              "materials"
+            ]
+          },
+          {
+            "id": "verification",
+            "action": "estimate_cost",
+            "depends_on": [
+              "script"
+            ]
+          },
+          {
+            "id": "save",
+            "action": "save_solution",
+            "depends_on": [
+              "verification"
+            ]
+          }
+        ]
+      },
+      "provider_call_id": null,
+      "attempt_key": "09547b306a7f0935677b304ef6f6338af39619cbff87c82dd6a346fd57ab4580",
+      "ok": true,
+      "retryable": false,
+      "error_code": "",
+      "summary": "动作执行成功",
+      "data": {
+        "id": "plan-1",
+        "tier": "standard",
+        "material_ids": [
+          "M001",
+          "M002"
+        ],
+        "steps": [
+          {
+            "id": "materials",
+            "action": "search_materials",
+            "depends_on": []
+          },
+          {
+            "id": "script",
+            "action": "generate_script",
+            "depends_on": [
+              "materials"
+            ]
+          },
+          {
+            "id": "verification",
+            "action": "estimate_cost",
+            "depends_on": [
+              "script"
+            ]
+          },
+          {
+            "id": "save",
+            "action": "save_solution",
+            "depends_on": [
+              "verification"
+            ]
+          }
+        ]
+      },
+      "charged_units": "0.000",
+      "status": "succeeded",
+      "task_status": "running",
+      "simulated_seconds": 30,
+      "simulated_spent_units": "0.000"
+    }
+  ],
+  "costs": {
+    "simulated_spent_units": "0.000",
+    "latest_estimate": null
+  },
+  "timing": {
+    "deadline_at": "2030-01-01T10:30:00+08:00",
+    "simulated_seconds": 30,
+    "wall_seconds": 0.005304
+  },
+  "solution": {
+    "saved": false,
+    "solution_id": null,
+    "saved_at": null,
+    "readback_verified": false
+  },
+  "missing_fields": [],
+  "questions": [],
+  "retained_artifacts": [],
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": null,
+    "money": null,
+    "mock_driver_calls": 2
+  },
+  "limits": {
+    "configured": {
+      "max_steps": 2,
+      "max_tools": 10,
+      "max_model_calls": 16,
+      "max_runtime_seconds": 180,
+      "max_attempts": 2
+    },
+    "used": {
+      "steps": 2,
+      "tools": 1,
+      "model_calls": 2
+    }
+  }
+}

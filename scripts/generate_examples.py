@@ -124,6 +124,8 @@ def main():
     if (root / "examples" / "installation-check.json").exists():
         report += ["## 安装检查", "", "另在全新虚拟环境安装构建的 wheel，并从仓库外运行 CLI。",
                    "[安装检查结果](../examples/installation-check.json)、[wheel 环境测试输出](../examples/wheel-test-results.txt)。", ""]
+    if (root / "docs" / "06-real-api-evaluation.md").exists():
+        report += ["## 后续真实模型验证", "", "本页上方仅统计离线结果。真实 API 接入和独立记录见 [真实评估](06-real-api-evaluation.md)。", ""]
     (root / "docs" / "03-evaluation.md").write_text("\n".join(report), encoding="utf-8")
     print(json.dumps({"passed": sum(r["passed"] for r in rows), "total": len(rows), "database": str(database)}, ensure_ascii=False))
     return 0 if all(r["passed"] for r in rows) else 1

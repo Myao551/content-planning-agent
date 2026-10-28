@@ -1,0 +1,49 @@
+{
+  "mode": "real",
+  "model_driver": "aliyun_bailian",
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    },
+    "usage_complete": true,
+    "money": null,
+    "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+    "requests": []
+  },
+  "model_config": {
+    "provider": "aliyun_bailian",
+    "model": "qwen3.8-flash",
+    "protocol": "chat_completions_function_calling",
+    "thinking": false,
+    "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55"
+  },
+  "real_api_requests": 0,
+  "validation_scope": "真实模式的预检查或历史结果回放；本次未向模型发送请求",
+  "run_id": "bc1a8c34-fa60-4046-b6d8-2db41d7318f3",
+  "task_id": "5644c1c4-b80e-49f3-98a0-45a8a91769c6",
+  "input_hash": "8f78c8580c327af386dbfab69d3f526e2b6246a2479ce6366672cdf2154d33f4",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_steps": 12,
+    "max_tools": 10,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180,
+    "max_attempts": 2
+  },
+  "demo": {
+    "now_at": null,
+    "faults": []
+  },
+  "started_at": "2026-10-28T10:03:42.983364+00:00",
+  "wall_seconds": 0.002529,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "replayed": false,
+  "implementation_hash": "1add2cc5bd1d88f564061818c3dce5b4929ed5319dcbb5c94efbea765ed57cfe",
+  "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55",
+  "prompt_note": "真实模型系统提示词摘要"
+}

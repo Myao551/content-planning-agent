@@ -27,12 +27,14 @@ def test_cli_round_trip(tmp_path, request_input):
     assert events[-1]["status"] == "completed"
 
 
-def test_real_explicitly_unavailable_without_reading_key(tmp_path):
+def test_real_missing_credentials_never_falls_back(tmp_path, monkeypatch):
+    monkeypatch.delenv("DASHSCOPE_API_KEY", raising=False)
+    monkeypatch.delenv("DASHSCOPE_BASE_URL", raising=False)
     run = invoke("run", "--mode", "real", "--input", tmp_path / "nonexistent.json", "--db", tmp_path / "real.db")
     assert run.returncode == 5
     result = json.loads(run.stdout)
-    assert result["mode"] == "real" and result["model_driver"] is None
-    assert result["reason_code"] == "real_not_implemented"
+    assert result["mode"] == "real"
+    assert result["reason_code"] == "configuration_error"
     assert not (tmp_path / "real.db").exists()
 
 

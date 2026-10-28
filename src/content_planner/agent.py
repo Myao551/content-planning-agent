@@ -12,16 +12,17 @@ from .schemas import Action, DemoConfig, Limits, TaskInput, units
 from .tools import BUSINESS_TOOLS, BusinessError, Tools
 
 
-def simple_result(status, code, message, raw=None):
+def simple_result(status, code, message, raw=None, mode="mock"):
     return {"run_id": str(uuid4()), "task_id": None, "status": status, "reason_code": code, "explanation": message, "input": raw,
-            "mode": "mock", "model_driver": "mock", "solution": {"saved": False},
+            "mode": mode, "model_driver": "aliyun_bailian" if mode == "real" else "mock", "solution": {"saved": False},
             "provider_usage": {"real_api_requests": 0, "tokens": None, "money": None}}
 
 
 def final_result(state):
     solution = state["solution"]
     return {"request_id": state["input"]["request_id"], "task_id": state["task_id"], "run_id": state["run_id"],
-            "mode": "mock", "model_driver": "mock", "validation_scope": "离线流程已验证，真实模型决策待验证",
+            "mode": state.get("mode", "mock"), "model_driver": state.get("model_config", {}).get("provider", "mock"),
+            "validation_scope": "真实模型调用与本地合成业务工具" if state.get("mode") == "real" else "离线流程已验证，真实模型决策待验证",
             "status": state["status"], "reason_code": state["reason_code"], "explanation": state["explanation"],
             "replayed": False, "plan": state["plan"], "plan_versions": state["plan_versions"],
             "steps": [e for e in state["events"] if e["kind"] == "action_result"],
@@ -33,8 +34,8 @@ def final_result(state):
                          "saved_at": solution["saved_at"] if solution else None, "readback_verified": state["readback_verified"]},
             "missing_fields": state["missing_fields"], "questions": state["questions"],
             "retained_artifacts": list(state["artifacts"].values()),
-            "provider_usage": {"real_api_requests": 0, "tokens": None, "money": None,
-                               "mock_driver_calls": state["counts"]["model_calls"]},
+            "provider_usage": state.get("provider_usage", {"real_api_requests": 0, "tokens": None, "money": None,
+                               "mock_driver_calls": state["counts"]["model_calls"]}),
             "limits": {"configured": state["limits"], "used": state["counts"]}}
 
 
@@ -44,6 +45,7 @@ class Agent:
         self.catalog = catalog or Catalog()
         self.clock = clock or Clock()
         self.model = model or MockModelClient()
+        self.mode = getattr(self.model, "mode", "mock")
         self.limits = limits or Limits()
         self.demo = demo or DemoConfig()
         self.tools = Tools(self.catalog, self.clock, self.model, self.limits)
@@ -59,18 +61,25 @@ class Agent:
         try:
             inp = TaskInput.model_validate(raw).model_dump(mode="json")
         except ValidationError as exc:
-            return simple_result("invalid_input", "invalid_input", str(exc), raw), None
+            return simple_result("invalid_input", "invalid_input", str(exc), raw, self.mode), None
         existing = self.storage.get(inp["request_id"])
         if existing:
-            if existing["input_hash"] != digest(inp):
-                return simple_result("invalid_input", "request_conflict", "请求标识已对应不同输入，未覆盖原任务", inp), None
+            config = self.model.config() if self.mode == "real" else {"provider": "mock"}
+            if (existing["input_hash"] != digest(inp) or existing.get("mode", "mock") != self.mode
+                    or existing.get("model_config", config) != config):
+                return simple_result("invalid_input", "request_conflict", "请求标识已对应不同输入或模型配置，未覆盖原任务", inp, self.mode), None
             if existing["status"] == "running":
-                return simple_result("incomplete", "already_running", "任务仍在运行或需要显式恢复", inp), existing
+                return simple_result("incomplete", "already_running", "任务仍在运行或需要显式恢复", inp, self.mode), existing
             result = copy.deepcopy(existing["result"])
             result["replayed"] = True
+            if self.mode == "real":
+                prior_usage = result["provider_usage"]
+                result["provider_usage"] = {"real_api_requests": 0, "tokens": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+                                            "requests": [], "money": None, "usage_complete": True, "source_run_usage": prior_usage}
             return result, existing
         started = time.monotonic()
         state = {"task_id": str(uuid4()), "run_id": str(uuid4()), "input": inp, "raw_input": raw,
+                 "mode": self.mode, "model_config": self.model.config() if self.mode == "real" else {"provider": "mock"},
                  "input_hash": digest(inp), "status": "running", "reason_code": "", "explanation": "",
                  "started_at": self.clock.now().isoformat(), "simulated_seconds": 0, "wall_seconds": 0,
                  "catalog_version": self.catalog.version, "tier_order": self.catalog.rules["tier_order"],
@@ -80,7 +89,7 @@ class Agent:
                  "ledger": [], "artifacts": {}, "solution": None, "events": [], "last_result": None,
                  "missing_fields": [], "questions": [], "result": None, "readback_verified": False}
         if not self.storage.claim(state):
-            return simple_result("incomplete", "already_running", "请求被另一个运行领取", inp), None
+            return simple_result("incomplete", "already_running", "请求被另一个运行领取", inp, self.mode), None
         missing = [k for k in ("budget_units", "deadline_at") if inp[k] is None]
         if missing:
             state.update(status="needs_input", reason_code="missing_information", missing_fields=missing,
@@ -100,12 +109,15 @@ class Agent:
             state["counts"]["steps"] += 1
             state["counts"]["model_calls"] += 1
             try:
+                self.set_timeout(started)
                 action = Action.model_validate(self.model.next_action(copy.deepcopy(state)))
+                self.sync_usage(state)
                 observations = {e["seq"] for e in state["events"] if e["kind"] == "action_result"}
                 if not set(action.observes_event_ids) <= observations:
                     raise ValueError("动作引用了不存在的工具或控制动作结果")
             except Exception as exc:
-                self.stop(state, "driver_error", "离线驱动返回无效动作：" + str(exc))
+                self.sync_usage(state)
+                self.stop(state, "driver_error", "决策驱动未返回有效动作：" + str(exc))
                 break
             self.event(state, "decision", action=action.model_dump(), summary=action.summary)
             self.storage.commit(state)
@@ -117,7 +129,9 @@ class Agent:
                     self.stop(state, "tool_call_limit", "业务工具次数达到上限，未执行本次工具")
                     break
                 state["counts"]["tools"] += 1
+            self.set_timeout(started)
             state = self.perform(state, action)
+            self.sync_usage(state)
             if time.monotonic() - started >= self.limits.max_runtime_seconds:
                 self.stop(state, "runtime_limit", "动作返回时达到实际运行上限，保留已有结果")
         if state["status"] == "completed":
@@ -128,6 +142,7 @@ class Agent:
             elif datetime.fromisoformat(saved["saved_at"]) > datetime.fromisoformat(inp["deadline_at"]):
                 self.stop(state, "deadline_exceeded", "保存时已超过截止时间")
         state["wall_seconds"] = round(time.monotonic() - started, 6)
+        self.sync_usage(state)
         self.event(state, "terminal", status=state["status"], reason_code=state["reason_code"], summary=state["explanation"])
         state["result"] = final_result(state)
         self.storage.commit(state)
@@ -135,6 +150,14 @@ class Agent:
 
     def stop(self, state, code, message):
         state.update(status="incomplete", reason_code=code, explanation=message)
+
+    def set_timeout(self, started):
+        if hasattr(self.model, "set_timeout"):
+            self.model.set_timeout(self.limits.max_runtime_seconds - (time.monotonic() - started))
+
+    def sync_usage(self, state):
+        state["provider_usage"] = self.model.usage() if self.mode == "real" else {
+            "real_api_requests": 0, "tokens": None, "money": None, "mock_driver_calls": state["counts"]["model_calls"]}
 
     def fault(self, name):
         for index, spec in enumerate(self.demo.faults):
@@ -151,6 +174,7 @@ class Agent:
         attempt_key = digest({"tool": action.name, "args": action.arguments})
         candidate["attempts"][attempt_key] = candidate["attempts"].get(attempt_key, 0) + 1
         result = {"call_id": call_id, "tool": action.name, "parameters": action.arguments,
+                  "provider_call_id": action.provider_call_id,
                   "attempt_key": attempt_key, "ok": False, "retryable": False, "error_code": "",
                   "summary": "", "data": None, "charged_units": "0.000"}
         solution = None

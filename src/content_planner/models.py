@@ -13,6 +13,8 @@ class ModelClient(Protocol):
 class MockModelClient:
     """Deterministic test driver. This is NOT evidence of model intelligence or ReAct."""
 
+    mode = "mock"
+
     def next_action(self, context):
         state = context
         observed = [state["events"][-1]["seq"]] if state["events"] else []

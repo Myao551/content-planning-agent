@@ -1,0 +1,1 @@
+{"seq": 1, "kind": "terminal", "run_id": "48c42c2b-5b6e-47bd-8792-8e0ab0d074be", "timestamp": "2026-10-28T09:59:18.888301+00:00", "plan_id": null, "status": "incomplete", "reason_code": "driver_error", "summary": "决策驱动未返回有效动作：百炼连接或请求超时，未获得有效响应"}

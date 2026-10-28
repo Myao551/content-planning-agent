@@ -1,0 +1,27 @@
+{
+  "mode": "mock",
+  "model_driver": "mock",
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": null,
+    "money": null
+  },
+  "model_config": null,
+  "real_api_requests": 0,
+  "validation_scope": "仅验证离线流程，不证明真实模型决策效果",
+  "run_id": "9e25d534-ccc7-44e3-ade2-a3b2d310d7f3",
+  "task_id": null,
+  "input_hash": null,
+  "catalog_hash": null,
+  "limits": null,
+  "demo": null,
+  "started_at": null,
+  "wall_seconds": null,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "replayed": false,
+  "implementation_hash": "1add2cc5bd1d88f564061818c3dce5b4929ed5319dcbb5c94efbea765ed57cfe",
+  "prompt_hash": null,
+  "prompt_note": "离线策略没有调用真实模型或模型提示词"
+}

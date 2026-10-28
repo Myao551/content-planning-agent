@@ -1,0 +1,79 @@
+{
+  "costs": {
+    "latest_estimate": null,
+    "simulated_spent_units": "0.000"
+  },
+  "explanation": "决策驱动未返回有效动作：百炼连接或请求超时，未获得有效响应",
+  "limits": {
+    "configured": {
+      "max_attempts": 2,
+      "max_model_calls": 16,
+      "max_runtime_seconds": 180,
+      "max_steps": 12,
+      "max_tools": 10
+    },
+    "used": {
+      "model_calls": 1,
+      "steps": 1,
+      "tools": 0
+    }
+  },
+  "missing_fields": [],
+  "mode": "real",
+  "model_driver": "aliyun_bailian",
+  "plan": null,
+  "plan_versions": [],
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    },
+    "requests": [],
+    "money": null,
+    "usage_complete": true,
+    "source_run_usage": {
+      "money": null,
+      "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+      "real_api_requests": 1,
+      "requests": [
+        {
+          "kind": "decision",
+          "latency_seconds": 0.004635,
+          "model": "qwen3.8-flash",
+          "response_id": null,
+          "status": "network_error",
+          "usage": null
+        }
+      ],
+      "tokens": {
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "total_tokens": 0
+      },
+      "usage_complete": false
+    }
+  },
+  "questions": [],
+  "reason_code": "driver_error",
+  "replayed": true,
+  "request_id": "real-normal-9a205f8b-92b7-4c3e-a04a-8cffcf64a111",
+  "retained_artifacts": [],
+  "run_id": "6f3f6ef7-ce63-4ae1-a4f9-834524503e25",
+  "solution": {
+    "readback_verified": false,
+    "saved": false,
+    "saved_at": null,
+    "solution_id": null
+  },
+  "status": "incomplete",
+  "steps": [],
+  "task_id": "f9937050-58b5-4da1-b09b-23f8aafe5635",
+  "timing": {
+    "deadline_at": "2026-10-28T18:59:18.819377+08:00",
+    "simulated_seconds": 0,
+    "wall_seconds": 0.030239
+  },
+  "validation_scope": "真实模型调用与本地合成业务工具"
+}

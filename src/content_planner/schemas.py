@@ -143,6 +143,9 @@ class Action(Contract):
     arguments: dict[str, Any] = Field(default_factory=dict)
     summary: str = Field(min_length=1)
     observes_event_ids: list[int] = Field(default_factory=list)
+    provider_call_id: str | None = None
+    provider_request_id: str | None = None
+    provider_message: dict[str, Any] | None = None
 
 
 class ScriptSegment(Contract):

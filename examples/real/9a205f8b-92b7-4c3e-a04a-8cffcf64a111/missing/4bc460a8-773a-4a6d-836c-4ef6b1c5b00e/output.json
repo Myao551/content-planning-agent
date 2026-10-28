@@ -1,0 +1,63 @@
+{
+  "request_id": "real-missing-9a205f8b-92b7-4c3e-a04a-8cffcf64a111",
+  "task_id": "5dad4698-d62c-4e12-9a52-29dfbd5155d4",
+  "run_id": "4bc460a8-773a-4a6d-836c-4ef6b1c5b00e",
+  "mode": "real",
+  "model_driver": "aliyun_bailian",
+  "validation_scope": "真实模型调用与本地合成业务工具",
+  "status": "needs_input",
+  "reason_code": "missing_information",
+  "explanation": "缺少预算或截止时间，未执行业务工具",
+  "replayed": false,
+  "plan": null,
+  "plan_versions": [],
+  "steps": [],
+  "costs": {
+    "simulated_spent_units": "0.000",
+    "latest_estimate": null
+  },
+  "timing": {
+    "deadline_at": "2026-10-28T18:59:18.819377+08:00",
+    "simulated_seconds": 0,
+    "wall_seconds": 0.000927
+  },
+  "solution": {
+    "saved": false,
+    "solution_id": null,
+    "saved_at": null,
+    "readback_verified": false
+  },
+  "missing_fields": [
+    "budget_units"
+  ],
+  "questions": [
+    "请补充 budget_units"
+  ],
+  "retained_artifacts": [],
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    },
+    "usage_complete": true,
+    "money": null,
+    "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+    "requests": []
+  },
+  "limits": {
+    "configured": {
+      "max_steps": 12,
+      "max_tools": 10,
+      "max_model_calls": 16,
+      "max_runtime_seconds": 180,
+      "max_attempts": 2
+    },
+    "used": {
+      "steps": 0,
+      "tools": 0,
+      "model_calls": 0
+    }
+  }
+}
