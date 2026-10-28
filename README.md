@@ -1,0 +1,77 @@
+# Content Planning Agent
+
+跨境电商营销视频内容活动规划助手。接收主题、预算和截止时间，执行素材检索、脚本生成、成本估算和方案保存；观察工具结果后继续、调整方案、有限重试或明确停止。
+
+**当前状态：离线流程已验证，真实模型决策待验证。** 第一阶段只有确定性 Mock 驱动，不调用模型 API、不需要密钥。它验证程序流程与业务约束，不能作为真实模型 ReAct 能力的证明。`--mode real` 明确报“尚未接入”，不会自动回退到 Mock。
+
+## 安装与快速运行
+
+要求 Python 3.12+，本次验证环境为 Python 3.12.14。先在仓库根目录安装依赖；首次安装需要访问包源，安装后业务运行与测试不访问网络。
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pip install --no-build-isolation --no-deps -e .
+
+python -m pytest -q
+python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db --output-dir .runtime/demo-output
+```
+
+示例配置将业务时钟固定在 `2030-01-01T10:00:00+08:00`，因此长期可复现；无 `--demo-config` 时使用实际时间。模拟业务耗时只推进时间游标，不实际等待。
+
+查看、回放和导出同一任务：
+
+```bash
+python -m content_planner inspect --request-id 01-normal --db .runtime/demo.db
+python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
+python -m content_planner export --request-id 01-normal --db .runtime/demo.db --output-dir .runtime/export
+```
+
+第二次相同请求返回 `replayed=true`，不增加工具记录、模拟费用或驱动调用。修改主题、预算等输入时使用新 `request_id`；相同标识对应不同输入会返回冲突。尚未完成的请求只回放已有结果，本阶段没有跨进程续跑命令。
+
+预算调整与故障示例：
+
+```bash
+python -m content_planner run --mode mock --input examples/inputs/04-budget-replan.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
+python -m content_planner run --mode mock --input examples/inputs/06-tool-failure.json --demo-config examples/inputs/06-tool-failure.demo.json --db .runtime/demo.db
+```
+
+stdout 为 JSON，证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误或真实模式尚未接入。预期业务失败案例返回非零码属于正确行为。
+
+## 最短评审路径
+
+| 检查内容 | 入口 |
+| --- | --- |
+| 用户、范围、成功标准 | [需求](docs/01-requirements.md) |
+| 调用链、约束、状态和技术取舍 | [方案](docs/02-solution.md) |
+| 测试结果及每例实际输出/Trace | [评估](docs/03-evaluation.md)、[案例索引](examples/README.md) |
+| AI 辅助范围和验证边界 | [AI 使用](docs/04-ai-usage.md) |
+| 已解决问题、限制和下一步 | [复盘](docs/05-retrospective.md) |
+| 原始技术规划与阶段调整 | [开发方案](docs/00-development-plan.md) |
+
+重新执行测试并生成一批新的实际证据：
+
+```bash
+python scripts/verify.py
+```
+
+该命令更新测试结果、案例索引和评估文档；每批运行使用新的本地数据库，证据按运行 ID 保存。普通 `pytest` 使用临时目录，不修改已提交案例。
+
+## 技术与业务边界
+
+- Python 原生单 Agent 循环、Pydantic 2、argparse、SQLite，依赖版本在 `requirements.txt` 固定。
+- Mock 根据当前状态和工具返回选择动作；确定性策略只用于离线验证。`ModelClient` 预留真实决策和脚本生成接口，本阶段未安装模型 SDK。
+- 计划可以在标准、复用、简化三个档位间调整；素材前置条件、费用和时间由程序校验。
+- 预算总额 = 已发生模拟费用 + 剩余工具费用 + 最终方案资源预留。资源预留尚未支付；真实 API 请求数始终为 0。
+- `completed` 仅指方案和脚本已通过约束检查并保存、回读成功，不代表视频已制作或广告已投放。
+- SQLite 事务保护本地结果与账本，运行上限防止循环；不提供生产级并发、分布式执行或崩溃后自动恢复。
+- 离线脚本逐条引用合成素材事实，不具备真实创意生成、翻译或转化效果验证能力。
+
+主要目录为 `src/`、`tests/`、`data/`、`examples/`、`docs/` 和 `scripts/`。合成数据随 Python 包分发，安装后从其他工作目录也能运行。
+
+## 仓库与提交
+
+目标仓库：[Myao551/content-planning-agent](https://github.com/Myao551/content-planning-agent)。材料组织参考 [项目交付示例](https://github.com/lwz1357/agent-campus-submission-example)。题目原文、公司参考 PDF、密钥、虚拟环境和运行数据库保留在本地；合成数据及实际验证材料纳入版本管理。
+
+最终笔试提交还需真实模型接入及不同执行路径的实际记录，并提交正式题号、仓库 URL 和最终 commit SHA。本阶段不宣称已经满足完整笔试 ReAct 验收。
