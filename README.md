@@ -4,9 +4,44 @@
 
 **当前状态：支持持续对话 CLI、易读终端输出、通用 OpenAI 兼容 Chat Completions 接口和 `.env` 配置；已有阿里百炼 `qwen3.8-flash` 的真实任务记录。** 同时保留无需密钥的 Mock。其他服务商的真实可用性需以自己的验证结果为准，已有记录见 [真实 API 评估](docs/03-evaluation.md)。
 
+## 安装与快速运行
+
+要求 Python 3.12+，本次验证环境为 Python 3.12.14。首次安装需要访问包源；安装后的 Mock 运行与自动化测试不联网，真实模式需要访问配置的模型接口。
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pip install --no-build-isolation --no-deps -e .
+
+python -m pytest -q
+python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db --output-dir .runtime/demo-output
+```
+
+示例配置将业务时钟固定在 `2030-01-01T10:00:00+08:00`，因此长期可复现；无 `--demo-config` 时使用实际时间。模拟业务耗时只推进时间游标，不实际等待。
+
+查看、回放和导出同一任务：
+
+```bash
+python -m content_planner inspect --request-id 01-normal --db .runtime/demo.db
+python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
+python -m content_planner export --request-id 01-normal --db .runtime/demo.db --output-dir .runtime/export
+```
+
+第二次相同请求返回 `replayed=true`，不增加工具记录、模拟费用或驱动调用。修改主题、预算等输入时使用新 `request_id`；相同标识对应不同输入会返回冲突。尚未完成的请求只回放已有结果，本阶段没有跨进程续跑命令。
+
+预算调整与故障示例：
+
+```bash
+python -m content_planner run --mode mock --input examples/inputs/04-budget-replan.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
+python -m content_planner run --mode mock --input examples/inputs/06-tool-failure.json --demo-config examples/inputs/06-tool-failure.demo.json --db .runtime/demo.db
+```
+
+输出格式按终端自动选择，也可显式指定；证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
+
 ## 直接开始持续对话（推荐）
 
-在项目根目录执行。当前本地环境已有 `.venv` 和 `.env`；首次克隆的使用者先完成下方安装与配置。
+在项目根目录执行。先完成上方安装；首次使用真实模式时，还需按下方“填入自己的 API 配置并验证”配置 `.env`。已有配置可直接沿用。
 
 ```bash
 source .venv/bin/activate
@@ -116,47 +151,12 @@ python -m content_planner run --mode real --input .runtime/my-request.json   --d
 
 | 现象 | 处理 |
 | --- | --- |
-| `No module named content_planner` | 激活 `.venv`，并完成下方可编辑安装 |
+| `No module named content_planner` | 激活 `.venv`，并完成上方可编辑安装 |
 | `configuration_error` | 从仓库根目录运行，检查 `.env` 三个必填项；环境变量会覆盖文件 |
 | 提示补充信息 | 在同一会话继续提供预算、截止时间、商品等；用 `/draft` 核对 |
 | `deadline_exceeded` | 用 `/set deadline +1h` 设置未来时间，再 `/run` |
 | `incomplete` | 查看原因和证据，已有产物不代表方案已保存；有保存回执才显示完成 |
 | 重复显示旧结果 | 相同输入按幂等规则回读；新尝试可 `/new` 后重新填写 |
-
-## 安装与快速运行
-
-要求 Python 3.12+，本次验证环境为 Python 3.12.14。首次安装需要访问包源；安装后的 Mock 运行与自动化测试不联网，真实模式需要访问配置的模型接口。
-
-```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m pip install --no-build-isolation --no-deps -e .
-
-python -m pytest -q
-python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db --output-dir .runtime/demo-output
-```
-
-示例配置将业务时钟固定在 `2030-01-01T10:00:00+08:00`，因此长期可复现；无 `--demo-config` 时使用实际时间。模拟业务耗时只推进时间游标，不实际等待。
-
-查看、回放和导出同一任务：
-
-```bash
-python -m content_planner inspect --request-id 01-normal --db .runtime/demo.db
-python -m content_planner run --mode mock --input examples/inputs/01-normal.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
-python -m content_planner export --request-id 01-normal --db .runtime/demo.db --output-dir .runtime/export
-```
-
-第二次相同请求返回 `replayed=true`，不增加工具记录、模拟费用或驱动调用。修改主题、预算等输入时使用新 `request_id`；相同标识对应不同输入会返回冲突。尚未完成的请求只回放已有结果，本阶段没有跨进程续跑命令。
-
-预算调整与故障示例：
-
-```bash
-python -m content_planner run --mode mock --input examples/inputs/04-budget-replan.json --demo-config examples/inputs/demo-config.json --db .runtime/demo.db
-python -m content_planner run --mode mock --input examples/inputs/06-tool-failure.json --demo-config examples/inputs/06-tool-failure.demo.json --db .runtime/demo.db
-```
-
-输出格式按终端自动选择，也可显式指定；证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
 
 ## 最短评审路径
 
