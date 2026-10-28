@@ -9,7 +9,7 @@ from content_planner.models import MockModelClient
 from content_planner.openai_compatible import Credentials, OpenAICompatibleModelClient
 from content_planner.policy import Catalog, Clock
 from content_planner.storage import Storage
-from content_planner.presentation import plain
+from content_planner.presentation import plain, render_result
 
 
 def session(tmp_path, *, mode="mock", factory=None, session_id="dialogue"):
@@ -170,3 +170,17 @@ def test_interruption_keeps_charges_and_stops_task(tmp_path, monkeypatch):
 
 def test_terminal_control_codes_are_not_rendered():
     assert plain("\x1b[31mhello\x1b[0m\x1b]2;evil\x07\rworld") == "helloworld"
+
+
+def test_readable_success_uses_structured_result_instead_of_model_restatement(tmp_path):
+    chat, store, _ = session(tmp_path)
+    try:
+        fill(chat)
+        result, _ = chat.latest()
+        result["explanation"] = "模型复述的错误日期：2099-12-31，费用100000，省略来源"
+        text = render_result(result)
+        assert "2099-12-31" not in text and "100000" not in text
+        assert "方案总额：8.000" in text and "回读核验通过" in text
+        assert "2030-01-01" in text
+    finally:
+        store.close()

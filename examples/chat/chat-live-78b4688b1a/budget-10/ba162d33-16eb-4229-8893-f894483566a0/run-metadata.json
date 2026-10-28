@@ -1,0 +1,256 @@
+{
+  "metadata_schema_version": 2,
+  "execution_version": {
+    "capture_phase": "task_creation",
+    "captured_at": "2026-10-28T13:10:35.236861+00:00",
+    "git_commit": "f66e3f05cca1ab0fc105d3919c605b6125d61b1a",
+    "git_dirty": false,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ],
+    "git_worktree_dirty": false,
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "implementation_hash": "bd6e2d859abc04f6d216f2a9e7d4ea8cbcdb33fef05ee585765ff2de19d7ee4a",
+    "package_version": "0.1.0",
+    "pydantic": "2.14.1",
+    "python": "3.12.14",
+    "status": "captured"
+  },
+  "exporter_version": {
+    "status": "captured",
+    "capture_phase": "export",
+    "captured_at": "2026-10-28T13:14:34.090846+00:00",
+    "implementation_hash": "b1520c344b4bfccb540728290abf7c7980f27b939256dc646514ae8e0452a83f",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "5c5cec621e5ce6aa8f63e9e5f2cb0504e46f5e79",
+    "git_dirty": true,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "exported_at": "2026-10-28T13:14:34.090846+00:00",
+  "mode": "real",
+  "model_driver": "openai_compatible",
+  "provider_usage": {
+    "money": null,
+    "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+    "real_api_requests": 10,
+    "requests": [
+      {
+        "kind": "decision",
+        "latency_seconds": 2.428723,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-c06cf96f-693e-99c2-80ea-7b8613fa1f59",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 98,
+          "prompt_tokens": 2386,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "text_tokens": 2386
+          },
+          "total_tokens": 2484
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 2.55804,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-2f0dc4c8-068c-9456-9360-068ae86bddd8",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 198,
+          "prompt_tokens": 3713,
+          "prompt_tokens_details": {
+            "cached_tokens": 2048,
+            "text_tokens": 3713
+          },
+          "total_tokens": 3911
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 2.328689,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-89491b06-4bc2-9222-83a4-fdad4f7b92f2",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 89,
+          "prompt_tokens": 4556,
+          "prompt_tokens_details": {
+            "cached_tokens": 2048,
+            "text_tokens": 4556
+          },
+          "total_tokens": 4645
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 3.692491,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-53fa3d77-13a1-9e5e-adf0-f7250c438be2",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 238,
+          "prompt_tokens": 5488,
+          "prompt_tokens_details": {
+            "cached_tokens": 3584,
+            "text_tokens": 5488
+          },
+          "total_tokens": 5726
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 1.557505,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-8c6104a8-8a2a-903b-9c2f-de8f439bfce5",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 76,
+          "prompt_tokens": 6004,
+          "prompt_tokens_details": {
+            "cached_tokens": 4096,
+            "text_tokens": 6004
+          },
+          "total_tokens": 6080
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 2.828825,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-60d1a5f0-5910-93da-a533-1f2c5796da25",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 172,
+          "prompt_tokens": 6926,
+          "prompt_tokens_details": {
+            "cached_tokens": 5120,
+            "text_tokens": 6926
+          },
+          "total_tokens": 7098
+        }
+      },
+      {
+        "kind": "script",
+        "latency_seconds": 2.373159,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-2344e27a-afe2-9fb4-beaf-ae82d71c82ed",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 168,
+          "prompt_tokens": 290,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "text_tokens": 290
+          },
+          "total_tokens": 458
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 1.891245,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-c9562879-4c11-95b0-bcac-45a3d1d44dcb",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 109,
+          "prompt_tokens": 7858,
+          "prompt_tokens_details": {
+            "cached_tokens": 5376,
+            "text_tokens": 7858
+          },
+          "total_tokens": 7967
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 3.075578,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-37c052a8-a776-97b1-aa6c-8f81266c057b",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 163,
+          "prompt_tokens": 8453,
+          "prompt_tokens_details": {
+            "cached_tokens": 6144,
+            "text_tokens": 8453
+          },
+          "total_tokens": 8616
+        }
+      },
+      {
+        "kind": "decision",
+        "latency_seconds": 5.287868,
+        "model": "qwen3.8-flash",
+        "response_id": "chatcmpl-ba548b59-9a08-94f4-9cf2-aa321046ef8e",
+        "status": "received",
+        "usage": {
+          "completion_tokens": 344,
+          "prompt_tokens": 9683,
+          "prompt_tokens_details": {
+            "cached_tokens": 7168,
+            "text_tokens": 9683
+          },
+          "total_tokens": 10027
+        }
+      }
+    ],
+    "tokens": {
+      "completion_tokens": 1655,
+      "prompt_tokens": 55357,
+      "total_tokens": 57012
+    },
+    "usage_complete": true
+  },
+  "model_config": {
+    "endpoint_hash": "647e454a7bcb2d62305227bb8b67997638181ffb25ad653d1d0e541694c62159",
+    "extra_body_hash": "0c3212f8dd8b4f87b1f5f66bcd84f146b3a4e156fd4a68e7b0f9aa6a212ee543",
+    "model": "qwen3.8-flash",
+    "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55",
+    "protocol": "chat_completions_function_calling",
+    "provider": "openai_compatible"
+  },
+  "real_api_requests": 10,
+  "validation_scope": "真实模型与本地合成工具，非真实视频服务",
+  "run_id": "ba162d33-16eb-4229-8893-f894483566a0",
+  "task_id": "acacfaa1-77ba-4797-8e55-aa799145db16",
+  "input_hash": "2fa53df6d5cb3363da158c66cf78e7850e071283573af73ab1ab187d1e15f855",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_attempts": 2,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180.0,
+    "max_steps": 12,
+    "max_tools": 10
+  },
+  "demo": {
+    "faults": [],
+    "now_at": null
+  },
+  "started_at": "2026-10-28T13:10:35.297255+00:00",
+  "wall_seconds": 28.18186,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "implementation_hash": "bd6e2d859abc04f6d216f2a9e7d4ea8cbcdb33fef05ee585765ff2de19d7ee4a",
+  "implementation_hash_kind": "execution_snapshot",
+  "replayed": false,
+  "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55",
+  "prompt_note": "真实模型系统提示词摘要"
+}

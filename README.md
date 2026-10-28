@@ -76,6 +76,8 @@ python -m content_planner chat --mode real --session <会话ID>
 
 任务执行后自动导出至 `.runtime/chat-output/<run_id>/`；`/export` 另写 `.runtime/chat-output/<会话ID>/session.json` 和最近任务证据。会话数据库与这些本地产物默认不提交。
 
+本次持续对话真实验证与 82 项测试结果见 [交互验证记录](examples/chat/README.md)，包括预算修改、重复回放及会话恢复。终端完成摘要采用结构化字段；模型完整说明保留在 JSON 中。
+
 当前提供的是内容规划业务对话，支持持续澄清、修改和解释；没有代码终端工具、通用文件编辑或已验证的任意聊天能力。输入为逐行文本，当前不做 token 流式输出；执行过程中逐步显示公开动作和工具回执，可用 `--quiet` 隐藏进度。
 
 ## 单次运行与 JSON 输出
@@ -168,6 +170,7 @@ python -m content_planner run --mode mock --input examples/inputs/06-tool-failur
 | 已解决问题、限制和下一步 | [复盘](docs/05-retrospective.md) |
 | 原始技术规划与阶段调整 | [开发方案](docs/00-development-plan.md) |
 | 审查问题的修复与验证边界 | [修复回执](docs/08-review-resolution.md) |
+| 持续对话、易读输出和实际试用 | [交互扩展](docs/09-cli-conversation.md)、[验证记录](examples/chat/README.md) |
 | 正式提交信息和本人待确认项 | [提交清单](docs/07-submission.md) |
 
 重新执行测试并生成一批新的实际证据：

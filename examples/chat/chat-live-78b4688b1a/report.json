@@ -1,0 +1,66 @@
+{
+  "trial": "chat-live-78b4688b1a",
+  "version": {
+    "status": "captured",
+    "capture_phase": "task_creation",
+    "captured_at": "2026-10-28T13:10:29.629053+00:00",
+    "implementation_hash": "bd6e2d859abc04f6d216f2a9e7d4ea8cbcdb33fef05ee585765ff2de19d7ee4a",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "f66e3f05cca1ab0fc105d3919c605b6125d61b1a",
+    "git_dirty": false,
+    "git_worktree_dirty": false,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "checks": {
+    "exit_ok": true,
+    "two_distinct_tasks": true,
+    "both_completed": true,
+    "budget_revision": true,
+    "theme_deadline_preserved": true,
+    "replay_no_api": true,
+    "real_interpretation_and_answer": true,
+    "frozen_code": true
+  },
+  "task_statuses": [
+    "completed",
+    "completed"
+  ],
+  "task_request_ids": [
+    "chat-task-51f317c099a9449d",
+    "chat-task-dbda0793528e4696"
+  ],
+  "task_totals": [
+    "8.000",
+    "3.000"
+  ],
+  "real_api_requests": 27,
+  "tokens": 151297,
+  "transcript": "transcript.txt",
+  "evidence": {
+    "budget-10": "chat-live-78b4688b1a/budget-10/ba162d33-16eb-4229-8893-f894483566a0",
+    "budget-6": "chat-live-78b4688b1a/budget-6/291a10ab-5182-42cd-a231-001d5b361b3e",
+    "repeat": "chat-live-78b4688b1a/repeat/291a10ab-5182-42cd-a231-001d5b361b3e"
+  },
+  "readable_resume_checks": {
+    "exit_ok": true,
+    "has_saved_script": true,
+    "uses_structured_deadline": true,
+    "no_new_api": true
+  },
+  "version_note": "完整 API 对话在本地冻结 f66e3f0 上执行，其完整 Git tree 与公开 5c5cec6 相同；最终显示层调整后仅回读这些真实结果，无新增 API，不宣称重新执行模型决策。",
+  "published_equivalent_version": {
+    "git_commit": "5c5cec621e5ce6aa8f63e9e5f2cb0504e46f5e79",
+    "git_tree": "92d3e9bb7f68ac157e8907126a2f98ba3e1c4e78",
+    "local_git_tree": "92d3e9bb7f68ac157e8907126a2f98ba3e1c4e78"
+  }
+}

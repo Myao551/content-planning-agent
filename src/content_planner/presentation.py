@@ -24,7 +24,9 @@ def render_result(result, task=None):
         lines.append("请求：" + result["request_id"])
     if task:
         lines.append("主题：" + task["theme"])
-    if result.get("explanation"):
+    if result["status"] == "completed":
+        lines.append("方案和脚本已完成；保存与核验状态见下方。")
+    elif result.get("explanation"):
         lines.append(result["explanation"])
     if result.get("reason_code"):
         lines.append("原因码：" + result["reason_code"])
