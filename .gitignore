@@ -35,10 +35,3 @@ tmp/
 .DS_Store
 .idea/
 .vscode/
-
-# Original assessment and company reference materials stay local.
-/具体题目.md
-/笔试要求整理.md
-/小影科技公司介绍2026版.pdf
-/小影科技2027校招-AI Agent笔试题 · 卷面.html
-/小影科技2027校招-AI Agent笔试题 · 卷面_files/
