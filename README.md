@@ -41,6 +41,46 @@ python -m content_planner run --mode mock --input examples/inputs/06-tool-failur
 
 输出格式按终端自动选择，也可显式指定；证据目录提示写入 stderr。退出码：`0` 完成；`2` 需补信息；`3` 业务未完成；`4` 输入错误/请求冲突；`5` 配置错误。预期业务失败案例返回非零码属于正确行为。
 
+## 项目目录
+
+```text
+.
+├── README.md                     # 安装、运行与评审导航
+├── pyproject.toml                # Python 包与 CLI 入口配置
+├── requirements.txt              # 固定版本依赖
+├── .env.example                  # API 配置模板，不含真实密钥
+├── .gitignore                    # 本地配置、数据库与缓存忽略规则
+├── src/content_planner/          # CLI、Agent 循环、业务工具与模型接入
+├── tests/                       # 业务约束、模型协议、CLI 与会话测试
+├── data/
+│   ├── products.json             # 合成商品与事实
+│   ├── materials.json            # 素材与来源信息
+│   ├── pricing.json              # 模拟费用规则
+│   ├── durations.json            # 模拟耗时规则
+│   └── rules.json                # 方案档位规则
+├── docs/
+│   ├── 01-requirements.md         # 用户、目标、范围与成功标准
+│   ├── 02-solution.md             # 流程、动态决策与技术取舍
+│   ├── 03-evaluation.md           # 验收结果、实际证据与限制
+│   ├── 04-ai-usage.md             # 个人贡献与 AI 辅助说明
+│   └── 05-retrospective.md        # 难点、学习收获、用时与改进
+├── examples/
+│   ├── README.md                 # 验收案例索引
+│   ├── inputs/                   # 可运行输入与演示配置
+│   ├── mock/                     # 离线案例的输入、实际输出与 Trace
+│   ├── real/                     # 真实模型记录、批次报告与版本信息
+│   ├── evaluation-results.json   # 离线案例逐项检查结果
+│   ├── test-results.json         # 自动化测试元信息
+│   └── test-results.txt          # 实际 pytest 输出
+└── scripts/
+    ├── probe_api.py              # 真实 API 连通性检查
+    ├── evaluate_real.py          # 真实模型案例评估
+    ├── generate_examples.py      # 运行离线案例并导出证据
+    └── verify.py                 # 执行测试并生成离线验证材料
+```
+
+案例记录按运行 ID 分目录保存，包含 `input.json`、`output.json`、`trace.jsonl`、`trace.md`、`artifacts.json` 和 `run-metadata.json`，可从 [案例索引](examples/README.md) 查看。
+
 ## 直接开始持续对话（推荐）
 
 在项目根目录执行。先完成上方安装；首次使用真实模式时，还需按下方“填入自己的 API 配置并验证”配置 `.env`。已有配置可直接沿用。
