@@ -240,9 +240,3 @@ python -m content_planner run --mode real --input /path/to/real-request.json --d
 - 当前脚本采用严格事实引用：Mock 或真实模型都须逐条引用给定事实，不具备已验证的开放式创意生成、翻译或转化效果能力。
 
 主要目录为 `src/`、`tests/`、`data/`、`examples/`、`docs/` 和 `scripts/`。合成数据随 Python 包分发，安装后从其他工作目录也能运行。
-
-## 仓库与提交
-
-目标仓库：[Myao551/content-planning-agent](https://github.com/Myao551/content-planning-agent)。材料组织参考 [项目交付示例](https://github.com/lwz1357/agent-campus-submission-example)。题目原文、公司参考 PDF、密钥、虚拟环境和运行数据库保留在本地；合成数据及实际验证材料纳入版本管理。
-
-正式提交信息：官方题号 **2**，题名“内容任务规划 Agent”；仓库 URL 如上。个人贡献、约 3 小时的投入估算和复盘已写入对应文档。最终 commit SHA 请在提交前执行 `git rev-parse HEAD` 获取，并填写考试系统；后续发生提交时需更新 SHA。本仓库未代为向考试系统提交，小样例通过不代表未测场景都可靠。
