@@ -1,0 +1,1037 @@
+# 真实模型 API 执行记录
+
+> 模型经原生工具调用作决策；业务工具使用本地合成数据。
+
+运行：`c817acbb-aacd-4707-88ba-171dc949ccd8`；终态：`completed`；回放：`False`。
+
+## 1. decision
+
+开始为便携咖啡杯新品营销活动检索可用商品事实与素材。
+
+```json
+{
+  "seq": 1,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:14:55.353378+00:00",
+  "plan_id": null,
+  "action": {
+    "name": "search_materials",
+    "arguments": {
+      "query": "便携咖啡杯 新品 营销视频 素材 卖点",
+      "product_id": "P001"
+    },
+    "summary": "开始为便携咖啡杯新品营销活动检索可用商品事实与素材。",
+    "observes_event_ids": [],
+    "provider_call_id": "call_983bcb315ff44c0c9e01ae72",
+    "provider_request_id": "chatcmpl-8d806fa0-81c4-9249-9626-23658cbd1ae6",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_983bcb315ff44c0c9e01ae72",
+          "type": "function",
+          "function": {
+            "name": "search_materials",
+            "arguments": "{\"query\": \"便携咖啡杯 新品 营销视频 素材 卖点\", \"product_id\": \"P001\", \"decision_summary\": \"开始为便携咖啡杯新品营销活动检索可用商品事实与素材。\", \"observes_event_ids\": \n[]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "开始为便携咖啡杯新品营销活动检索可用商品事实与素材。"
+}
+```
+
+## 2. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 2,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:14:55.355838+00:00",
+  "plan_id": null,
+  "call_id": "c87959db-0ba0-4cde-8939-313417c3ce2a",
+  "tool": "search_materials",
+  "parameters": {
+    "query": "便携咖啡杯 新品 营销视频 素材 卖点",
+    "product_id": "P001"
+  },
+  "provider_call_id": "call_983bcb315ff44c0c9e01ae72",
+  "attempt_key": "76a4f73e8f2e64ee7467978281128c13051b31c274f234f3cb2b623a1bd1d7d4",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "product": {
+      "id": "P001",
+      "name": "便携咖啡杯",
+      "keywords": [
+        "咖啡杯",
+        "通勤",
+        "coffee",
+        "cup"
+      ],
+      "facts": [
+        "容量 350 毫升",
+        "附带杯盖",
+        "提供黑色和白色款式"
+      ]
+    },
+    "materials": [
+      {
+        "id": "M001",
+        "product_id": "P001",
+        "kind": "reusable",
+        "title": "咖啡杯外观素材",
+        "keywords": [
+          "咖啡杯",
+          "通勤",
+          "外观",
+          "coffee"
+        ],
+        "facts": [
+          "容量 350 毫升",
+          "提供黑色和白色款式"
+        ],
+        "match_reason": "商品标识匹配",
+        "score": 1
+      },
+      {
+        "id": "M002",
+        "product_id": "P001",
+        "kind": "reference",
+        "title": "咖啡杯商品说明",
+        "keywords": [
+          "咖啡杯",
+          "商品",
+          "cup"
+        ],
+        "facts": [
+          "附带杯盖"
+        ],
+        "match_reason": "商品标识匹配",
+        "score": 1
+      }
+    ],
+    "missing": []
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 30,
+  "simulated_spent_units": "0.000"
+}
+```
+
+## 3. decision
+
+素材检索完成，先提出 standard 档位候选计划并绑定已获取的 M001、M002 素材。
+
+```json
+{
+  "seq": 3,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:14:58.523362+00:00",
+  "plan_id": null,
+  "action": {
+    "name": "update_plan",
+    "arguments": {
+      "tier": "standard",
+      "material_ids": [
+        "M001",
+        "M002"
+      ],
+      "steps": [
+        {
+          "action": "search_materials",
+          "depends_on": [],
+          "id": "materials"
+        },
+        {
+          "action": "generate_script",
+          "depends_on": [
+            "materials"
+          ],
+          "id": "script"
+        },
+        {
+          "action": "estimate_cost",
+          "depends_on": [
+            "script"
+          ],
+          "id": "verification"
+        },
+        {
+          "action": "save_solution",
+          "depends_on": [
+            "verification"
+          ],
+          "id": "save"
+        }
+      ]
+    },
+    "summary": "素材检索完成，先提出 standard 档位候选计划并绑定已获取的 M001、M002 素材。",
+    "observes_event_ids": [
+      2
+    ],
+    "provider_call_id": "call_8c032ce0d4ab463f9e90c5e6",
+    "provider_request_id": "chatcmpl-19f78df0-ef84-93b6-9db4-8536e6be7eca",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_8c032ce0d4ab463f9e90c5e6",
+          "type": "function",
+          "function": {
+            "name": "update_plan",
+            "arguments": "{\"tier\": \"standard\", \"material_ids\": \n[\"M001\", \"M002\"]\n\n, \"steps\": \n[{\"action\": \"search_materials\", \"depends_on\": [], \"id\": \"materials\"}, {\"action\": \"generate_script\", \"depends_on\": [\"materials\"], \"id\": \"script\"}, {\"action\": \"estimate_cost\", \"depends_on\": [\"script\"], \"id\": \"verification\"}, {\"action\": \"save_solution\", \"depends_on\": [\"verification\"], \"id\": \"save\"}]\n\n, \"decision_summary\": \"素材检索完成，先提出 standard 档位候选计划并绑定已获取的 M001、M002 素材。\", \"observes_event_ids\": \n[2]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "素材检索完成，先提出 standard 档位候选计划并绑定已获取的 M001、M002 素材。"
+}
+```
+
+## 4. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 4,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:14:58.527587+00:00",
+  "plan_id": "plan-1",
+  "call_id": "7ccb288e-ded5-4400-87a6-9cf5b920db42",
+  "tool": "update_plan",
+  "parameters": {
+    "tier": "standard",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "action": "search_materials",
+        "depends_on": [],
+        "id": "materials"
+      },
+      {
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ],
+        "id": "script"
+      },
+      {
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ],
+        "id": "verification"
+      },
+      {
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ],
+        "id": "save"
+      }
+    ]
+  },
+  "provider_call_id": "call_8c032ce0d4ab463f9e90c5e6",
+  "attempt_key": "09547b306a7f0935677b304ef6f6338af39619cbff87c82dd6a346fd57ab4580",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "id": "plan-1",
+    "tier": "standard",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "id": "materials",
+        "action": "search_materials",
+        "depends_on": []
+      },
+      {
+        "id": "script",
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ]
+      },
+      {
+        "id": "verification",
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ]
+      },
+      {
+        "id": "save",
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ]
+      }
+    ]
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 30,
+  "simulated_spent_units": "0.000"
+}
+```
+
+## 5. decision
+
+生成脚本前先核算 standard 计划的模拟费用与完成时间可行性。
+
+```json
+{
+  "seq": 5,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:00.142135+00:00",
+  "plan_id": "plan-1",
+  "action": {
+    "name": "estimate_cost",
+    "arguments": {
+      "plan_id": "plan-1"
+    },
+    "summary": "生成脚本前先核算 standard 计划的模拟费用与完成时间可行性。",
+    "observes_event_ids": [
+      4
+    ],
+    "provider_call_id": "call_c8555dca0ceb439486920d8b",
+    "provider_request_id": "chatcmpl-6bf161f8-79bc-9d64-86a8-a3965d2de976",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_c8555dca0ceb439486920d8b",
+          "type": "function",
+          "function": {
+            "name": "estimate_cost",
+            "arguments": "{\"plan_id\": \"plan-1\", \"decision_summary\": \"生成脚本前先核算 standard 计划的模拟费用与完成时间可行性。\", \"observes_event_ids\": \n[4]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "生成脚本前先核算 standard 计划的模拟费用与完成时间可行性。"
+}
+```
+
+## 6. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 6,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:00.145344+00:00",
+  "plan_id": "plan-1",
+  "call_id": "149b29be-7870-415b-b7be-27e4d1ef912f",
+  "tool": "estimate_cost",
+  "parameters": {
+    "plan_id": "plan-1"
+  },
+  "provider_call_id": "call_c8555dca0ceb439486920d8b",
+  "attempt_key": "a7900f6fdd1c1ae1438a3eccb6b6588b6448dc6c90a8ebee9d3ab69690959d00",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "signature": "846536f3d5a2f3cdb57dd96ad68ab24359a2c6e53a0a730757eb4ec5693dd790",
+    "plan_id": "plan-1",
+    "simulated_spent_units": "0.000",
+    "remaining_tool_units": "4.000",
+    "planned_resource_units": "8.000",
+    "projected_total_units": "12.000",
+    "budget_units": "10.000",
+    "budget_gap_units": "2.000",
+    "estimated_finish_at": "2026-10-28T12:18:24.680030+00:00",
+    "deadline_at": "2026-10-28T21:14:29.559692+08:00",
+    "remaining_seconds": 181,
+    "time_gap_seconds": 0,
+    "feasible": false
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 30,
+  "simulated_spent_units": "0.000"
+}
+```
+
+## 7. decision
+
+standard 估算超预算 2.000，存在可复用素材 M001，改用 reuse 档位并保留原计划骨架重新核算。
+
+```json
+{
+  "seq": 7,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:03.420574+00:00",
+  "plan_id": "plan-1",
+  "action": {
+    "name": "update_plan",
+    "arguments": {
+      "tier": "reuse",
+      "material_ids": [
+        "M001",
+        "M002"
+      ],
+      "steps": [
+        {
+          "action": "search_materials",
+          "depends_on": [],
+          "id": "materials"
+        },
+        {
+          "action": "generate_script",
+          "depends_on": [
+            "materials"
+          ],
+          "id": "script"
+        },
+        {
+          "action": "estimate_cost",
+          "depends_on": [
+            "script"
+          ],
+          "id": "verification"
+        },
+        {
+          "action": "save_solution",
+          "depends_on": [
+            "verification"
+          ],
+          "id": "save"
+        }
+      ]
+    },
+    "summary": "standard 估算超预算 2.000，存在可复用素材 M001，改用 reuse 档位并保留原计划骨架重新核算。",
+    "observes_event_ids": [
+      6
+    ],
+    "provider_call_id": "call_3931ce771f884c3aa0dc4b2f",
+    "provider_request_id": "chatcmpl-f6997d54-7ce9-91ce-8cd2-f6c0c9d69172",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_3931ce771f884c3aa0dc4b2f",
+          "type": "function",
+          "function": {
+            "name": "update_plan",
+            "arguments": "{\"tier\": \"reuse\", \"material_ids\": \n[\"M001\", \"M002\"]\n\n, \"steps\": \n[{\"action\": \"search_materials\", \"depends_on\": [], \"id\": \"materials\"}, {\"action\": \"generate_script\", \"depends_on\": [\"materials\"], \"id\": \"script\"}, {\"action\": \"estimate_cost\", \"depends_on\": [\"script\"], \"id\": \"verification\"}, {\"action\": \"save_solution\", \"depends_on\": [\"verification\"], \"id\": \"save\"}]\n\n, \"decision_summary\": \"standard 估算超预算 2.000，存在可复用素材 M001，改用 reuse 档位并保留原计划骨架重新核算。\", \"observes_event_ids\": \n[6]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "standard 估算超预算 2.000，存在可复用素材 M001，改用 reuse 档位并保留原计划骨架重新核算。"
+}
+```
+
+## 8. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 8,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:03.424471+00:00",
+  "plan_id": "plan-2",
+  "call_id": "522ff2d3-ed05-49ca-8540-c87c079b3158",
+  "tool": "update_plan",
+  "parameters": {
+    "tier": "reuse",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "action": "search_materials",
+        "depends_on": [],
+        "id": "materials"
+      },
+      {
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ],
+        "id": "script"
+      },
+      {
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ],
+        "id": "verification"
+      },
+      {
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ],
+        "id": "save"
+      }
+    ]
+  },
+  "provider_call_id": "call_3931ce771f884c3aa0dc4b2f",
+  "attempt_key": "d59cbb5cf0afbe68c46f2d1dd8cc832c7e9dfd62c03d015964cbc843fa25e730",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "id": "plan-2",
+    "tier": "reuse",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "steps": [
+      {
+        "id": "materials",
+        "action": "search_materials",
+        "depends_on": []
+      },
+      {
+        "id": "script",
+        "action": "generate_script",
+        "depends_on": [
+          "materials"
+        ]
+      },
+      {
+        "id": "verification",
+        "action": "estimate_cost",
+        "depends_on": [
+          "script"
+        ]
+      },
+      {
+        "id": "save",
+        "action": "save_solution",
+        "depends_on": [
+          "verification"
+        ]
+      }
+    ]
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 30,
+  "simulated_spent_units": "0.000"
+}
+```
+
+## 9. decision
+
+切换 reuse 档位后先核算 plan-2 的费用与时间可行性，再决定是否生成脚本。
+
+```json
+{
+  "seq": 9,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:05.195402+00:00",
+  "plan_id": "plan-2",
+  "action": {
+    "name": "estimate_cost",
+    "arguments": {
+      "plan_id": "plan-2"
+    },
+    "summary": "切换 reuse 档位后先核算 plan-2 的费用与时间可行性，再决定是否生成脚本。",
+    "observes_event_ids": [
+      8
+    ],
+    "provider_call_id": "call_2d3b7d31e9be4a8a8329fa66",
+    "provider_request_id": "chatcmpl-f750bd6f-2543-9a39-a9ef-4ebe1b0aecc7",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_2d3b7d31e9be4a8a8329fa66",
+          "type": "function",
+          "function": {
+            "name": "estimate_cost",
+            "arguments": "{\"plan_id\": \"plan-2\", \"decision_summary\": \"切换 reuse 档位后先核算 plan-2 的费用与时间可行性，再决定是否生成脚本。\", \"observes_event_ids\": \n[8]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "切换 reuse 档位后先核算 plan-2 的费用与时间可行性，再决定是否生成脚本。"
+}
+```
+
+## 10. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 10,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:05.199345+00:00",
+  "plan_id": "plan-2",
+  "call_id": "0e847095-9c25-47f1-b770-cbe13005a746",
+  "tool": "estimate_cost",
+  "parameters": {
+    "plan_id": "plan-2"
+  },
+  "provider_call_id": "call_2d3b7d31e9be4a8a8329fa66",
+  "attempt_key": "46dbd3e12abfd1cfe8869a2869b040afd657b602fdcda481471c30efa83db785",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "signature": "2eab6a52a428345324405d7f228718ea1b922398e3e84dd5ea141ad298e639b3",
+    "plan_id": "plan-2",
+    "simulated_spent_units": "0.000",
+    "remaining_tool_units": "2.000",
+    "planned_resource_units": "6.000",
+    "projected_total_units": "8.000",
+    "budget_units": "10.000",
+    "budget_gap_units": "0.000",
+    "estimated_finish_at": "2026-10-28T12:16:54.680030+00:00",
+    "deadline_at": "2026-10-28T21:14:29.559692+08:00",
+    "remaining_seconds": 91,
+    "time_gap_seconds": 0,
+    "feasible": true
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 30,
+  "simulated_spent_units": "0.000"
+}
+```
+
+## 11. decision
+
+reuse 档位估算可行（预算缺口 0、时间达标），基于 M001/M002 事实生成中文脚本。
+
+```json
+{
+  "seq": 11,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:07.984250+00:00",
+  "plan_id": "plan-2",
+  "action": {
+    "name": "generate_script",
+    "arguments": {
+      "plan_id": "plan-2",
+      "material_ids": [
+        "M001",
+        "M002"
+      ],
+      "style": "factual",
+      "language": "zh-CN"
+    },
+    "summary": "reuse 档位估算可行（预算缺口 0、时间达标），基于 M001/M002 事实生成中文脚本。",
+    "observes_event_ids": [
+      10
+    ],
+    "provider_call_id": "call_e84018bc07ed4a3382193b47",
+    "provider_request_id": "chatcmpl-d24fbf09-d177-9ae4-b11b-5dec7aed672f",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_e84018bc07ed4a3382193b47",
+          "type": "function",
+          "function": {
+            "name": "generate_script",
+            "arguments": "{\"plan_id\": \"plan-2\", \"material_ids\": \n[\"M001\", \"M002\"]\n\n, \"style\": \"factual\", \"language\": \"zh-CN\", \"decision_summary\": \"reuse 档位估算可行（预算缺口 0、时间达标），基于 M001/M002 事实生成中文脚本。\", \"observes_event_ids\": \n[10]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "reuse 档位估算可行（预算缺口 0、时间达标），基于 M001/M002 事实生成中文脚本。"
+}
+```
+
+## 12. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 12,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:09.692804+00:00",
+  "plan_id": "plan-2",
+  "call_id": "65c551ab-5639-4e7a-9c5f-113fd8e3682d",
+  "tool": "generate_script",
+  "parameters": {
+    "plan_id": "plan-2",
+    "material_ids": [
+      "M001",
+      "M002"
+    ],
+    "style": "factual",
+    "language": "zh-CN"
+  },
+  "provider_call_id": "call_e84018bc07ed4a3382193b47",
+  "attempt_key": "b7db2d1039c27464615c40c029292c4ee62c8d5331e52380e0dc869416c770fa",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "artifact_id": "10aa049f-9dea-4e10-99d3-3512feff8405",
+    "cached": false,
+    "script": {
+      "title": "便携咖啡杯新品营销方案",
+      "segments": [
+        {
+          "text": "容量 350 毫升",
+          "source_ids": [
+            "M001"
+          ]
+        },
+        {
+          "text": "提供黑色和白色款式",
+          "source_ids": [
+            "M001"
+          ]
+        },
+        {
+          "text": "附带杯盖",
+          "source_ids": [
+            "M002"
+          ]
+        }
+      ],
+      "generation_note": "由真实模型在严格事实引用约束下生成",
+      "id": "10aa049f-9dea-4e10-99d3-3512feff8405",
+      "fingerprint": "84f655dcf18fd0d7e077d413584b2263fd15c358711638861de6b5d074b74c66",
+      "mode": "real",
+      "material_ids": [
+        "M001",
+        "M002"
+      ]
+    }
+  },
+  "charged_units": "2.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 120,
+  "simulated_spent_units": "2.000"
+}
+```
+
+## 13. decision
+
+脚本已生成并实际计费 2.000，保存前复核 plan-2 当前费用与时间是否仍在预算和截止内。
+
+```json
+{
+  "seq": 13,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:11.578241+00:00",
+  "plan_id": "plan-2",
+  "action": {
+    "name": "estimate_cost",
+    "arguments": {
+      "plan_id": "plan-2"
+    },
+    "summary": "脚本已生成并实际计费 2.000，保存前复核 plan-2 当前费用与时间是否仍在预算和截止内。",
+    "observes_event_ids": [
+      12
+    ],
+    "provider_call_id": "call_f8b0476859514f628731b455",
+    "provider_request_id": "chatcmpl-010129cb-e099-9775-90b9-f87332d84f71",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_f8b0476859514f628731b455",
+          "type": "function",
+          "function": {
+            "name": "estimate_cost",
+            "arguments": "{\"decision_summary\": \"脚本已生成并实际计费 2.000，保存前复核 plan-2 当前费用与时间是否仍在预算和截止内。\", \"observes_event_ids\": \n[12]\n\n, \"plan_id\": \"plan-2\"}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "脚本已生成并实际计费 2.000，保存前复核 plan-2 当前费用与时间是否仍在预算和截止内。"
+}
+```
+
+## 14. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 14,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:11.582542+00:00",
+  "plan_id": "plan-2",
+  "call_id": "5d87bb9f-8a6b-4691-8726-09bed5dee71c",
+  "tool": "estimate_cost",
+  "parameters": {
+    "plan_id": "plan-2"
+  },
+  "provider_call_id": "call_f8b0476859514f628731b455",
+  "attempt_key": "46dbd3e12abfd1cfe8869a2869b040afd657b602fdcda481471c30efa83db785",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "signature": "9d22d3986908509649d9acbb7f05211ae6dae6eb1d3836e6f4233b61174365df",
+    "plan_id": "plan-2",
+    "simulated_spent_units": "2.000",
+    "remaining_tool_units": "0.000",
+    "planned_resource_units": "6.000",
+    "projected_total_units": "8.000",
+    "budget_units": "10.000",
+    "budget_gap_units": "0.000",
+    "estimated_finish_at": "2026-10-28T12:16:54.680030+00:00",
+    "deadline_at": "2026-10-28T21:14:29.559692+08:00",
+    "remaining_seconds": 1,
+    "time_gap_seconds": 0,
+    "feasible": true
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 120,
+  "simulated_spent_units": "2.000"
+}
+```
+
+## 15. decision
+
+复核估算显示 plan-2 预算缺口为 0、时间达标且可行，保存 reuse 方案及已生成脚本。
+
+```json
+{
+  "seq": 15,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:13.889201+00:00",
+  "plan_id": "plan-2",
+  "action": {
+    "name": "save_solution",
+    "arguments": {
+      "plan_id": "plan-2",
+      "artifact_id": "10aa049f-9dea-4e10-99d3-3512feff8405"
+    },
+    "summary": "复核估算显示 plan-2 预算缺口为 0、时间达标且可行，保存 reuse 方案及已生成脚本。",
+    "observes_event_ids": [
+      14
+    ],
+    "provider_call_id": "call_9eb1d3879d184dc08aca24ab",
+    "provider_request_id": "chatcmpl-dc9fe8f8-8263-90b6-a0a3-6898c1a7fd58",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_9eb1d3879d184dc08aca24ab",
+          "type": "function",
+          "function": {
+            "name": "save_solution",
+            "arguments": "{\"plan_id\": \"plan-2\", \"artifact_id\": \"10aa049f-9dea-4e10-99d3-3512feff8405\", \"decision_summary\": \"复核估算显示 plan-2 预算缺口为 0、时间达标且可行，保存 reuse 方案及已生成脚本。\", \"observes_event_ids\": \n[14]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "复核估算显示 plan-2 预算缺口为 0、时间达标且可行，保存 reuse 方案及已生成脚本。"
+}
+```
+
+## 16. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 16,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:13.893914+00:00",
+  "plan_id": "plan-2",
+  "call_id": "e68acb8c-b5b5-4df7-9b23-b6587ac02541",
+  "tool": "save_solution",
+  "parameters": {
+    "plan_id": "plan-2",
+    "artifact_id": "10aa049f-9dea-4e10-99d3-3512feff8405"
+  },
+  "provider_call_id": "call_9eb1d3879d184dc08aca24ab",
+  "attempt_key": "70521202425db20837513e6a3cc4222eded080ffb61eedc5955d7d23ffe9687f",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "solution_id": "ad29cd89-33b1-4b23-a2ee-8697acfe63ee",
+    "saved_at": "2026-10-28T12:16:54.680030+00:00",
+    "saved": true
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "running",
+  "simulated_seconds": 121,
+  "simulated_spent_units": "2.000"
+}
+```
+
+## 17. decision
+
+方案已保存并收到回执（solution_id ad29cd89），估算显示预算缺口 0、时间达标，任务完成。
+
+```json
+{
+  "seq": 17,
+  "kind": "decision",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:19.712107+00:00",
+  "plan_id": "plan-2",
+  "action": {
+    "name": "finish_task",
+    "arguments": {
+      "status": "completed",
+      "explanation": "便携咖啡杯（P001）新品营销视频活动方案已完成：因 standard 档位预估总费用 12.000 超出预算 10.000（缺口 2.000），切换为 reuse 档位（复用素材 M001 外观素材 + M002 商品说明）。reuse 方案 plan-2 预计总费用 8.000，在预算内且预计完成时间早于截止时间，复核可行后生成中文事实型脚本并保存。\n\n关键结果：\n- 方案档位：reuse（plan-2）\n- 脚本要点（均有素材来源）：容量 350 毫升；提供黑色和白色款式；附带杯盖\n- 模拟费用：已支出 2.000，预计总计 8.000 / 预算 10.000\n- 完成时间：2026-10-28 20:16:54（北京时间），早于截止时间 21:14:29\n- 保存回执：solution_id ad29cd89-33b1-4b23-a2ee-8697acfe63ee\n\n注：以上为模拟资源预留与核算，方案保存不代表实际视频制作或广告投放已执行。"
+    },
+    "summary": "方案已保存并收到回执（solution_id ad29cd89），估算显示预算缺口 0、时间达标，任务完成。",
+    "observes_event_ids": [
+      16
+    ],
+    "provider_call_id": "call_2b35cd98973f4d38aafc99d1",
+    "provider_request_id": "chatcmpl-a2bd2e03-6a90-9d26-904c-7bb015d1a115",
+    "provider_message": {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "id": "call_2b35cd98973f4d38aafc99d1",
+          "type": "function",
+          "function": {
+            "name": "finish_task",
+            "arguments": "{\"status\": \"completed\", \"decision_summary\": \"方案已保存并收到回执（solution_id ad29cd89），估算显示预算缺口 0、时间达标，任务完成。\", \"explanation\": \"便携咖啡杯（P001）新品营销视频活动方案已完成：因 standard 档位预估总费用 12.000 超出预算 10.000（缺口 2.000），切换为 reuse 档位（复用素材 M001 外观素材 + M002 商品说明）。reuse 方案 plan-2 预计总费用 8.000，在预算内且预计完成时间早于截止时间，复核可行后生成中文事实型脚本并保存。\\n\\n关键结果：\\n- 方案档位：reuse（plan-2）\\n- 脚本要点（均有素材来源）：容量 350 毫升；提供黑色和白色款式；附带杯盖\\n- 模拟费用：已支出 2.000，预计总计 8.000 / 预算 10.000\\n- 完成时间：2026-10-28 20:16:54（北京时间），早于截止时间 21:14:29\\n- 保存回执：solution_id ad29cd89-33b1-4b23-a2ee-8697acfe63ee\\n\\n注：以上为模拟资源预留与核算，方案保存不代表实际视频制作或广告投放已执行。\", \"observes_event_ids\": \n[16]\n\n}"
+          },
+          "index": 0
+        }
+      ]
+    }
+  },
+  "summary": "方案已保存并收到回执（solution_id ad29cd89），估算显示预算缺口 0、时间达标，任务完成。"
+}
+```
+
+## 18. action_result
+
+动作执行成功
+
+```json
+{
+  "seq": 18,
+  "kind": "action_result",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:19.716804+00:00",
+  "plan_id": "plan-2",
+  "call_id": "516db2db-98ed-4f5c-9d90-31822d2fbd98",
+  "tool": "finish_task",
+  "parameters": {
+    "status": "completed",
+    "explanation": "便携咖啡杯（P001）新品营销视频活动方案已完成：因 standard 档位预估总费用 12.000 超出预算 10.000（缺口 2.000），切换为 reuse 档位（复用素材 M001 外观素材 + M002 商品说明）。reuse 方案 plan-2 预计总费用 8.000，在预算内且预计完成时间早于截止时间，复核可行后生成中文事实型脚本并保存。\n\n关键结果：\n- 方案档位：reuse（plan-2）\n- 脚本要点（均有素材来源）：容量 350 毫升；提供黑色和白色款式；附带杯盖\n- 模拟费用：已支出 2.000，预计总计 8.000 / 预算 10.000\n- 完成时间：2026-10-28 20:16:54（北京时间），早于截止时间 21:14:29\n- 保存回执：solution_id ad29cd89-33b1-4b23-a2ee-8697acfe63ee\n\n注：以上为模拟资源预留与核算，方案保存不代表实际视频制作或广告投放已执行。"
+  },
+  "provider_call_id": "call_2b35cd98973f4d38aafc99d1",
+  "attempt_key": "408e44f1bab71827b5b565632409afe77208715af84b105c03b1ba8686fd0310",
+  "ok": true,
+  "retryable": false,
+  "error_code": "",
+  "summary": "动作执行成功",
+  "data": {
+    "status": "completed"
+  },
+  "charged_units": "0.000",
+  "status": "succeeded",
+  "task_status": "completed",
+  "simulated_seconds": 121,
+  "simulated_spent_units": "2.000"
+}
+```
+
+## 19. terminal
+
+便携咖啡杯（P001）新品营销视频活动方案已完成：因 standard 档位预估总费用 12.000 超出预算 10.000（缺口 2.000），切换为 reuse 档位（复用素材 M001 外观素材 + M002 商品说明）。reuse 方案 plan-2 预计总费用 8.000，在预算内且预计完成时间早于截止时间，复核可行后生成中文事实型脚本并保存。
+
+关键结果：
+- 方案档位：reuse（plan-2）
+- 脚本要点（均有素材来源）：容量 350 毫升；提供黑色和白色款式；附带杯盖
+- 模拟费用：已支出 2.000，预计总计 8.000 / 预算 10.000
+- 完成时间：2026-10-28 20:16:54（北京时间），早于截止时间 21:14:29
+- 保存回执：solution_id ad29cd89-33b1-4b23-a2ee-8697acfe63ee
+
+注：以上为模拟资源预留与核算，方案保存不代表实际视频制作或广告投放已执行。
+
+```json
+{
+  "seq": 19,
+  "kind": "terminal",
+  "run_id": "c817acbb-aacd-4707-88ba-171dc949ccd8",
+  "timestamp": "2026-10-28T12:15:19.720362+00:00",
+  "plan_id": "plan-2",
+  "status": "completed",
+  "reason_code": "",
+  "summary": "便携咖啡杯（P001）新品营销视频活动方案已完成：因 standard 档位预估总费用 12.000 超出预算 10.000（缺口 2.000），切换为 reuse 档位（复用素材 M001 外观素材 + M002 商品说明）。reuse 方案 plan-2 预计总费用 8.000，在预算内且预计完成时间早于截止时间，复核可行后生成中文事实型脚本并保存。\n\n关键结果：\n- 方案档位：reuse（plan-2）\n- 脚本要点（均有素材来源）：容量 350 毫升；提供黑色和白色款式；附带杯盖\n- 模拟费用：已支出 2.000，预计总计 8.000 / 预算 10.000\n- 完成时间：2026-10-28 20:16:54（北京时间），早于截止时间 21:14:29\n- 保存回执：solution_id ad29cd89-33b1-4b23-a2ee-8697acfe63ee\n\n注：以上为模拟资源预留与核算，方案保存不代表实际视频制作或广告投放已执行。"
+}
+```

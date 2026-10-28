@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-10-28T12:17:35.257224+00:00",
+  "frozen_code_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+  "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+  "report": "examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/report.json",
+  "checks": {
+    "all_cases_match_expected": true,
+    "same_run_id_on_replay": true,
+    "execution_snapshot_preserved_on_replay": true,
+    "implementation_hash_preserved_on_replay": true,
+    "separate_export_timestamps": true,
+    "all_executions_point_to_frozen_commit": true,
+    "all_executions_have_clean_implementation": true,
+    "executed_hash_matches_current_source": true,
+    "repeat_has_no_new_api_requests": true,
+    "code_data_scripts_tests_dependencies_unchanged_from_freeze": true
+  },
+  "all_passed": true,
+  "api_requests": 18,
+  "total_tokens": 96494,
+  "money": null,
+  "legacy_policy": "v1 history is preserved; execution versions are unknown, never backfilled with current source"
+}

@@ -1,5 +1,8 @@
 # 阿里百炼真实 API 评估
 
+> 本页下方保留初次接入的历史评估。最新冻结版本的真实回归与执行/导出版本一致性验证，见 [修复回执](08-review-resolution.md) 和 [版本检查](../examples/provenance-regression.json)。
+
+
 ## 范围与结论
 
 使用用户指定的本地 CSV 接入其北京业务空间的 OpenAI 兼容 HTTP 接口，请求模型为 `qwen3.8-flash`，关闭思考模式。密钥与业务空间地址未写入仓库。

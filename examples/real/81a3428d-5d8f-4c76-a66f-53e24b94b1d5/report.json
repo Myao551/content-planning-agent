@@ -1,0 +1,161 @@
+{
+  "batch_id": "81a3428d-5d8f-4c76-a66f-53e24b94b1d5",
+  "model": "qwen3.8-flash",
+  "provider": "openai_compatible",
+  "cases": [
+    {
+      "case": "normal",
+      "expected": "completed",
+      "actual": "completed",
+      "reason_code": "",
+      "execution_version": {
+        "status": "captured",
+        "capture_phase": "task_creation",
+        "captured_at": "2026-10-28T12:14:29.571942+00:00",
+        "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+        "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+        "python": "3.12.14",
+        "pydantic": "2.14.1",
+        "package_version": "0.1.0",
+        "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+        "git_dirty": false,
+        "git_worktree_dirty": false,
+        "git_dirty_scope": [
+          "src",
+          "data",
+          "scripts",
+          "tests",
+          "pyproject.toml",
+          "requirements.txt"
+        ]
+      },
+      "checks": {
+        "expected_status": true,
+        "real_mode": true,
+        "execution_snapshot_recorded": true,
+        "frozen_code_version": true,
+        "saved": true,
+        "within_budget": true
+      },
+      "passed": true,
+      "api_requests": 8,
+      "tokens": 39853,
+      "wall_seconds": 23.984354,
+      "evidence": "examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/normal/625f7e35-c963-4adf-8592-96164f4493bd",
+      "tier": "standard"
+    },
+    {
+      "case": "replan",
+      "expected": "completed",
+      "actual": "completed",
+      "reason_code": "",
+      "execution_version": {
+        "status": "captured",
+        "capture_phase": "task_creation",
+        "captured_at": "2026-10-28T12:14:53.634671+00:00",
+        "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+        "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+        "python": "3.12.14",
+        "pydantic": "2.14.1",
+        "package_version": "0.1.0",
+        "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+        "git_dirty": false,
+        "git_worktree_dirty": true,
+        "git_dirty_scope": [
+          "src",
+          "data",
+          "scripts",
+          "tests",
+          "pyproject.toml",
+          "requirements.txt"
+        ]
+      },
+      "checks": {
+        "expected_status": true,
+        "real_mode": true,
+        "execution_snapshot_recorded": true,
+        "frozen_code_version": true,
+        "saved": true,
+        "within_budget": true,
+        "observed_over_budget_and_changed": true
+      },
+      "passed": true,
+      "api_requests": 10,
+      "tokens": 56641,
+      "wall_seconds": 26.086742,
+      "evidence": "examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/replan/c817acbb-aacd-4707-88ba-171dc949ccd8",
+      "tier": "reuse"
+    },
+    {
+      "case": "repeat",
+      "expected": "completed",
+      "actual": "completed",
+      "reason_code": "",
+      "execution_version": {
+        "capture_phase": "task_creation",
+        "captured_at": "2026-10-28T12:14:29.571942+00:00",
+        "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+        "git_dirty": false,
+        "git_dirty_scope": [
+          "src",
+          "data",
+          "scripts",
+          "tests",
+          "pyproject.toml",
+          "requirements.txt"
+        ],
+        "git_worktree_dirty": false,
+        "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+        "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+        "package_version": "0.1.0",
+        "pydantic": "2.14.1",
+        "python": "3.12.14",
+        "status": "captured"
+      },
+      "checks": {
+        "expected_status": true,
+        "real_mode": true,
+        "execution_snapshot_recorded": true,
+        "frozen_code_version": true,
+        "saved": true,
+        "within_budget": true,
+        "no_new_api_requests": true,
+        "same_execution_version_as_normal": true
+      },
+      "passed": true,
+      "api_requests": 0,
+      "tokens": 0,
+      "wall_seconds": 23.984354,
+      "evidence": "examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/repeat/625f7e35-c963-4adf-8592-96164f4493bd",
+      "tier": "standard"
+    }
+  ],
+  "require_clean": true,
+  "preflight_version": {
+    "status": "captured",
+    "capture_phase": "evaluation_preflight",
+    "captured_at": "2026-10-28T12:14:29.493889+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+    "git_dirty": false,
+    "git_worktree_dirty": false,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "api_requests": 18,
+  "total_tokens": 96494,
+  "actual_money": null,
+  "billing_note": "API 返回 token 使用量；未查询账单，不能断言完全免费或实际金额",
+  "scope": "真实模型决策和严格事实脚本；业务服务、商品与计费均为本地合成",
+  "all_passed": true
+}

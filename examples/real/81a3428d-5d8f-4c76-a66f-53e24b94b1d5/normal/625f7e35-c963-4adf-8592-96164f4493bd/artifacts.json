@@ -1,0 +1,33 @@
+{
+  "9a1549ad-c6c8-4f96-b18f-9e6ff4d64c8c": {
+    "title": "便携咖啡杯新品营销方案",
+    "segments": [
+      {
+        "text": "容量 350 毫升",
+        "source_ids": [
+          "M001"
+        ]
+      },
+      {
+        "text": "提供黑色和白色款式",
+        "source_ids": [
+          "M001"
+        ]
+      },
+      {
+        "text": "附带杯盖",
+        "source_ids": [
+          "M002"
+        ]
+      }
+    ],
+    "generation_note": "由真实模型在严格事实引用约束下生成，所有文本均逐字复制自素材 facts，未添加任何未给出的功效或描述。",
+    "id": "9a1549ad-c6c8-4f96-b18f-9e6ff4d64c8c",
+    "fingerprint": "bd27932ea8474a2b193e7059ef04125c42f65726f5b11b91d45176569d8ed5cc",
+    "mode": "real",
+    "material_ids": [
+      "M001",
+      "M002"
+    ]
+  }
+}

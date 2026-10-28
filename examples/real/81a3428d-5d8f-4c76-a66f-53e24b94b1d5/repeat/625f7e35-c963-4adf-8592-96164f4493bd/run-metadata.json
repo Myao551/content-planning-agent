@@ -1,0 +1,235 @@
+{
+  "metadata_schema_version": 2,
+  "execution_version": {
+    "capture_phase": "task_creation",
+    "captured_at": "2026-10-28T12:14:29.571942+00:00",
+    "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+    "git_dirty": false,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ],
+    "git_worktree_dirty": false,
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "package_version": "0.1.0",
+    "pydantic": "2.14.1",
+    "python": "3.12.14",
+    "status": "captured"
+  },
+  "exporter_version": {
+    "status": "captured",
+    "capture_phase": "export",
+    "captured_at": "2026-10-28T12:15:19.810711+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+    "git_dirty": false,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  },
+  "exported_at": "2026-10-28T12:15:19.810711+00:00",
+  "mode": "real",
+  "model_driver": "openai_compatible",
+  "provider_usage": {
+    "real_api_requests": 0,
+    "tokens": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    },
+    "requests": [],
+    "money": null,
+    "usage_complete": true,
+    "source_run_usage": {
+      "money": null,
+      "money_note": "未查询账单或免费额度扣减，不将 token 数推算为实际收费",
+      "real_api_requests": 8,
+      "requests": [
+        {
+          "kind": "decision",
+          "latency_seconds": 1.911061,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-7261f442-d041-9cfa-9108-df4ec7490141",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 98,
+            "prompt_tokens": 2416,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "text_tokens": 2416
+            },
+            "total_tokens": 2514
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 3.751901,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-80a9519f-995f-9dc9-9bea-6412615422ce",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 211,
+            "prompt_tokens": 3760,
+            "prompt_tokens_details": {
+              "cached_tokens": 2048,
+              "text_tokens": 3760
+            },
+            "total_tokens": 3971
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 1.690139,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-b1b6ae5f-4253-9727-a2a7-c3557dcd8dc4",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 74,
+            "prompt_tokens": 4612,
+            "prompt_tokens_details": {
+              "cached_tokens": 2048,
+              "text_tokens": 4612
+            },
+            "total_tokens": 4686
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 2.204954,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-affe09ab-d6f3-9d73-a7e8-8b1408ee35f3",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 147,
+            "prompt_tokens": 5554,
+            "prompt_tokens_details": {
+              "cached_tokens": 3584,
+              "text_tokens": 5554
+            },
+            "total_tokens": 5701
+          }
+        },
+        {
+          "kind": "script",
+          "latency_seconds": 2.072036,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-dc3f8b43-addb-9f5a-a6e8-bf5fd5862463",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 171,
+            "prompt_tokens": 296,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "text_tokens": 296
+            },
+            "total_tokens": 467
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 2.025949,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-d8c3a908-c935-9274-b758-31df418f56d9",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 82,
+            "prompt_tokens": 6464,
+            "prompt_tokens_details": {
+              "cached_tokens": 4096,
+              "text_tokens": 6464
+            },
+            "total_tokens": 6546
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 2.097004,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-61c301bc-8c5d-9f70-8db2-4ffc62bc8a80",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 135,
+            "prompt_tokens": 7060,
+            "prompt_tokens_details": {
+              "cached_tokens": 5120,
+              "text_tokens": 7060
+            },
+            "total_tokens": 7195
+          }
+        },
+        {
+          "kind": "decision",
+          "latency_seconds": 8.114133,
+          "model": "qwen3.8-flash",
+          "response_id": "chatcmpl-24ec74ad-111a-9b25-9ec7-21d57db01c2a",
+          "status": "received",
+          "usage": {
+            "completion_tokens": 522,
+            "prompt_tokens": 8251,
+            "prompt_tokens_details": {
+              "cached_tokens": 5376,
+              "text_tokens": 8251
+            },
+            "total_tokens": 8773
+          }
+        }
+      ],
+      "tokens": {
+        "completion_tokens": 1440,
+        "prompt_tokens": 38413,
+        "total_tokens": 39853
+      },
+      "usage_complete": true
+    }
+  },
+  "model_config": {
+    "endpoint_hash": "647e454a7bcb2d62305227bb8b67997638181ffb25ad653d1d0e541694c62159",
+    "extra_body_hash": "0c3212f8dd8b4f87b1f5f66bcd84f146b3a4e156fd4a68e7b0f9aa6a212ee543",
+    "model": "qwen3.8-flash",
+    "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55",
+    "protocol": "chat_completions_function_calling",
+    "provider": "openai_compatible"
+  },
+  "real_api_requests": 0,
+  "validation_scope": "真实模式的预检查或历史结果回放；本次未向模型发送请求",
+  "run_id": "625f7e35-c963-4adf-8592-96164f4493bd",
+  "task_id": "f8ed6d22-0ff6-498a-9ba9-d188c9651a43",
+  "input_hash": "ca30c3ccb2523b38eec8520355e70e2c286408229e04f578ae871c125cfef467",
+  "catalog_hash": "3e875b0cf36c617784c8c60bb8d597136c39670903a9608cf6564eae284d9dbf",
+  "limits": {
+    "max_attempts": 2,
+    "max_model_calls": 16,
+    "max_runtime_seconds": 180,
+    "max_steps": 12,
+    "max_tools": 10
+  },
+  "demo": {
+    "faults": [],
+    "now_at": null
+  },
+  "started_at": "2026-10-28T12:14:29.611074+00:00",
+  "wall_seconds": 23.984354,
+  "python": "3.12.14",
+  "pydantic": "2.14.1",
+  "package_version": "0.1.0",
+  "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+  "implementation_hash_kind": "execution_snapshot",
+  "replayed": true,
+  "prompt_hash": "646207ba4da931807be7d87be3d2f5e7a3eed16c4457cbe4f73837f948993a55",
+  "prompt_note": "真实模型系统提示词摘要"
+}

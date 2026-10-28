@@ -3,6 +3,27 @@
   "exit_code": 0,
   "passed_tests": 72,
   "python": "3.12.14",
-  "recorded_at": "2026-10-28T12:10:43.899732+00:00",
-  "wall_seconds": 4.770098
+  "recorded_at": "2026-10-28T12:15:58.935847+00:00",
+  "wall_seconds": 5.258122,
+  "verification_version": {
+    "status": "captured",
+    "capture_phase": "test_start",
+    "captured_at": "2026-10-28T12:15:53.636111+00:00",
+    "implementation_hash": "f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e",
+    "hash_scope": "content_planner top-level Python source files; catalog data has its separate hash",
+    "python": "3.12.14",
+    "pydantic": "2.14.1",
+    "package_version": "0.1.0",
+    "git_commit": "036a6db33bbec097591e5cfb7eda6876c13723e2",
+    "git_dirty": false,
+    "git_worktree_dirty": true,
+    "git_dirty_scope": [
+      "src",
+      "data",
+      "scripts",
+      "tests",
+      "pyproject.toml",
+      "requirements.txt"
+    ]
+  }
 }

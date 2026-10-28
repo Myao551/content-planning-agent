@@ -14,9 +14,25 @@
 | 真实接入、配置和证据未提交 | 已在后续提交中纳入；目前支持通用 OpenAI 兼容接口与 .env |
 | 个人信息与正式题号未知 | 用户确认稍后提供，列入提交清单，不编造 |
 
-## 当前验证阶段
+## 已完成的验证
 
-版本快照、旧任务兼容、文档生成和业务回归已加入自动化测试，当前 72 项通过，14 组离线案例符合预期，见 [评估](03-evaluation.md)。实现代码冻结并发布后，将从新进程运行 `--require-clean --cases normal replan repeat`，核对真实路径与原运行回放的版本归属；本节在取得实际结果后更新，不提前声明真实回归通过。
+自动化测试 72 项通过，14 组离线案例符合预期；安装包环境也通过 72 项测试。冻结提交后从新进程运行 `--require-clean --cases normal replan repeat`，三项检查均符合预期。
+
+冻结实现提交：[`036a6db33bbec097591e5cfb7eda6876c13723e2`](https://github.com/Myao551/content-planning-agent/commit/036a6db33bbec097591e5cfb7eda6876c13723e2)。执行摘要：`f4fbda4435ad2e3753873477acf95db817ec8b9dcaeeb0b4fa787a8f90cc181e`。
+
+| 检查 | 结果 |
+| --- | --- |
+| 正常真实规划 | completed，保存和回读成功 |
+| 真实预算重规划 | 观察标准方案 12 后改为复用 8，completed |
+| 原任务回放 | 原执行快照逐字段相同；新增 API 请求为 0 |
+| 执行与导出版本 | execution_version 固定，exporter_version / exported_at 单独记录 |
+| 冻结实现一致性 | 实现、数据、脚本、测试与依赖无变更；源码摘要与两条执行记录一致 |
+
+实际记录：[真实批次报告](../examples/real/81a3428d-5d8f-4c76-a66f-53e24b94b1d5/report.json)、[可读案例索引](../examples/real/README.md)、[逐项版本一致性检查](../examples/provenance-regression.json)。
+
+本次新增真实 API 请求 18 次、96494 token，未查询实际账单金额。repeat 的 wall_seconds 是来源运行的时间，不用作本次回放延迟。没有重跑全部历史真实场景；原故障案例仍是历史行为证据，不宣称为本次同版本回归。
+
+最终证据提交可以晚于冻结代码提交；证据和文档变化不改变实现摘要。最终提交 SHA 从 `git rev-parse HEAD` 获取，官方题号和本人记录仍待提供。
 
 ## 解释边界
 
